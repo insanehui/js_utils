@@ -1,3 +1,14 @@
+// 用js来表示css的方法
+
+import jss from "jss";
+import preset from 'jss-preset-default'
+jss.setup(preset())
+
+export function css(obj){
+  let sheet = jss.createStyleSheet(obj).attach();
+  return sheet.classes;
+}
+
 export function border(color = "black") {
   return {
     border: "1px solid " + color,
@@ -37,4 +48,4 @@ export function hsl(h, s, l, a){
   }
 }
 
-export default { border, flex, ptr, bg, hsl, }
+export default { css, border, flex, ptr, bg, hsl, }
