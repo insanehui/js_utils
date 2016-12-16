@@ -26,6 +26,7 @@ export function flex(...v) {
       r.flex = i
     } else { // 这是一个container
 
+      // TODO: 后面扩展更多符号，可以选的符号有：< > ^ v <|> >|< << >> <^ <-|> 后续好好研究一下它们的意义
       r.display = "flex"
 
       if ( i === '><' ) { // 居中布局
@@ -80,4 +81,12 @@ export function sz(w, h){
   return r
 }
 
-export default { css, border, flex, ptr, bg, hsl, sz }
+// height
+export function h(v){
+  return {
+    height: v,
+  }
+}
+
+
+export default { css, border, flex, ptr, bg, hsl, sz, h }
