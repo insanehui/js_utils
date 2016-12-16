@@ -18,11 +18,21 @@ export function border(color = "black") {
 }
 Object.assign(border, border())
 
-export function flex(v) { // 函数用于flex children
+export function flex(...v) { 
   let r = {}
 
-  if ( _.isNumber(v) ) {
-    r.flex = v
+  for (let i of v) {
+    if ( _.isNumber(i) ) { // 表示这是一个 children
+      r.flex = i
+    } else { // 这是一个container
+
+      r.display = "flex"
+
+      if ( i === '><' ) { // 居中布局
+        r.justifyContent = "center"
+        r.alignItems =  "center"
+      }
+    }
   }
 
   return r
