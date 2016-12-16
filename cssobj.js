@@ -2,6 +2,8 @@
 
 import jss from "jss";
 import preset from 'jss-preset-default'
+import _ from 'lodash'
+
 jss.setup(preset())
 
 export function css(obj){
@@ -17,9 +19,13 @@ export function border(color = "black") {
 Object.assign(border, border())
 
 export function flex(v) { // 函数用于flex children
-  return {
-    flex: v
+  let r = {}
+
+  if ( _.isNumber(v) ) {
+    r.flex = v
   }
+
+  return r
 }
 
 Object.assign(flex, { // 对象用于flex容器
@@ -48,4 +54,20 @@ export function hsl(h, s, l, a){
   }
 }
 
-export default { css, border, flex, ptr, bg, hsl, }
+// 计算size
+export function sz(w, h){
+  let r = {}
+  if( !_.isNull(w) ) {
+    r.width = w
+  }
+  if ( !_.isNull(h) ) {
+    if ( _.isUndefined(h) ) {
+      r.height = w
+    } else {
+      r.height = h
+    }
+  }  
+  return r
+}
+
+export default { css, border, flex, ptr, bg, hsl, sz }
