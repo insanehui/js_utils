@@ -35,7 +35,6 @@ export function test(){
   console.log('test!!', [1, ...null])
 }
 
-
 export function test_ungroup(){
   // 原始数据
   const from = {
@@ -86,4 +85,20 @@ export function test_ungroup(){
 
 }
 
+// 将arr以值为分割，截成2段，返回新数组，形如：[ before, after ]，不包括v
+function arrCut(arr, v) { 
+  const i = _.indexOf(arr, v)
+  if ( i === -1 ) {
+    return null
+  } 
+
+  const before = _.slice(arr, 0, i)
+  const after = _.slice(arr, i+1)
+  return [before, after]
+}
+
+export function test_arrCut(){
+  const t = [ 2, 8, 3, 9, 7, 0, 5, 6 ]
+  console.log("cut: ", arrCut(t, 9))
+}
 
