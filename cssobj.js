@@ -88,5 +88,11 @@ export function h(v){
   }
 }
 
+// height
+export function w(v){
+  return {
+    width: v,
+  }
+}
 
-export default { css, border, flex, ptr, bg, hsl, sz, h }
+export default { css, border, flex, ptr, bg, hsl, sz, h, w }
