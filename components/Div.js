@@ -8,13 +8,8 @@ class Div extends PureComponent {
       display: 'flex',
       ...p.style,
     }
-    return <div {...p} style={style} >{p.children}</div>
+    return <div {...p} style={style} />
   }
-}
-
-// const { number } = PropTypes
-Div.propTypes = {
-  // 其他参数完全透传
 }
 
 export default Div
