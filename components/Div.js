@@ -6,8 +6,6 @@ class Div extends PureComponent {
     const p = this.props 
     const style = {
       display: 'flex',
-      width: '100%',
-      height : '100%',
       ...p.style,
     }
     return <div {...p} style={style} />
