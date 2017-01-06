@@ -33,6 +33,32 @@ class Editable extends PureComponent {
     onDone : _.noop,
   }
 
+  _size = { // 用来缓存尺寸信息
+    width:0,
+    height:0,
+  }
+
+  updateSize() {
+    const p = this.props 
+    const s = this.state 
+    if ( p.multi_line && !s.is_editing) { // 更新一下尺寸
+      const r = this.refs
+      const rect = r.edit.getBoundingClientRect()
+      this._size = {
+        width : rect.width, 
+        height : rect.height, 
+      }
+    } 
+  }
+
+  componentDidMount(){
+    this.updateSize()
+  }
+
+  componentDidUpdate(pp, ps, pc){
+    this.updateSize()
+  }
+
   componentWillReceiveProps(np) {
     this.setState({ ...np })
   }
@@ -52,14 +78,15 @@ class Editable extends PureComponent {
 
     if( s.is_editing ) {
       if ( p.multi_line ) {
-        E = <textarea {...edit_p} />
+        E = <textarea {...edit_p} 
+          style={{...this._size}} 
+          />
         
       } else {
-        edit_p = {...edit_p, 
-          onKeyDown : this._onKeyDown, 
-          // TODO: 这里研究一下如何控制尺寸
-        }
-        E = <input {...edit_p}/>
+        // TODO: 这里研究一下如何控制尺寸
+        E = <input {...edit_p}
+          onKeyDown={this._onKeyDown}
+          />
       }
     } else {
       E = s.value
@@ -67,7 +94,9 @@ class Editable extends PureComponent {
 
     const rest_p = _.omit(p, _.keys(Editable.propTypes))
     if ( p.multi_line ) {
-      return <pre {...rest_p}>
+      return <pre {...rest_p}
+        ref='edit'
+      >
         {E}
       </pre>
     } else {
