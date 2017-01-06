@@ -1,4 +1,5 @@
 // 用js来表示css的方法
+// 这里也一定程序地作为css知识点的笔记总结
 
 import jss from "jss";
 import preset from 'jss-preset-default'
@@ -26,7 +27,8 @@ export function flex(...v) {
       r.flex = i
     } else { // 这是一个container
 
-      // TODO: 后面扩展更多符号，可以选的符号有：< > ^ v <|> >|< << >> <^ <-|> 后续好好研究一下它们的意义
+      // TODO: 这种方式后来发现也不好用，后续摸索更好的使用方法
+      // 后面扩展更多符号，可以选的符号有：< > ^ v <|> >|< << >> <^ <-|> 后续好好研究一下它们的意义
       r.display = "flex"
 
       if ( i === '><' ) { // 居中布局
@@ -95,4 +97,21 @@ export function w(v){
   }
 }
 
-export default { css, border, flex, ptr, bg, hsl, sz, h, w }
+// 实现滚动条的属性
+export const scroll = {
+  // overflow还有其他属性
+  // visible：缺省。溢出照样显示
+  // scroll：表示始终显示滚动条
+  // auto：智能显示滚动条
+  // hidden：将溢出的隐藏，并不提供滚动条
+  overflow: 'auto',
+}
+
+// pre，令div也有类似pre的行为
+export const pre = {
+  whiteSpace : 'pre'
+}
+
+export default { css, border, flex, ptr, bg, hsl, sz, h, w, scroll,
+  pre,
+}
