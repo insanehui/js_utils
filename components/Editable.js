@@ -1,3 +1,7 @@
+/*
+ * 可编辑的文本显示
+ * TODO: 增加支持“非空”选项，空值为无效的修改
+ */
 import React, { PureComponent } from 'react'
 import _ from 'lodash'
 import KeyCode from '../keycode.js'
@@ -21,14 +25,14 @@ class Editable extends PureComponent {
 
   static propTypes = {
     is_editing : bool, 
-    multi_line : bool,
+    multiline : bool,
     value : string, 
     onDone : func, 
   }
 
   static defaultProps = {
     is_editing: false,
-    multi_line: false,
+    multiline: false,
     value : "",
     onDone : _.noop,
   }
@@ -41,7 +45,7 @@ class Editable extends PureComponent {
   updateSize() {
     const p = this.props 
     const s = this.state 
-    if ( p.multi_line && !s.is_editing) { // 更新一下尺寸
+    if ( p.multiline && !s.is_editing) { // 更新一下尺寸
       const r = this.refs
       const rect = r.edit.getBoundingClientRect()
       this._size = {
@@ -77,13 +81,12 @@ class Editable extends PureComponent {
     }
 
     if( s.is_editing ) {
-      if ( p.multi_line ) {
+      if ( p.multiline ) {
         E = <textarea {...edit_p} 
           style={{...this._size}} 
           />
         
       } else {
-        // TODO: 这里研究一下如何控制尺寸
         E = <input {...edit_p}
           onKeyDown={this._onKeyDown}
           />
@@ -92,28 +95,35 @@ class Editable extends PureComponent {
       E = s.value
     }
 
-    const rest_p = _.omit(p, _.keys(Editable.propTypes))
-    if ( p.multi_line ) {
-      return <pre {...rest_p}
+    const main_p = { 
+      // 如果外部没有传入onClick，缺省使用一个
+      onClick : this.On,
+
+      ..._.omit(p, _.keys(Editable.propTypes)) 
+    }
+    if ( p.multiline ) {
+      return <pre {...main_p}
         ref='edit'
       >
         {E}
       </pre>
     } else {
-      return <span {...rest_p}>{E}</span> 
+      return <span {...main_p}>{E}</span> 
     }
   }
 
   focus(el) {
-    if(el)
-    {
-      console.log("Begin Edit input")
+    if(el) {
+      // console.log("Begin Edit input")
       el.focus() 
-      el.select()
+      const s = this.state 
+      if ( !s.multiline ) { // 单行文本，缺省选中
+        el.select()
+      } // 如果是多行文本，先缺省不选中
+      // TODO: 后续可让用户来配置
     }
-    else
-    {
-      console.log("Destroy input")
+    else {
+      // console.log("Destroy input")
     }
   }
 
