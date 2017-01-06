@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react'
 import _ from 'lodash'
 import KeyCode from '../keycode.js'
 
+const { bool, string, func  } = React.PropTypes
+
 class Editable extends PureComponent {
   constructor(p) {
     super(p)
@@ -17,8 +19,16 @@ class Editable extends PureComponent {
     this.state = {...p}
   }
 
+  static propTypes = {
+    is_editing : bool, 
+    multi_line : bool,
+    value : string, 
+    onDone : func, 
+  }
+
   static defaultProps = {
     is_editing: false,
+    multi_line: false,
     value : "",
     onDone : _.noop,
   }
@@ -32,20 +42,37 @@ class Editable extends PureComponent {
     const p = this.props 
     let E
 
+    let edit_p = {
+      onBlur : this._done,
+      onChange : this._onChange,
+      onClick : this._onClick,
+      value : s.value,
+      ref : this.focus,
+    }
+
     if( s.is_editing ) {
-      E = <input 
-        onBlur={this._done}
-        onChange={this._onChange}
-        onKeyDown={this._onKeyDown}
-        onClick={this._onClick}
-        value={s.value}
-        ref={this.focus}
-      />
+      if ( p.multi_line ) {
+        E = <textarea {...edit_p} />
+        
+      } else {
+        edit_p = {...edit_p, 
+          onKeyDown : this._onKeyDown, 
+          // TODO: 这里研究一下如何控制尺寸
+        }
+        E = <input {...edit_p}/>
+      }
     } else {
       E = s.value
     }
 
-    return <span {...(_.omit(p, 'is_editing', 'value', 'onDone'))}>{E}</span> 
+    const rest_p = _.omit(p, _.keys(Editable.propTypes))
+    if ( p.multi_line ) {
+      return <pre {...rest_p}>
+        {E}
+      </pre>
+    } else {
+      return <span {...rest_p}>{E}</span> 
+    }
   }
 
   focus(el) {
@@ -102,13 +129,6 @@ class Editable extends PureComponent {
   _onClick(e) {
     e.stopPropagation()
   }
-}
-
-const { bool, string, func  } = React.PropTypes
-Editable.propTypes = {
-  is_editing : bool, 
-  value : string, 
-  onDone : func, 
 }
 
 export default Editable
