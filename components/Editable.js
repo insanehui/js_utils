@@ -5,6 +5,7 @@
 import React, { PureComponent } from 'react'
 import _ from 'lodash'
 import KeyCode from '../keycode.js'
+import {pre} from '../cssobj.js'
 
 const { bool, string, func  } = React.PropTypes
 
@@ -27,7 +28,7 @@ class Editable extends PureComponent {
     is_editing : bool, 
     multiline : bool,
     value : string, 
-    onDone : func, 
+    onDone : func, // (string)
   }
 
   static defaultProps = {
@@ -99,17 +100,14 @@ class Editable extends PureComponent {
       // 如果外部没有传入onClick，缺省使用一个
       onClick : this.On,
 
-      ..._.omit(p, _.keys(Editable.propTypes)) 
+      ..._.omit(p, 'style', ..._.keys(Editable.propTypes)) 
     }
-    if ( p.multiline ) {
-      return <pre {...main_p}
-        ref='edit'
-      >
-        {E}
-      </pre>
-    } else {
-      return <span {...main_p}>{E}</span> 
-    }
+
+    return <div {...main_p} style={{...p.style, ...pre}} 
+      ref='edit'
+    >
+      {E}
+    </div>
   }
 
   focus(el) {
