@@ -1,6 +1,6 @@
 // iframe的一些工具
 
-export function get_parent_url() { // 获取父页面的url，如果没有被包括则返回null
+export function get_parent_url() { // 获取父页面的url，如果没有被iframe包括则返回null
   var url = null
   if (parent !== window) 
   { 
