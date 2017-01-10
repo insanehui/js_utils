@@ -107,11 +107,16 @@ export const scroll = {
   overflow: 'auto',
 }
 
+// inline-block
+export const inblock = {
+  display: 'inline-block',
+}
+
 // pre，令div也有类似pre的行为
 export const pre = {
   whiteSpace : 'pre'
 }
 
 export default { css, border, flex, ptr, bg, hsl, sz, h, w, scroll,
-  pre,
+  pre, inblock,
 }
