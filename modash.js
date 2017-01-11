@@ -102,3 +102,6 @@ export function test_arrCut(){
   console.log("cut: ", arrCut(t, 9))
 }
 
+export function local_uid(){ // 返回字符串。唯一性只对当前页面有效
+  // 暂时没用到，用到时，再弄了
+}
