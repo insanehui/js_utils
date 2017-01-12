@@ -104,7 +104,7 @@ export const scroll = {
   // scroll：表示始终显示滚动条
   // auto：智能显示滚动条
   // hidden：将溢出的隐藏，并不提供滚动条
-  overflow: 'auto',
+  overflow: 'auto', // !不能与display:flex混用，会导致界面错乱
 }
 
 // inline-block
