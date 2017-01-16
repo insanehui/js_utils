@@ -67,6 +67,16 @@ export function hsl(h, s, l, a){
   }
 }
 
+// 相对布局
+export const rel = {
+  position: 'relative',
+}
+
+// 绝对布局
+export const abs = {
+  position: 'absolute',
+}
+
 // 计算size
 export function sz(w, h){
   let r = {}
@@ -112,11 +122,16 @@ export const inblock = {
   display: 'inline-block',
 }
 
+// hide
+export const hide = {
+  display: 'none',
+}
+
 // pre，令div也有类似pre的行为
 export const pre = {
   whiteSpace : 'pre'
 }
 
 export default { css, border, flex, ptr, bg, hsl, sz, h, w, scroll,
-  pre, inblock,
+  pre, inblock, rel, abs, hide, 
 }
