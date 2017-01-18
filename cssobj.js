@@ -12,6 +12,11 @@ export function css(obj){
   return sheet.classes;
 }
 
+// 新版的jss已经没有了apply的功能，故注释掉
+// export function apply(obj){
+//   jss.createStyleSheet(obj, {named:false}).attach();
+// }
+
 export function border(color = "black") {
   return {
     border: "1px solid " + color,
@@ -100,11 +105,17 @@ export function h(v){
   }
 }
 
-// height
+// width
 export function w(v){
   return {
     width: v,
   }
+}
+
+// 占满父元素
+export const full = {
+  width: '100%',
+  height: '100%',
 }
 
 // 实现滚动条的属性
@@ -122,6 +133,11 @@ export const inblock = {
   display: 'inline-block',
 }
 
+// border-box
+export const bdbox = {
+  boxSizing: 'border-box',
+}
+
 // hide
 export const hide = {
   display: 'none',
@@ -133,5 +149,5 @@ export const pre = {
 }
 
 export default { css, border, flex, ptr, bg, hsl, sz, h, w, scroll,
-  pre, inblock, rel, abs, hide, 
+  pre, inblock, rel, abs, hide, full, bdbox, 
 }
