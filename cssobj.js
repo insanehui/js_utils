@@ -118,6 +118,14 @@ export const full = {
   height: '100%',
 }
 
+export const fullh = {
+  height: '100%',
+}
+
+export const fullw = {
+  width: '100%',
+}
+
 // 实现滚动条的属性
 export const scroll = {
   // overflow还有其他属性
@@ -149,5 +157,5 @@ export const pre = {
 }
 
 export default { css, border, flex, ptr, bg, hsl, sz, h, w, scroll,
-  pre, inblock, rel, abs, hide, full, bdbox, 
+  pre, inblock, rel, abs, hide, full, bdbox, fullh, fullw,
 }
