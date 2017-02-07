@@ -5,3 +5,13 @@ let i = 0
 export function count(){
   return i++
 }
+
+// 作为字符串
+export function scount(){
+  return '' + i++
+}
+
+// 增加一个下划线，便于拼接时作为分隔符
+export function _count(){
+  return '_' + i++
+}
