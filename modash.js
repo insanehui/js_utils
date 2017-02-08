@@ -97,6 +97,21 @@ function arrCut(arr, v) {
   return [before, after]
 }
 
+// 将字符串以显示的长度分割，非英文占两个长度，最终长度可能会超出1个单位
+export function str_display_cut(str, len){
+  let r = ''
+  let l = 0 // 当前的长度
+  for (let c of str) {
+    r += c
+    l += c.codePointAt(0) > 256 ? 2 : 1
+    if ( l >= len ) {
+      break
+    } 
+    // console.log(c);
+  }
+  return r
+}
+
 export function test_arrCut(){
   const t = [ 2, 8, 3, 9, 7, 0, 5, 6 ]
   console.log("cut: ", arrCut(t, 9))
