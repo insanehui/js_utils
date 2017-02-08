@@ -97,6 +97,15 @@ function arrCut(arr, v) {
   return [before, after]
 }
 
+// 字符串的显示长度
+export function str_display_len(str){
+  let l = 0 // 返回的长度
+  for (let c of str) {
+    l += c.codePointAt(0) > 256 ? 2 : 1
+  }
+  return l
+}
+
 // 将字符串以显示的长度分割，非英文占两个长度，最终长度可能会超出1个单位
 export function str_display_cut(str, len){
   let r = ''
@@ -110,6 +119,15 @@ export function str_display_cut(str, len){
     // console.log(c);
   }
   return r
+}
+
+// 类似str_display_cut，但会根据情况增加省略号
+export function str_ellipsis(str, len, postfix = '…'){
+  if ( str_display_len(str) <= len ) {
+    return str
+  } 
+
+  return str_display_cut(str, len - str_display_len(postfix)) + postfix
 }
 
 export function test_arrCut(){
