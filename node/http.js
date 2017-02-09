@@ -51,5 +51,22 @@ export class Router {
     })
   }
 
+  jsonGet(path, handler) { // handler(qs, req, res) => promise of json_data
+    this.dispatcher.onGet(path, function(req, res){
+      const url = require('url')
+
+      // 取到参数
+      let qs = url.parse(req.url, true).query;
+      console.log("qs", qs)
+
+      handler(qs, req, res).then(data => {
+        write_json(res, data)
+      }).catch(err => {
+        write_json(res, err)
+      })
+
+    })
+  }
+
 }
 
