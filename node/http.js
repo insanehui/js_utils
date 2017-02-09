@@ -23,6 +23,7 @@ export function write_json(res, data) {
 }
 
 // 基于npm httpdispatcher 封装的一个简易的router
+// TODO: 有时间一次到位，直接封装 var server = http.createServer(handler) 里的handler作为路由器
 export class Router {
 
   constructor(dispatcher) {
@@ -51,20 +52,15 @@ export class Router {
     })
   }
 
-  jsonGet(path, handler) { // handler(qs, req, res) => promise of json_data
-    this.dispatcher.onGet(path, function(req, res){
-      const url = require('url')
-
-      // 取到参数
-      let qs = url.parse(req.url, true).query;
-      console.log("qs", qs)
+  jsonGet(path, handler) { // handler(qs, [req, res]) => promise of json_data
+    this.onGet(path, (qs, req, res)=>{
 
       handler(qs, req, res).then(data => {
         write_json(res, data)
       }).catch(err => {
+        console.log("err!!!!!!!!!!!!!!!!", err)
         write_json(res, err)
       })
-
     })
   }
 
