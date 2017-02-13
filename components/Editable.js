@@ -5,7 +5,7 @@
 import React, { PureComponent } from 'react'
 import _ from 'lodash'
 import KeyCode from '../keycode.js'
-import {pre, border, inblock, w} from '../cssobj.js'
+import {pre, border, inblock, rel, abs, sz} from '../cssobj.js'
 
 const { bool, string, func  } = React.PropTypes
 
@@ -44,20 +44,24 @@ class Editable extends PureComponent {
   }
 
   updateSize() {
-    const p = this.props 
     const s = this.state 
     if ( !s.is_editing ) { // 更新一下尺寸
       const r = this.refs
       const rect = r.edit.getBoundingClientRect()
+      const height = s.multiline ? rect.height : r.ruler.offsetHeight
       this._size = {
         width : rect.width, 
-        height : rect.height, 
+        height, 
       }
     } 
   }
 
   componentDidMount(){
+    const s = this.state 
     this.updateSize()
+    if ( !s.is_editing && !s.multiline ) {
+      this.forceUpdate()
+    } 
   }
 
   componentDidUpdate(pp, ps, pc){
@@ -109,7 +113,8 @@ class Editable extends PureComponent {
       ...pre,
       ...(s.multiline? null : { // 单行文本框默认样式
         ...inblock,
-        ...w(80),
+        ...sz(80, this._size.height), // 缺省给个80的宽度
+        ...rel,
       })
     }
 
@@ -117,6 +122,8 @@ class Editable extends PureComponent {
       ref='edit'
     >
       {E}
+      {/*隐藏，用于当初始值为空时，占着位置，以测量出高度，然后再触发一次render，更新父组件的高度*/}
+      {s.multiline ? null : <div style={{...abs, top:0, left:0, visibility:'hidden'}} ref='ruler'>0</div>}
     </div>
   }
 
