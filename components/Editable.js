@@ -5,7 +5,7 @@
 import React, { PureComponent } from 'react'
 import _ from 'lodash'
 import KeyCode from '../keycode.js'
-import {pre} from '../cssobj.js'
+import {pre, border, inblock, w} from '../cssobj.js'
 
 const { bool, string, func  } = React.PropTypes
 
@@ -46,7 +46,7 @@ class Editable extends PureComponent {
   updateSize() {
     const p = this.props 
     const s = this.state 
-    if ( p.multiline && !s.is_editing) { // 更新一下尺寸
+    if ( !s.is_editing ) { // 更新一下尺寸
       const r = this.refs
       const rect = r.edit.getBoundingClientRect()
       this._size = {
@@ -90,6 +90,7 @@ class Editable extends PureComponent {
       } else {
         E = <input {...edit_p}
           onKeyDown={this._onKeyDown}
+          style={{...this._size}} 
           />
       }
     } else {
@@ -103,7 +104,16 @@ class Editable extends PureComponent {
       ..._.omit(p, 'style', ..._.keys(Editable.propTypes)) 
     }
 
-    return <div {...main_p} style={{...p.style, ...pre}} 
+    const st = { // 预置的样式
+      ...border,
+      ...pre,
+      ...(s.multiline? null : { // 单行文本框默认样式
+        ...inblock,
+        ...w(80),
+      })
+    }
+
+    return <div {...main_p} style={{...st, ...p.style}} 
       ref='edit'
     >
       {E}
