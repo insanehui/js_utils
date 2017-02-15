@@ -26,9 +26,35 @@ function _ungroup(o, keys, p){
   return arr
 }
 
-// 导出函数
+// 经典ungroup
 export function ungroup(o, ...keys){
   return _ungroup(o, keys, {})
+}
+
+// 经典group
+export function group(o, [...by], {...opt}){
+  let ret = {}
+
+  const {strip, array} = opt // 缺省不strip，并且保留obj形式
+  _.each(o, item => { // 遍历数据集
+    let cursor = ret // 游标指针
+
+    _.each(by, (key, i) => { // 遍历by
+      let val = item[key] // 取到item的值
+      if ( i < by.length - 1 ) { // 如果还没到达叶子
+        // 移动指针. TODO: 后面把这里闭包化
+
+        if ( !(val in cursor ) ) {
+          cursor[val] = {}
+        } 
+        cursor = cursor[val]
+      } else { // 已经到了叶子，直接赋值
+        const leaf = strip ? _.omit(item, by) : item
+        cursor[val] = array ? [ ...(cursor[val] || []), leaf ] : leaf
+      }
+    })
+  })
+  return ret
 }
 
 export function test(){

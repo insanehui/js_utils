@@ -1,4 +1,4 @@
-import {str_display_cut, str_ellipsis} from './modash.js'
+import {str_display_cut, str_ellipsis, group} from './modash.js'
 
 test('hello world', () => { 
   // 初探jest的用法，此处并无实际测试内容
@@ -30,6 +30,54 @@ test('str_ellipsis', () => {
   for (let i of tb) {
     let [ret, ...para ] = i
     expect(str_ellipsis(...para)).toBe(ret)
+  }
+})
+
+test('group', () => {
+  const tb = [
+    // 第一个值是返回，后面是参数系列
+    [ // 缺省: obj, nostrip
+      {
+        "1" : {
+          "2" :  {"a": 1, "b": 2, "v": 2},
+          "3" : {"a": 1, "b": 3, "v": 2},
+        },
+        "2" : {
+          '4' : {"a": 2, "b": 4, "v": 3},
+        },
+      },
+      [
+        {"a": 1, "b": 2, "v": 1},
+        {"a": 1, "b": 2, "v": 2},
+        {"a": 1, "b": 3, "v": 2},
+        {"a": 2, "b": 4, "v": 3},
+      ],
+      ['a', 'b'],
+    ],
+    [ // array, nostrip 
+      {
+        "1" : {
+          "2" :  [{"a": 1, "b": 2, "v": 1},{"a": 1, "b": 2, "v": 2},],
+          "3" : [{"a": 1, "b": 3, "v": 2},],
+        },
+        "2" : {
+          '4' : [{"a": 2, "b": 4, "v": 3},],
+        },
+      },
+      [
+        {"a": 1, "b": 2, "v": 1},
+        {"a": 1, "b": 2, "v": 2},
+        {"a": 1, "b": 3, "v": 2},
+        {"a": 2, "b": 4, "v": 3},
+      ],
+      ['a', 'b'],
+      {array: true},
+    ],
+  ]
+
+  for (let i of tb) {
+    let [ret, ...para ] = i
+    expect(group(...para)).toEqual(ret)
   }
 })
 
