@@ -18,8 +18,10 @@ export function get(url, para) {
   //   'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
   //   'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
   // }
+  const full_url = url + '?' + form_encode(para)
+  console.log(`fetch GET: ${full_url}`)
 
-  return fetch(url + '?' + form_encode(para), {
+  return fetch(full_url, {
     method : 'GET', 
     // headers, body : form_encode(para),
   }).then(res => res.json())
