@@ -113,7 +113,7 @@ class Editable extends PureComponent {
       ...pre,
       ...(s.multiline? null : { // 单行文本框默认样式
         ...inblock,
-        ...sz(80, this._size.height), // 缺省给个80的宽度
+        ...sz(80, this._size.height), // 缺省给个80的宽度。为什么不缺省为100%是因为这样更接近缺省的input的行为
         ...rel,
       })
     }
