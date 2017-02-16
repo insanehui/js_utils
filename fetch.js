@@ -13,3 +13,15 @@ export function post(url, para) {
   }).then(res => res.json())
 }
 
+export function get(url, para) {
+  // const headers = {
+  //   'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+  //   'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+  // }
+
+  return fetch(url + '?' + form_encode(para), {
+    method : 'GET', 
+    // headers, body : form_encode(para),
+  }).then(res => res.json())
+}
+
