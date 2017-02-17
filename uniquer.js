@@ -2,9 +2,11 @@
 
 // 引用计数器
 import _ from 'lodash'
-import {_count, scount} from './counter.js'
+import {New as Counter} from './counter.js'
 
 class Uniquer {
+
+  c = Counter()
 
   s = new Set([undefined])
 
@@ -15,9 +17,9 @@ class Uniquer {
     const s = this.s
     while ( s.has(val) ) {
       if ( val === undefined ) {
-        val = scount()
+        val = this.c.scount()
       } else {
-        val += _count()
+        val += this.c._count()
       }
     } 
     s.add(val)

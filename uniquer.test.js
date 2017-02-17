@@ -29,6 +29,6 @@ test('uniquer.gen_key', () => {
     expect(u.gen(...para)).toBe(ret)
   }
   
-  expect(u.get('k2').toBe('a_0'))
+  expect(u.get('k2')).toBe('a_0')
 
 })
