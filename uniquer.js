@@ -42,3 +42,4 @@ export const gen = def.gen.bind(def)
 export function New(){
   return new Uniquer()
 }
+
