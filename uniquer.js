@@ -7,8 +7,11 @@ import {_count, scount} from './counter.js'
 class Uniquer {
 
   s = new Set([undefined])
+
+  m = {} // 用于查询
   
-  gen(val) {
+  gen(val, key) { // key为可选，用于后续查询，不能为falsy
+
     const s = this.s
     while ( s.has(val) ) {
       if ( val === undefined ) {
@@ -18,19 +21,33 @@ class Uniquer {
       }
     } 
     s.add(val)
+
+    // key的唯一性由使用者保证
+    if ( key ) {
+      this.m[key] = val
+    } 
+
     return val
   }
 
-  add(val) {
+  add(val, key) { // key可选，用于查询
     const s = this.s
     if ( _.isArray(val) ) {
       for(let i of val){
-        s.add(i)
+        s.add(i) // array的形式，不支持key
       }
     } else {
       s.add(val)
+      if ( key ) {
+        this.m[key] = val
+      } 
     }
   }
+
+  get(key){
+    return this.m[key]
+  }
+
 }
 
 const def = new Uniquer()

@@ -4,7 +4,7 @@ test('uniquer.gen', () => {
   const u = New()
 
   const tb = [
-    ['a', 'a'],// 第一个值是返回，后面是参数系列
+    ['a', 'a'],
     ['a_0', 'a'],
     ['a_1', 'a'],
   ]
@@ -13,4 +13,22 @@ test('uniquer.gen', () => {
     let [ret, ...para ] = i
     expect(u.gen(...para)).toBe(ret)
   }
+})
+
+test('uniquer.gen_key', () => {
+  const u = New()
+
+  const tb = [
+    ['a', 'a', 'k1'],
+    ['a_0', 'a', 'k2'],
+    ['a_1', 'a', 'k3'],
+  ]
+
+  for (let i of tb) {
+    let [ret, ...para ] = i
+    expect(u.gen(...para)).toBe(ret)
+  }
+  
+  expect(u.get('k2').toBe('a_0'))
+
 })
