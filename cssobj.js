@@ -126,8 +126,10 @@ export const fullw = {
   width: '100%',
 }
 
-// 实现滚动条的属性
+// [deprecated] 实现滚动条的属性
 export const scroll = {
+  // 由于不能与flex混用，所以不建议使用该css，而用一些react组件来代替滚动条
+
   // overflow还有其他属性
   // visible：缺省。溢出照样显示
   // scroll：表示始终显示滚动条
