@@ -16,6 +16,13 @@ export function client_port(req) {
     req.connection.socket.remotePort;
 }
 
+// 简易的返回text的方法
+function write_text(res, data) { // data: string
+  res.writeHead(200, {'Content-Type': 'text/plain;charset=utf-8'}) 
+  console.log(">>>>>>>>>>>>>>>>>>>>>>", data)
+  res.end(data);
+}
+
 // 简易的返回json的方法
 export function write_json(res, data) {
   res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'}) // 历史原因，有些代码里用的是plain，但后续还是统一用json规范一些
@@ -70,11 +77,22 @@ export class Router {
   jsonGet(path, handler) { // handler(qs, [req, res]) => promise of json_data
     this.onGet(path, (qs, req, res)=>{
 
-      handler(qs, req, res).then(data => {
+      Promise.resolve(handler(qs, req, res)).then(data => {
         write_json(res, data)
       }).catch(err => {
         console.log("err!!!!!!!!!!!!!!!!", err)
         write_json(res, err)
+      })
+    })
+  }
+
+  textGet(path, handler) { // handler(qs, [req, res]) => promise of plain text
+    this.onGet(path, (qs, req, res)=>{
+      Promise.resolve(handler(qs, req, res)).then(data => {
+        write_text(res, data)
+      }).catch(err => {
+        console.log("err!!!!!!!!!!!!!!!!", err)
+        write_text(res, 'err')
       })
     })
   }
