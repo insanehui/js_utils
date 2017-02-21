@@ -6,7 +6,7 @@ import _ from 'lodash'
 
 import {InputCore} from './Input.js'
 import _active from './ActiveStyle.js'
-import {merge_props as merge} from './utils.js'
+import {merge_props_with_def_style as merge_st} from './utils.js'
 
 const styles = {
   input : {
@@ -36,13 +36,13 @@ const styles = {
 
 export function Input(p){ 
 
-  return <_active {...merge(p, styles.input)} >
+  return <_active {...merge_st(styles.input, p)} >
     <InputCore/>
   </_active>
 }
 
 export function _box(p){ // 带边框的div
   let p1 = _.omit(p, 'children') // 省掉children
-  p1 = merge(p1, styles.box)
+  p1 = merge_st(styles.box, p1)
   return React.cloneElement(p.children, p1)
 }
