@@ -5,6 +5,7 @@ import React from 'react'
 
 import {InputCore} from './Input.js'
 import ActiveStyle from './ActiveStyle.js'
+import {merge_props as merge} from './utils.js'
 
 export const input_style_github = {
   color: '#333', // 字体颜色
@@ -24,14 +25,12 @@ export const input_style_github = {
   },
 }
 
-export function Input(p){ // github style
-  const st = {
-    ...input_style_github,
-    ...p.style,
-  }
+export function Input(p){ 
 
-  return <ActiveStyle {...p} style={st} >
+  return <ActiveStyle {...merge(p, input_style_github)} >
     <InputCore/>
   </ActiveStyle>
 }
 
+export function Box(p){ // 带边框的div
+}
