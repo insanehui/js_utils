@@ -4,7 +4,7 @@ import _ from 'lodash'
 export function merge_props(p0, p1){ // 两个props合并，主要是针对style再合并一层
 
   const style = (x=>{
-    if ( !p0.style || !p1.style ) {
+    if ( !p0 || !p1 || !p0.style || !p1.style ) {
       return null
     } 
 
