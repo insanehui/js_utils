@@ -12,11 +12,6 @@ export function css(obj){
   return sheet.classes;
 }
 
-// 新版的jss已经没有了apply的功能，故注释掉
-// export function apply(obj){
-//   jss.createStyleSheet(obj, {named:false}).attach();
-// }
-
 export function border(color = "black") {
   return {
     border: "1px solid " + color,
