@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react'
 import _ from 'lodash'
 
-class ActiveStyle extends PureComponent {
+class _activeStyle extends PureComponent {
 
   state = {
     mode : 'normal',  // 'normal', 'hover', 'focus',
@@ -51,5 +51,5 @@ class ActiveStyle extends PureComponent {
   }
 }
 
-export default ActiveStyle
+export default _activeStyle
 
