@@ -26,7 +26,7 @@ class ActiveStyle extends PureComponent {
           return {style:{...style, ...style['&:focus']}}
         } 
 
-        return {style}
+        return {style : _.omit(style, '&:focus')}
 
       })()
 
