@@ -153,6 +153,14 @@ export const pre = {
   whiteSpace : 'pre'
 }
 
+export function grid_bg(color = hsl(0,0,75), size = 12){ // 网格背景
+  return {
+    backgroundImage: `-webkit-linear-gradient(top, transparent ${size-1}px, ${color} ${size}px), -webkit-linear-gradient(left, transparent ${size-1}px, ${color} ${size}px)`,
+    backgroundSize: `${size}px ${size}px`,
+  }
+}
+
+
 export default { css, border, flex, ptr, bg, hsl, sz, h, w, scroll,
   pre, inblock, rel, abs, hide, full, bdbox, fullh, fullw,
 }
