@@ -6,7 +6,7 @@ import _ from 'lodash'
 class ActiveStyle extends PureComponent {
 
   state = {
-    mode : 'focus',  // 'hover', 'focus',
+    mode : 'normal',  // 'normal', 'hover', 'focus',
   }
 
   render() {
@@ -30,7 +30,17 @@ class ActiveStyle extends PureComponent {
 
       })()
 
+      const onFocus = (x=>{
+        this.setState({ mode: 'focus' })
+      })
+
+      const onBlur = (x=>{
+        this.setState({ mode: 'normal' })
+      })
+
       return {
+        onFocus,
+        onBlur,
         ..._.omit(p, 'children'),
         ...style,
       }
