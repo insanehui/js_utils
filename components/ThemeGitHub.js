@@ -4,7 +4,7 @@
 import React from 'react'
 
 import {InputCore} from './Input.js'
-import ActiveStyle from './ActiveStyle.js'
+import _active from './ActiveStyle.js'
 import {merge_props as merge} from './utils.js'
 
 const styles = {
@@ -29,9 +29,9 @@ const styles = {
 
 export function Input(p){ 
 
-  return <ActiveStyle {...merge(p, styles.input)} >
+  return <_active {...merge(p, styles.input)} >
     <InputCore/>
-  </ActiveStyle>
+  </_active>
 }
 
 export function Box(p){ // 带边框的div
