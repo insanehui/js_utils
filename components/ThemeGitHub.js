@@ -42,6 +42,7 @@ export function Input(p){
 }
 
 export function _box(p){ // 带边框的div
+  // 注：只支持 <_box><xx .../><_box/>，不支持 <_box>{xxx}</box>的用法
   let p1 = _.omit(p, 'children') // 省掉children
   p1 = merge_st(styles.box, p1)
   return React.cloneElement(p.children, merge_props(p.children.props, p1))
