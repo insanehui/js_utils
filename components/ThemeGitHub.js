@@ -1,7 +1,8 @@
 // github主题的控件
-
+/* eslint-disable react/jsx-pascal-case */
 // import React, { PureComponent } from 'react'
 import React from 'react'
+import _ from 'lodash'
 
 import {InputCore} from './Input.js'
 import _active from './ActiveStyle.js'
@@ -25,6 +26,12 @@ const styles = {
       boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.075), 0 0 5px rgba(81,167,232,0.5)',
     },
   }, 
+
+  box : {
+    backgroundColor: '#fff',
+    border: '1px solid #ddd',
+    borderRadius: '3px',
+  }, 
 }
 
 export function Input(p){ 
@@ -34,5 +41,8 @@ export function Input(p){
   </_active>
 }
 
-export function Box(p){ // 带边框的div
+export function _box(p){ // 带边框的div
+  let p1 = _.omit(p, 'children') // 省掉children
+  p1 = merge(p1, styles.box)
+  return React.cloneElement(p.children, p1)
 }

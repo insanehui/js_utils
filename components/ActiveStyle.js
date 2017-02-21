@@ -11,6 +11,7 @@ class _activeStyle extends PureComponent {
 
   render() {
     const p = this.props 
+
     const s = this.state 
 
     const p1 = (x=>{
