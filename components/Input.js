@@ -44,11 +44,9 @@ export class InputCore extends PureComponent {
 }
 
 export const input_style_github = {
-  color: '#333',
+  color: '#333', // 字体颜色
   verticalAlign: 'middle',
-  backgroundColor: '#fff',
-  backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'right 8px center',
+  background: 'right 8px center no-repeat rgb(255, 255, 255)',
   border: '1px solid #ddd',
   borderRadius: '3px',
   outline: 'none',
