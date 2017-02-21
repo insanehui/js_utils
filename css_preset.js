@@ -5,6 +5,9 @@ import {css, bdbox, } from './cssobj.js'
 css({
   '@global' : {
     '*' : {...bdbox}, 
+    ':focus' : {
+      outline: 'none',
+    },
   },
 })
 
