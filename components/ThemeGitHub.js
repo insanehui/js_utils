@@ -8,6 +8,8 @@ import {InputCore} from './Input.js'
 import _active from './ActiveStyle.js'
 import {merge_props_with_def_style as merge_st, merge_props} from './utils.js'
 
+import {bg, hsl,} from '../cssobj.js'
+
 const styles = (x=>{
 
   const fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
@@ -52,6 +54,11 @@ const styles = (x=>{
       borderBottom : '1px #e5e5e5 solid', 
       fontWeight: 'bold',
     }, 
+
+    labelbar : {
+      fontFamily,
+      ...bg(hsl(0, 0, 90)),
+    },
   }
 
 })()
@@ -74,10 +81,19 @@ export function Box(p){
   return <div {...merge_st(styles.box, p)}/>
 }
 
-export function Label(p){
+export function Label(p){ // 用于表单里的label
   return <div {...merge_st(styles.label, p)}/>
 }
 
-export function Subhead(p){
+export function Subhead(p){ // 小标题
   return <div {...merge_st(styles.subhead, p)}/>
+}
+
+export function LabelBar(p){ // 标题栏，支持hover样式
+  // return <_active {...merge_st(styles.labelbar, p)}> <div />
+  // </_active>
+  return null
+}
+
+export function AccordianBar(p){ // 手风琴的handle bar
 }
