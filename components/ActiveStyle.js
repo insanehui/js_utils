@@ -45,24 +45,20 @@ function factory(wrap = true) { // wrap代表包含子元素，占用html元素�
 
       if ( wrap ) {
 
-        const p1 = (x=>{
-          return {
-            onFocus, // 先hook active的事件
-            onBlur,
-          }
-        })()
+        const p1 = {
+          onFocus, // 先hook active的事件
+          onBlur,
+        }
 
         return <div {...p1} />
       } 
       else {
-        const p1 = (x=>{ 
-          return {
-            onFocus,
-            onBlur,
-            ..._.omit(p, 'children'),
-            ...style,
-          }
-        })()
+        const p1 = {
+          onFocus,
+          onBlur,
+          ..._.omit(p, 'children'),
+          ...style,
+        }
         return React.cloneElement(p.children, p1)
       }
     }
