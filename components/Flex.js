@@ -13,8 +13,13 @@ const S = (x=>{
     flexDirection: 'row',
   }
 
+  const v = {
+    ...flex,
+    flexDirection: 'column',
+  }
+
   return {
-    flex, h,
+    flex, h, v,
   }
 
 })()
@@ -25,4 +30,8 @@ export function Flex(p){
 
 export function H(p){
   return <div {...merge_st(S.h, p)}/>
+}
+
+export function V(p){
+  return <div {...merge_st(S.v, p)}/>
 }
