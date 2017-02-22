@@ -5,7 +5,7 @@ import React from 'react'
 import _ from 'lodash'
 
 import {InputCore} from './Input.js'
-import {_active} from './ActiveStyle.js'
+import {_active, Active} from './ActiveStyle.js'
 import {merge_props_with_def_style as merge_st, merge_props} from './utils.js'
 
 import {bg, hsl,} from '../cssobj.js'
@@ -57,7 +57,9 @@ const styles = (x=>{
 
     labelbar : {
       fontFamily,
+      fontSize: 14,
       ...bg(hsl(0, 0, 90)),
+      padding: '4px 5px',
     },
   }
 
@@ -90,9 +92,7 @@ export function Subhead(p){ // 小标题
 }
 
 export function LabelBar(p){ // 标题栏，支持hover样式
-  // return <_active {...merge_st(styles.labelbar, p)}> <div />
-  // </_active>
-  return null
+  return <Active {...merge_st(styles.labelbar, p)}/>
 }
 
 export function AccordianBar(p){ // 手风琴的handle bar
