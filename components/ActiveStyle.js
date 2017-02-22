@@ -8,7 +8,8 @@ function factory(wrap = true) { // wrap代表包含子元素，占用html元素�
   class cmp extends PureComponent {
 
     state = {
-      mode : 'normal',  // 'normal', 'hover', 'focus',
+      focus : false,  // 'normal', 'hover', 'focus',
+      hover : false,
     }
 
     render() {
@@ -18,24 +19,25 @@ function factory(wrap = true) { // wrap代表包含子元素，占用html元素�
 
       const event = {
         onFocus : (e=>{
-          this.setState({ mode: 'focus' })
+          this.setState({ focus : true})
           p.onFocus && p.onFocus(e)
         }),
 
         onBlur : (e=>{
-          this.setState({ mode: 'normal' })
+          this.setState({ focus : false})
           p.onBlur && p.onBlur(e)
         }),
 
         onMouseMove : (e=>{
+          this.setState({ hover: true})
           p.onMouseMove && p.onMouseMove(e)
         }),
 
         onMouseOut : (e=>{
+          this.setState({ hover : false })
           p.onMouseOut && p.onMouseOut(e)
         }),
       }
-
 
       const style = (x=>{ // 求出其style
         if ( !_.isObject(p.style) ) {
@@ -43,12 +45,16 @@ function factory(wrap = true) { // wrap代表包含子元素，占用html元素�
         }
 
         const {style} = p
+        let st = _.omit(style, '&:focus', '&:hover')
 
-        if ( s.mode === 'focus' ) {
-          return {style:{...style, ...style['&:focus']}}
+        if ( s.focus ) {
+          st =  {...st, ...style['&:focus']}
         } 
+        if ( s.hover ){
+          st =  {...st, ...style['&:hover']}
+        }
 
-        return {style : _.omit(style, '&:focus')}
+        return {style: st}
 
       })()
 
@@ -57,6 +63,7 @@ function factory(wrap = true) { // wrap代表包含子元素，占用html元素�
         const p1 = {
           ...p,
           ...event,
+          ...style,
         }
 
         return <div {...p1} />
