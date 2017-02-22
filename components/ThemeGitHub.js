@@ -60,7 +60,7 @@ const styles = (x=>{
       fontSize: 14,
       ...bg(hsl(0, 0, 90)),
       padding: '4px 5px',
-      transition : '0.1s ease-in-out',
+      transition : '0.1s',
       '&:hover' : bg(hsl(0,0,80)), 
     },
   }
