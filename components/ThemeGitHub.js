@@ -8,11 +8,11 @@ import {InputCore} from './Input.js'
 import {_active, Active} from './ActiveStyle.js'
 import {merge_props_with_def_style as merge_st, merge_props} from './utils.js'
 
-import {bg, hsl,} from '../cssobj.js'
+import {bg, hsl, inblock, css} from '../cssobj.js'
+
+const fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
 
 const styles = (x=>{
-
-  const fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
 
   const label = {
     fontFamily,
@@ -57,6 +57,11 @@ const styles = (x=>{
 
     label, 
 
+    labelet : {
+      ...label,
+      ...inblock,
+    },
+
     labelbar : {
       ...label,
       ...bg(hsl(0, 0, 90)),
@@ -66,6 +71,17 @@ const styles = (x=>{
   }
 
 })()
+
+export function preset(){
+  css({
+    '@global' : {
+      '*' : {
+        fontFamily,
+        fontSize: 14,
+      }, 
+    },
+  })
+}
 
 export function Input(p){ 
 
@@ -87,6 +103,10 @@ export function Box(p){
 
 export function Label(p){ // 用于表单里的label
   return <div {...merge_st(styles.label, p)}/>
+}
+
+export function Labelet(p){ // inline的label
+  return <div {...merge_st(styles.labelet, p)}/>
 }
 
 export function Subhead(p){ // 小标题
