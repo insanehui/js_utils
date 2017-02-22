@@ -8,11 +8,11 @@ import {InputCore} from './Input.js'
 import {_active, Active} from './ActiveStyle.js'
 import {merge_props_with_def_style as merge_st, merge_props} from './utils.js'
 
-import {bg, hsl, inblock, css} from '../cssobj.js'
+import {bg, hsl, inblock, css, sz, ptr} from '../cssobj.js'
 
 const fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
 
-const styles = (x=>{
+const S = (x=>{
 
   const label = {
     fontFamily,
@@ -22,6 +22,13 @@ const styles = (x=>{
     lineHeight: 1.5,
     padding: '4px 5px',
   }
+
+  const labelbar = {
+    ...label,
+    ...bg(hsl(0, 0, 90)),
+    transition : '0.1s',
+    '&:hover' : bg(hsl(0,0,80)), 
+  } 
 
   return {
 
@@ -62,11 +69,11 @@ const styles = (x=>{
       ...inblock,
     },
 
-    labelbar : {
-      ...label,
-      ...bg(hsl(0, 0, 90)),
-      transition : '0.1s',
-      '&:hover' : bg(hsl(0,0,80)), 
+    labelbar,
+
+    accordianbar : {
+      ...labelbar,
+      ...ptr,
     },
   }
 
@@ -85,7 +92,7 @@ export function preset(){
 
 export function Input(p){ 
 
-  return <_active {...merge_st(styles.input, p)} >
+  return <_active {...merge_st(S.input, p)} >
     <InputCore/>
   </_active>
 }
@@ -93,29 +100,41 @@ export function Input(p){
 export function _box(p){ // 带边框的div
   // 注：只支持 <_box><xx .../><_box/>，不支持 <_box>{xxx}</box>的用法
   let p1 = _.omit(p, 'children') // 省掉children
-  p1 = merge_st(styles.box, p1)
+  p1 = merge_st(S.box, p1)
   return React.cloneElement(p.children, merge_props(p.children.props, p1))
 }
 
 export function Box(p){
-  return <div {...merge_st(styles.box, p)}/>
+  return <div {...merge_st(S.box, p)}/>
 }
 
 export function Label(p){ // 用于表单里的label
-  return <div {...merge_st(styles.label, p)}/>
+  return <div {...merge_st(S.label, p)}/>
 }
 
 export function Labelet(p){ // inline的label
-  return <div {...merge_st(styles.labelet, p)}/>
+  return <div {...merge_st(S.labelet, p)}/>
 }
 
 export function Subhead(p){ // 小标题
-  return <div {...merge_st(styles.subhead, p)}/>
+  return <div {...merge_st(S.subhead, p)}/>
 }
 
 export function LabelBar(p){ // 标题栏，支持hover样式
-  return <Active {...merge_st(styles.labelbar, p)}/>
+  return <Active {...merge_st(S.labelbar, p)}/>
 }
 
 export function AccordianBar(p){ // 手风琴的handle bar
+  const left_arrow = {
+    ...inblock,
+    ...sz(0, 0),
+    verticalAlign: -2,
+    content : '',
+    border : '4px solid rgb(153, 153, 153)', 
+    marginRight: 4,
+    borderLeftColor : 'transparent', 
+    borderRightColor : 'transparent', 
+    borderBottomColor : 'transparent', 
+  }
+  return React.cloneElement(<Active {...merge_st(S.accordianbar, p)}/>, null, [<div key='1' style={left_arrow} />, ...React.Children.toArray(p.children)])
 }
