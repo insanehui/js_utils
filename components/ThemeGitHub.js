@@ -14,6 +14,15 @@ const styles = (x=>{
 
   const fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
 
+  const label = {
+    fontFamily,
+    fontSize: 14,
+    color: '#333',
+    fontWeight: 600,
+    lineHeight: 1.5,
+    padding: '4px 5px',
+  }
+
   return {
 
     input : {
@@ -40,26 +49,17 @@ const styles = (x=>{
       borderRadius: '3px',
     }, 
 
-    label : {
-      fontFamily,
-      fontSize: 14,
-      color: '#333',
-      fontWeight: 600,
-      lineHeight: 1.5,
-      margin: '6px 0',
-    }, 
-
     subhead : {
       padding: '8px 5px',
       borderBottom : '1px #e5e5e5 solid', 
       fontWeight: 'bold',
     }, 
 
+    label, 
+
     labelbar : {
-      fontFamily,
-      fontSize: 14,
+      ...label,
       ...bg(hsl(0, 0, 90)),
-      padding: '4px 5px',
       transition : '0.1s',
       '&:hover' : bg(hsl(0,0,80)), 
     },
