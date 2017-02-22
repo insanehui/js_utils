@@ -5,7 +5,7 @@ import React from 'react'
 import _ from 'lodash'
 
 import {InputCore} from './Input.js'
-import _active from './ActiveStyle.js'
+import {_active} from './ActiveStyle.js'
 import {merge_props_with_def_style as merge_st, merge_props} from './utils.js'
 
 import {bg, hsl,} from '../cssobj.js'

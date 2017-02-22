@@ -3,18 +3,30 @@
 import React, { PureComponent } from 'react'
 import _ from 'lodash'
 
-class _activeStyle extends PureComponent {
+import {merge_props_with_def_style as merge_st} from './utils.js'
 
-  state = {
-    mode : 'normal',  // 'normal', 'hover', 'focus',
-  }
+function factory(wrap = true) { // wrap代表包含子元素，占用html元素层次，false则仅仅起修饰作用
 
-  render() {
-    const p = this.props 
+  class cmp extends PureComponent {
 
-    const s = this.state 
+    state = {
+      mode : 'normal',  // 'normal', 'hover', 'focus',
+    }
 
-    const p1 = (x=>{
+    render() {
+      const p = this.props 
+
+      const s = this.state 
+
+      const onFocus = (e=>{
+        this.setState({ mode: 'focus' })
+        p.onFocus && p.onFocus(e)
+      })
+
+      const onBlur = (e=>{
+        this.setState({ mode: 'normal' })
+        p.onBlur && p.onBlur(e)
+      })
 
       const style = (x=>{ // 求出其style
         if ( !_.isObject(p.style) ) {
@@ -31,26 +43,34 @@ class _activeStyle extends PureComponent {
 
       })()
 
-      const onFocus = (x=>{
-        this.setState({ mode: 'focus' })
-      })
+      if ( wrap ) {
 
-      const onBlur = (x=>{
-        this.setState({ mode: 'normal' })
-      })
+        const p1 = (x=>{
+          return {
+            onFocus, // 先hook active的事件
+            onBlur,
+          }
+        })()
 
-      return {
-        onFocus,
-        onBlur,
-        ..._.omit(p, 'children'),
-        ...style,
+        return <div {...p1} />
+      } 
+      else {
+        const p1 = (x=>{ 
+          return {
+            onFocus,
+            onBlur,
+            ..._.omit(p, 'children'),
+            ...style,
+          }
+        })()
+        return React.cloneElement(p.children, p1)
       }
-
-    })()
-
-    return React.cloneElement(p.children, p1)
+    }
   }
+
+  return cmp
 }
 
-export default _activeStyle
+export const _active = factory(false)
+export const Active = factory(true)
 
