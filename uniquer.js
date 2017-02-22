@@ -11,6 +11,10 @@ class Uniquer {
   s = new Set([undefined])
 
   m = {} // 用于查询
+
+  constructor(sp = '_') { // 分隔符
+    this.sp = sp
+  }
   
   gen(val, key) { // key为可选，用于后续查询，不能为falsy
 
@@ -19,7 +23,7 @@ class Uniquer {
       if ( val === undefined ) {
         val = this.c.scount()
       } else {
-        val += this.c._count()
+        val += (this.sp + this.c.scount())
       }
     } 
     s.add(val)
@@ -58,7 +62,7 @@ export const add = def.add.bind(def)
 
 export const gen = def.gen.bind(def)
 
-export function New(){
-  return new Uniquer()
+export function New(sp){
+  return new Uniquer(sp)
 }
 
