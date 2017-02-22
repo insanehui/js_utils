@@ -46,6 +46,7 @@ function factory(wrap = true) { // wrap代表包含子元素，占用html元素�
       if ( wrap ) {
 
         const p1 = {
+          ...p,
           onFocus, // 先hook active的事件
           onBlur,
         }
