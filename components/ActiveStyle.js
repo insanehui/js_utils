@@ -3,8 +3,6 @@
 import React, { PureComponent } from 'react'
 import _ from 'lodash'
 
-import {merge_props_with_def_style as merge_st} from './utils.js'
-
 function factory(wrap = true) { // wrap代表包含子元素，占用html元素层次，false则仅仅起修饰作用
 
   class cmp extends PureComponent {
@@ -18,15 +16,26 @@ function factory(wrap = true) { // wrap代表包含子元素，占用html元素�
 
       const s = this.state 
 
-      const onFocus = (e=>{
-        this.setState({ mode: 'focus' })
-        p.onFocus && p.onFocus(e)
-      })
+      const event = {
+        onFocus : (e=>{
+          this.setState({ mode: 'focus' })
+          p.onFocus && p.onFocus(e)
+        }),
 
-      const onBlur = (e=>{
-        this.setState({ mode: 'normal' })
-        p.onBlur && p.onBlur(e)
-      })
+        onBlur : (e=>{
+          this.setState({ mode: 'normal' })
+          p.onBlur && p.onBlur(e)
+        }),
+
+        onMouseMove : (e=>{
+          p.onMouseMove && p.onMouseMove(e)
+        }),
+
+        onMouseOut : (e=>{
+          p.onMouseOut && p.onMouseOut(e)
+        }),
+      }
+
 
       const style = (x=>{ // 求出其style
         if ( !_.isObject(p.style) ) {
@@ -47,16 +56,14 @@ function factory(wrap = true) { // wrap代表包含子元素，占用html元素�
 
         const p1 = {
           ...p,
-          onFocus, // 先hook active的事件
-          onBlur,
+          ...event,
         }
 
         return <div {...p1} />
       } 
       else {
         const p1 = {
-          onFocus,
-          onBlur,
+          ...event,
           ..._.omit(p, 'children'),
           ...style,
         }
