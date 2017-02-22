@@ -46,6 +46,12 @@ const styles = (x=>{
       lineHeight: 1.5,
       margin: '6px 0',
     }, 
+
+    subhead : {
+      padding: '8px 5px',
+      borderBottom : '1px #e5e5e5 solid', 
+      fontWeight: 'bold',
+    }, 
   }
 
 })()
@@ -70,4 +76,8 @@ export function Box(p){
 
 export function Label(p){
   return <div {...merge_st(styles.label, p)}/>
+}
+
+export function Subhead(p){
+  return <div {...merge_st(styles.subhead, p)}/>
 }

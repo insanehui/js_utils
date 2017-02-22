@@ -1,4 +1,5 @@
 // 水平布局
+// [deprecated]，新的代码不要再使用，用Flex.js来代替
 import React, { PureComponent } from 'react'
 import Div from './Div.js'
 
