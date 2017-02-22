@@ -24,7 +24,7 @@ const S = (x=>{
 
 })()
 
-export function Flex(p){
+export function Flex(p){ // TODO: 可以考虑增加一些 wrap等属性，更方便配置flex的一些行为
   return <div {...merge_st(S.flex, p)}/>
 }
 
