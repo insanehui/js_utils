@@ -75,6 +75,34 @@ const S = (x=>{
       ...labelbar,
       ...ptr,
     },
+
+    button : {
+      padding: '3px 10px',
+      fontSize: '12px',
+      lineHeight: '20px',
+      ...inblock,
+      fontWeight : 600, 
+      color : '#333',
+      whiteSpace : 'nowrap', 
+      verticalAlign : 'middle', 
+      cursor : 'pointer', 
+      userSelect : 'none',
+      backgroundColor : '#eee',
+      backgroundImage : 'linear-gradient(#fcfcfc, #eee)', 
+      border : '1px solid #d5d5d5', 
+      borderRadius : 3,
+      '&:hover' : {
+        backgroundColor : '#ddd',
+        backgroundImage : 'linear-gradient(#eee, #ddd)', 
+        border : '1px solid #ccc', 
+      }, 
+      '&:active' : {
+        backgroundColor : '#dcdcdc',
+        backgroundImage : 'none', 
+        border : '1px solid #b5b5b5', 
+        boxShadow : 'inset 0 2px 4px rgba(0,0,0,0.15)',
+      }, 
+    },
   }
 
 })()
@@ -136,5 +164,17 @@ export function AccordianBar(p){ // 手风琴的handle bar
     borderRightColor : 'transparent', 
     borderBottomColor : 'transparent', 
   }
+  // 因为要将箭头组装进去，所以要用到cloneElement
   return React.cloneElement(<Active {...merge_st(S.accordianbar, p)}/>, null, [<div key='1' style={left_arrow} />, ...React.Children.toArray(p.children)])
+}
+
+export function Button(p){
+
+  // 将p根据style，拆分
+  const ps = _.pick(p, 'style')
+  const p1 = _.omit(p, 'style')
+
+  return <_active {...merge_st(S.button, ps)}>
+      <button {...p1}/>
+    </_active>
 }
