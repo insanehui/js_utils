@@ -1,5 +1,6 @@
 // 提供一些常用的React组件编写的工具
 import _ from 'lodash'
+import { PureComponent } from 'react'
 
 export function merge_props(p0, p1){ // 两个props合并，主要是针对style再合并一层
 
@@ -39,6 +40,18 @@ export function merge_props_with_def_style(def_style, p){ // 返回新的props
   return {
     ...p,
     ...st,
+  }
+}
+
+export class PS extends PureComponent {
+  constructor(p) {
+    super(p)
+    
+    this.state = {...p}
+  }
+
+  componentWillReceiveProps(np) {
+    this.setState({ ...np })
   }
 }
 

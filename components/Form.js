@@ -4,26 +4,19 @@
 import React, { PureComponent } from 'react'
 import _ from 'lodash'
 
-export class Select extends PureComponent {
+import {PS} from './utils.js'
+
+export class Select extends PS {
 
   static defaultProps = {
-    value : null,
+    value : '',
     options : [],
-  }
-
-  constructor(p) {
-    super(p)
-    
-    this.state = {...p}
-  }
-
-  componentWillReceiveProps(np) {
-    this.setState({ ...np })
   }
 
   onChange(e){
     const p = this.props 
-    const value = e.targe.value
+    const value = e.target.value
+    console.log("value", value)
     this.setState({ value })
     p.onChange && p.onChange(value)
   }
