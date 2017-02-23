@@ -1,7 +1,7 @@
 // 跟form有关的一些组件
 // 这些组件都是p->s模式
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import _ from 'lodash'
 
 import {PS} from './utils.js'
