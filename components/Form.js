@@ -16,7 +16,6 @@ export class Select extends PS {
   onChange(e){
     const p = this.props 
     const value = e.target.value
-    console.log("value", value)
     this.setState({ value })
     p.onChange && p.onChange(value)
   }
