@@ -6,18 +6,21 @@ import _ from 'lodash'
 
 import {PS} from './utils.js'
 
-export class Select extends PS {
-
-  static defaultProps = {
-    value : '',
-    options : [],
-  }
+export class ControlBase extends PS { // 针对e.target.value
 
   onChange(e){
     const p = this.props 
     const value = e.target.value
     this.setState({ value })
     p.onChange && p.onChange(value)
+  }
+}
+
+export class Select extends ControlBase {
+
+  static defaultProps = {
+    value : '',
+    options : [],
   }
 
   render() {
@@ -43,6 +46,12 @@ export class Select extends PS {
   }
 }
 
+export class Text extends ControlBase {
+  render() {
+    const s = this.state 
+    return <textarea {...s} onChange={this.onChange.bind(this)} />
+  }
+}
 
 
 
