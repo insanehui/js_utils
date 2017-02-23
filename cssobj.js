@@ -148,6 +148,15 @@ export const hide = {
   display: 'none',
 }
 
+// hidden, 通过visibilify来实现
+export const hidden = {
+  visibility: 'hidden',
+}
+
+export const visible = { // 与hidden相反
+  visibility : 'visible',
+}
+
 // pre，令div也有类似pre的行为
 export const pre = {
   whiteSpace : 'pre'
