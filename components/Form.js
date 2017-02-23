@@ -57,6 +57,29 @@ export class Text extends ControlBase {
   }
 }
 
+export class Checkbox extends PS {
+
+  static defaultProps = {
+    value : false,
+  }
+
+  onChange(e){
+    const p = this.props 
+    const value = e.target.checked
+    this.setState({ value })
+    p.onChange && p.onChange(value)
+  }
+
+  render() {
+    const s = this.state 
+    return <input type='checkbox' checked={!!s.value} {..._.omit(s, 'value')} onChange={this.onChange.bind(this)} />
+  }
+}
+
+
+
+
+
 
 
 
