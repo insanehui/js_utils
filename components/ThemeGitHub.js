@@ -172,9 +172,28 @@ export function Button(p){
 
   // 将p根据style，拆分
   const ps = _.pick(p, 'style')
+
+  const p1 = {
+    ..._.omit(p, 'style'),
+
+    onClick : e=>{ // 阻止缺省的submit行为
+      e.preventDefault()
+      p.onClick && p.onClick(e)
+    },
+  }
+
+  return <_active {...merge_st(S.button, ps)}>
+    <button {...p1} />
+    </_active>
+}
+
+export function Submit(p){ // 保留button缺省的submit行为
+
+  // 将p根据style，拆分
+  const ps = _.pick(p, 'style')
   const p1 = _.omit(p, 'style')
 
   return <_active {...merge_st(S.button, ps)}>
-      <button {...p1}/>
+    <button {...p1} />
     </_active>
 }
