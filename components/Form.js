@@ -47,6 +47,10 @@ export class Select extends ControlBase {
 }
 
 export class Text extends ControlBase {
+  static defaultProps = {
+    value : '',
+  }
+
   render() {
     const s = this.state 
     return <textarea {...s} onChange={this.onChange.bind(this)} />
