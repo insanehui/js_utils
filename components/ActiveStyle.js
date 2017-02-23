@@ -67,7 +67,7 @@ function factory(wrap = true) { // wrap代表包含子元素，占用html元素�
           st =  {...st, ...style['&:focus']}
         } 
 
-        if ( s.acitve ) {
+        if ( s.active ) {
           st =  {...st, ...style['&:active']}
         } 
 
