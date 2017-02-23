@@ -1,4 +1,4 @@
-// 支持:hover，:focus等伪类
+// 目前支持:hover，:focus, :active
 
 import React, { PureComponent } from 'react'
 import _ from 'lodash'
@@ -8,8 +8,9 @@ function factory(wrap = true) { // wrap代表包含子元素，占用html元素�
   class cmp extends PureComponent {
 
     state = {
-      focus : false,  // 'normal', 'hover', 'focus',
+      focus : false,  
       hover : false,
+      active : false,
     }
 
     render() {
@@ -37,6 +38,17 @@ function factory(wrap = true) { // wrap代表包含子元素，占用html元素�
           this.setState({ hover : false })
           p.onMouseOut && p.onMouseOut(e)
         }),
+
+        onMouseDown : (e=>{
+          this.setState({ active : true })
+          p.onMouseOut && p.onMouseOut(e)
+        }),
+
+        onMouseUp : (e=>{
+          this.setState({ active : false })
+          p.onMouseOut && p.onMouseOut(e)
+        }),
+
       }
 
       const style = (x=>{ // 求出其style
@@ -47,12 +59,17 @@ function factory(wrap = true) { // wrap代表包含子元素，占用html元素�
         const {style} = p
         let st = _.omit(style, '&:focus', '&:hover')
 
-        if ( s.focus ) {
-          st =  {...st, ...style['&:focus']}
-        } 
         if ( s.hover ){
           st =  {...st, ...style['&:hover']}
         }
+
+        if ( s.focus ) {
+          st =  {...st, ...style['&:focus']}
+        } 
+
+        if ( s.acitve ) {
+          st =  {...st, ...style['&:active']}
+        } 
 
         return {style: st}
 
