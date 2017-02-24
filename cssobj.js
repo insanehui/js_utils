@@ -192,7 +192,6 @@ export function trans(x, y){
   }
 }
 
-
 export default { css, border, flex, ptr, bg, hsl, sz, h, w, scroll,
   pre, inblock, rel, abs, hide, full, bdbox, fullh, fullw,
 }
