@@ -169,6 +169,29 @@ export function grid_bg(color = hsl(0,0,75), size = 12){ // 网格背景
   }
 }
 
+function addpx(v) {
+  return _.isNumber(v) ? v + 'px' : v
+}
+
+// transform相关
+export function transX(v){
+  return {
+    transform : `translateX(${addpx(v)})`,
+  }
+}
+
+export function transY(v){
+
+  return {
+    transform : `translateY(${addpx(v)})`,
+  }
+}
+
+export function trans(x, y){
+  return { transform : `translate(${addpx(x)}, ${addpx(y)})`,
+  }
+}
+
 
 export default { css, border, flex, ptr, bg, hsl, sz, h, w, scroll,
   pre, inblock, rel, abs, hide, full, bdbox, fullh, fullw,
