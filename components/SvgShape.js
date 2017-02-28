@@ -22,7 +22,8 @@ export function Arrow(p){
   tx -= 0
   ty -= 0
 
-  const transform = `translate(${x}, ${y}) scale(${w/w0},${h/h0}) rotate(${180*Math.atan2(ty, tx)/Math.PI})`
+  const transform = `translate(${x}, ${y}) rotate(${180*Math.atan2(ty, tx)/Math.PI}) scale(${w/w0},${h/h0}) `
+  // const transform = `translate(${x}, ${y}) rotate(45) scale(${w/w0},${h/h0}) `
 
   return <path d={`M ${p0.x} ${p0.y} L ${p1.x} ${p1.y} L ${p2.x} ${p2.y} Z`} transform={transform} fill="#000000" stroke="#000000" strokeMiterlimit="10" pointerEvents="all"></path>
 }
@@ -34,5 +35,5 @@ Arrow.defaultProps = {
   w : 200,
   h : 200,
   tx : 1, // 表示actangent的角度
-  ty : 0,
+  ty : -1,
 }
