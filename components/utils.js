@@ -55,3 +55,11 @@ export class PS extends PureComponent {
   }
 }
 
+export function get_xy(event, el){ // 根据event（通常是鼠标事件），计算出其相对于html元素的client坐标
+  const {top, left} = el.getBoundingClientRect()
+  const x = event.clientX - left
+  const y = event.clientY - top
+  return {x, y}
+}
+
+
