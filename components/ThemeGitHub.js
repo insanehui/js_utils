@@ -1,12 +1,12 @@
 // github主题的控件
 /* eslint-disable react/jsx-pascal-case */
 // import React, { PureComponent } from 'react'
-import React, {PureComponent} from 'react'
+import React from 'react'
 import _ from 'lodash'
 
 import {Input as InputBase} from './Form.js'
 import {_active, Active} from './ActiveStyle.js'
-import {merge_props_with_def_style as merge_st, merge_props} from './utils.js'
+import {merge_props_with_def_style as merge_st, merge_props, PS} from './utils.js'
 
 import {bg, hsl, inblock, css, sz, ptr} from '../cssobj.js'
 
@@ -118,13 +118,17 @@ export function preset(){
   })
 }
 
-export class Input extends PureComponent {
+export class Input extends PS {
+
+  onChange(value) {
+    this.setState({ value, })
+  }
 
   render() {
-    const p = this.props 
-    return <_active {...merge_st(S.input, p)} >
-      <InputBase ref='input'/>
-      </_active>
+    const s = this.state // p->s组件，取s代替p
+    return <_active {...merge_st(S.input, s)} >
+      <InputBase ref='input' onChange={this.onChange.bind(this)}/>
+    </_active>
   }
 
   select() {
