@@ -1,7 +1,9 @@
 // 一个极简单的计数器，用于生成某些唯一序号的场合（仅限于当前程序）
 
 class Counter {
-  i = 0
+  constructor(i = 0) {
+    this.i = i
+  }
 
   count(){
     return this.i++
@@ -19,8 +21,8 @@ class Counter {
 
 }
 
-export function New(){
-  return new Counter()
+export function New(...para){
+  return new Counter(...para)
 }
 
 const def = New()

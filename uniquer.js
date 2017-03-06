@@ -6,14 +6,13 @@ import {New as Counter} from './counter.js'
 
 class Uniquer {
 
-  c = Counter()
-
   s = new Set([undefined])
 
   m = {} // 用于查询
 
-  constructor(sp = '_') { // 分隔符
+  constructor(sp = '_', idx0 = 0) { // 分隔符
     this.sp = sp
+    this.c = Counter(idx0)
   }
   
   gen(val, key) { // key为可选，用于后续查询，不能为falsy
@@ -62,7 +61,7 @@ export const add = def.add.bind(def)
 
 export const gen = def.gen.bind(def)
 
-export function New(sp){
-  return new Uniquer(sp)
+export function New(...para){
+  return new Uniquer(...para)
 }
 
