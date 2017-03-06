@@ -77,6 +77,7 @@ export class Checkbox extends PS { // 不是标准的e.target.value类型，因�
 }
 
 export class Input extends ControlBase {
+
   render() {
     const s = this.state 
 
@@ -92,8 +93,15 @@ export class Input extends ControlBase {
       value={s.value || ''}
       style={{...st, ...s.style, }}
       onChange={this.onChange.bind(this)}
+      ref='input'
     />
   }
+
+  select(){
+    const r = this.refs
+    r.input.select()
+  }
+
 }
 
 

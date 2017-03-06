@@ -1,7 +1,7 @@
 // github主题的控件
 /* eslint-disable react/jsx-pascal-case */
 // import React, { PureComponent } from 'react'
-import React from 'react'
+import React, {PureComponent} from 'react'
 import _ from 'lodash'
 
 import {Input as InputBase} from './Form.js'
@@ -118,11 +118,20 @@ export function preset(){
   })
 }
 
-export function Input(p){ 
+export class Input extends PureComponent {
 
-  return <_active {...merge_st(S.input, p)} >
-    <InputBase />
-  </_active>
+  render() {
+    const p = this.props 
+    return <_active {...merge_st(S.input, p)} >
+      <InputBase ref='input'/>
+      </_active>
+  }
+
+  select() {
+    const r = this.refs
+    r.input.select()
+  }
+
 }
 
 export function _box(p){ // 带边框的div
