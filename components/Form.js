@@ -57,7 +57,7 @@ export class Text extends ControlBase {
   }
 }
 
-export class Checkbox extends PS {
+export class Checkbox extends PS { // 不是标准的e.target.value类型，因此不能继承自ControlBase
 
   static defaultProps = {
     value : false,
@@ -73,6 +73,26 @@ export class Checkbox extends PS {
   render() {
     const s = this.state 
     return <input type='checkbox' checked={!!s.value} {..._.omit(s, 'value')} onChange={this.onChange.bind(this)} />
+  }
+}
+
+export class Input extends ControlBase {
+  render() {
+    const s = this.state 
+
+    const st = {
+      outline: "none", // 没有边框
+      border: "none", // 没有border
+      background: "transparent", // 背景透明
+
+      // 便于嵌到其他元素里，以形成自定义的input样式
+    }
+
+    return <input {...s} 
+      value={s.value || ''}
+      style={{...st, ...s.style, }}
+      onChange={this.onChange.bind(this)}
+    />
   }
 }
 

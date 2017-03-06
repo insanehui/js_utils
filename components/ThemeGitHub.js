@@ -4,7 +4,7 @@
 import React from 'react'
 import _ from 'lodash'
 
-import {InputCore} from './Input.js'
+import {Input as InputBase} from './Form.js'
 import {_active, Active} from './ActiveStyle.js'
 import {merge_props_with_def_style as merge_st, merge_props} from './utils.js'
 
@@ -121,7 +121,7 @@ export function preset(){
 export function Input(p){ 
 
   return <_active {...merge_st(S.input, p)} >
-    <InputCore/>
+    <InputBase />
   </_active>
 }
 
