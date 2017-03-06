@@ -62,6 +62,17 @@ export const add = def.add.bind(def)
 export const gen = def.gen.bind(def)
 
 export function New(...para){
-  return new Uniquer(...para)
+  const inst =  new Uniquer(...para)
+
+  const fn = function(...x){
+    return inst.gen(...x)
+  }
+
+  _.extend(fn, inst)
+  for(let i of Object.getOwnPropertyNames(inst.__proto__)) { // 这是一个偏方！
+    fn[i] = inst[i] 
+  }
+
+  return fn
 }
 
