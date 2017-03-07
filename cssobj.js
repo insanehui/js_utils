@@ -159,7 +159,7 @@ export const visible = { // 与hidden相反
 
 // pre，令div也有类似pre的行为
 export const pre = {
-  whiteSpace : 'pre'
+  whiteSpace : 'pre' // 'pre-wrap'会wrap（折行），而pre则不会折行
 }
 
 export function grid_bg(color = hsl(0,0,75), size = 12){ // 网格背景
