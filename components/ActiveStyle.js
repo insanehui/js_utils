@@ -87,8 +87,8 @@ function factory(wrap = true) { // wrap代表包含子元素，占用html元素�
       } 
       else {
         const p1 = {
-          ...event,
           ..._.omit(p, 'children'),
+          ...event, // event一定要在p后面，以覆盖其事件属性
           ...style,
         }
         return React.cloneElement(p.children, p1)
