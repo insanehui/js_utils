@@ -125,6 +125,11 @@ export class Input extends PS {
 
     const p1 = {
       ...s,
+      /*
+       * 为什么要提一层onChange出来？
+       * 因为active的机制导致内层组件被不断被唤醒，如果外界传了value，则该value会不断地渗透到内部
+       * 因此
+       */
       onChange : (v=>{
         this.setState({ value:v })
         s.onChange && s.onChange(v)
