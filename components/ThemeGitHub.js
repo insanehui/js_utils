@@ -5,7 +5,7 @@ import React from 'react'
 import _ from 'lodash'
 
 import {Input as InputBase} from './Form.js'
-import {_active, Active} from './ActiveStyle.js'
+import {_active, Active, } from './ActiveStyle.js'
 import {merge_props_with_def_style as merge_st, merge_props, PS} from './utils.js'
 
 import {bg, hsl, inblock, css, sz, ptr} from '../cssobj.js'
