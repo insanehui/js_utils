@@ -120,14 +120,18 @@ export function preset(){
 
 export class Input extends PS {
 
-  onChange(value) {
-    this.setState({ value, })
-  }
-
   render() {
     const s = this.state // p->s组件，取s代替p
-    return <_active {...merge_st(S.input, s)} >
-      <InputBase ref='input' onChange={this.onChange.bind(this)}/>
+
+    const p1 = {
+      ...s,
+      onChange : (v=>{
+        this.setState({ value:v })
+        s.onChange && s.onChange(v)
+      })
+    }
+    return <_active {...merge_st(S.input, p1)} >
+      <InputBase ref='input' />
     </_active>
   }
 
