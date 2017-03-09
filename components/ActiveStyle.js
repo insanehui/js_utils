@@ -41,12 +41,12 @@ function factory(wrap = true) { // wrap代表包含子元素，占用html元素�
 
         onMouseDown : (e=>{
           this.setState({ active : true })
-          p.onMouseOut && p.onMouseOut(e)
+          p.onMouseDown && p.onMouseDown(e)
         }),
 
         onMouseUp : (e=>{
           this.setState({ active : false })
-          p.onMouseOut && p.onMouseOut(e)
+          p.onMouseUp && p.onMouseUp(e)
         }),
 
       }
@@ -140,12 +140,12 @@ export function active(Cmp){ // 函数形式，还在试验阶段，考虑要不
 
         onMouseDown : (e=>{
           this.setState({ active : true })
-          p.onMouseOut && p.onMouseOut(e)
+          p.onMouseDown && p.onMouseDown(e)
         }),
 
         onMouseUp : (e=>{
           this.setState({ active : false })
-          p.onMouseOut && p.onMouseOut(e)
+          p.onMouseUp && p.onMouseUp(e)
         }),
 
       }
