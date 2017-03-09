@@ -127,8 +127,9 @@ export class Input extends PS {
       ...s,
       /*
        * 为什么要提一层onChange出来？
-       * 因为active的机制导致内层组件被不断被唤醒，如果外界传了value，则该value会不断地渗透到内部
-       * 因此
+       * 因为active会不断自省，自省时候会召唤内部的InputBase
+       * 如果acitve不自理value，则它始终会拿最初传的value去洗脑InputBase
+       * 所以会导致active自省的时候，文本框的值就会被重置
        */
       onChange : (v=>{
         this.setState({ value:v })
