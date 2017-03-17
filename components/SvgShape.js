@@ -35,7 +35,7 @@ Arrow.defaultProps = {
   y : 100, 
   w : 200,
   h : 200,
-  tx : 1, // 表示actangent的角度
+  tx : 1, // 表示actangent的角度，注：tx和ty为pt2 - pt1的值，而pt2代表终点，箭头指向pt2。注意屏幕坐标方向与数学上的区别
   ty : -1,
 }
 
