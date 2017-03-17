@@ -1,6 +1,7 @@
 // 提供一些svg的常用形状
 
 import React from 'react'
+import _ from 'lodash'
 
 export function Arrow(p){
 
@@ -37,3 +38,28 @@ Arrow.defaultProps = {
   tx : 1, // 表示actangent的角度
   ty : -1,
 }
+
+export function AutoCurveLink(p){ // 智能连接曲线
+  // 计算两个控制点
+
+  // 算出控制杆的长度
+  const c_len = (x=>{
+    // 不知道process on的算法，先取对角线的一半
+    const w = p.x2 - p.x1
+    const h = p.y2 - p.y1
+    return Math.sqrt(w*w + h*h) / 2
+  })()
+
+  return <g>
+    <path d={`M ${p.x1} ${p.y1} C ${p.x1} ${p.y1-c_len}, ${p.x2} ${p.y2 + c_len}, ${p.x2} ${p.y2}`} fill='none' {..._.omit(p, 'x1', 'y1', 'x2', 'y2')} />
+    <Arrow w={10} h={6} x={p.x2} y={p.y2} tx={0} ty={-1}/>
+  </g>
+}
+
+AutoCurveLink.defaultProps = {
+  x1 : 0, 
+  y1 : 100, 
+  x2 : 100, 
+  y2 : 0, 
+}
+
