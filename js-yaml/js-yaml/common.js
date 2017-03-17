@@ -1,5 +1,4 @@
-'use strict';
-
+/* eslint-disable */
 
 function isNothing(subject) {
   return (typeof subject === 'undefined') || (subject === null);

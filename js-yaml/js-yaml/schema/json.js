@@ -5,8 +5,8 @@
 // So, this schema is not such strict as defined in the YAML specification.
 // It allows numbers in binary notaion, use `Null` and `NULL` as `null`, etc.
 
+/* eslint-disable */
 
-'use strict';
 
 
 var Schema = require('../schema');

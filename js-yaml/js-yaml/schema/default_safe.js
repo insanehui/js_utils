@@ -4,8 +4,8 @@
 // This schema is based on standard YAML's Core schema and includes most of
 // extra types described at YAML tag repository. (http://yaml.org/type/)
 
+/* eslint-disable */
 
-'use strict';
 
 
 var Schema = require('../schema');

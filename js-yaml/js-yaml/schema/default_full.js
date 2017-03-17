@@ -6,8 +6,8 @@
 //
 // Also this schema is used as default base schema at `Schema.create` function.
 
+/* eslint-disable */
 
-'use strict';
 
 
 var Schema = require('../schema');

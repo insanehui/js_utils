@@ -1,6 +1,6 @@
 // YAML error class. http://stackoverflow.com/questions/8458984
 //
-'use strict';
+/* eslint-disable */
 
 function YAMLException(reason, mark) {
   // Super constructor

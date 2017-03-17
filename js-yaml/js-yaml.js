@@ -1,6 +1,4 @@
-'use strict';
-
-
+/* eslint-disable */
 var loader = require('./js-yaml/loader');
 var dumper = require('./js-yaml/dumper');
 

@@ -4,8 +4,7 @@
 // NOTE: JS-YAML does not support schema-specific tag resolution restrictions.
 // So, Core schema has no distinctions from JSON schema is JS-YAML.
 
-
-'use strict';
+/* eslint-disable */
 
 
 var Schema = require('../schema');

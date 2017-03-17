@@ -1,5 +1,4 @@
-'use strict';
-
+/* eslint-disable */
 var esprima;
 
 // Browserified version does not have esprima

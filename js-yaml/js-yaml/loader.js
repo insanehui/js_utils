@@ -1,5 +1,5 @@
-'use strict';
 
+/* eslint-disable */
 /*eslint-disable max-len,no-use-before-define*/
 
 var common              = require('./common');

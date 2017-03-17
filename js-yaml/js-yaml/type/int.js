@@ -1,4 +1,4 @@
-'use strict';
+/* eslint-disable */
 
 var common = require('../common');
 var Type   = require('../type');
