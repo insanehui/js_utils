@@ -16,7 +16,7 @@ export async function get(url, para) {
     method : 'GET', 
   }).then(res => res.text())
 
-  // const txt = decode(xtxt)
-  return JSON.parse(xtxt)
+  const txt = decode(xtxt)
+  return JSON.parse(txt)
 }
 
