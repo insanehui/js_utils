@@ -39,13 +39,17 @@ class Foa {
 
     this.fetch = new_fetch
   }
+
+  _def_call_(...para) { // 该方法不直接调用，用途见 <url:#r=using_def_call>
+    return this.fetch(...para)
+  }
 }
 
 export default function(...para){ // New
 
   const inst =  new Foa(...para)
 
-  const fn = inst.fetch.bind(inst)
+  const fn = inst._def_call_.bind(inst) // <?utl:id=using_def_call?>
 
   _.extend(fn, inst)
 

@@ -21,7 +21,9 @@ export async function get(url, para) {
 }
 
 export async function foa_(res){ // fetchoa后件
-  const txt = await res.text()
-  res.Data = decode(txt)
+  const xtxt = await res.text()
+  const txt = decode(xtxt)
+  console.log("txt", txt)
+  res.Data = txt
   return res
 }
