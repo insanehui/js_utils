@@ -8,38 +8,39 @@
  * 约定使用res.Data来传递数据
  *
  * 采用函数式的模式来编写逻辑
+ * 测试见 <url:./simple_encrypt/client_koa.test.js>
  */
 import _ from 'lodash'
 
 class Foa {
 
   constructor(fetch) {
-    this.fetch = fetch
+    this._fetch = fetch // _fetch成员，用来容纳中间件，被_def_call_调用，外部不可访问该成员
   }
 
   _use(middle) {
-    const old_fetch = this.fetch
+    const old_fetch = this._fetch
 
     async function new_fetch(...para) {
       return old_fetch(middle(...para))
     }
 
-    this.fetch = new_fetch // 注：this.fetch = async ... 这样的语法好像不能通过。。。
+    this._fetch = new_fetch // 注：this._fetch = async ... 这样的语法好像不能通过。。。
   }
 
   use_(middle) {
-    const old_fetch = this.fetch
+    const old_fetch = this._fetch
 
     async function new_fetch(...para) {
       const tmp = await old_fetch(...para)
       return middle(tmp)
     }
 
-    this.fetch = new_fetch
+    this._fetch = new_fetch
   }
 
   _def_call_(...para) { // 该方法不直接调用，用途见 <url:#r=using_def_call>
-    return this.fetch(...para)
+    return this._fetch(...para)
   }
 }
 
