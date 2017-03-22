@@ -34,7 +34,7 @@ test('get', async () => {
 })
 
 test('fetchoa', async () => {
-  const res = await fet.fetch('http://localhost:666')
+  const res = await fet('http://localhost:666')
   const txt = res.Data
   console.log(txt)
   expect(JSON.parse(txt)).toEqual(JSON.parse(txt1))

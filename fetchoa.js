@@ -14,8 +14,6 @@ import _ from 'lodash'
 class Foa {
 
   constructor(fetch) {
-    this.middles = []
-
     this.fetch = fetch
   }
 
@@ -51,10 +49,8 @@ export default function(...para){ // New
 
   const fn = inst._def_call_.bind(inst) // <?utl:id=using_def_call?>
 
-  _.extend(fn, inst)
-
   for(let i of Object.getOwnPropertyNames(inst.__proto__)) { // 这是一个偏方！
-    fn[i] = inst[i] 
+    fn[i] = inst[i].bind(inst)
   }
 
   return fn
