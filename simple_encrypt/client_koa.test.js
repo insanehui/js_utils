@@ -1,13 +1,13 @@
 import Koa from 'koa'
 
-import Foa from '../fetchoa.js'
+import Ketch from '../ketch.js'
 
 
-import {get, foa_} from './client.js'
+import {get, ketch_} from './client.js'
 import {simple_encrypt} from './koa.js'
 
-const fet = Foa(require('node-fetch'))
-fet.use_(foa_)
+const ketch = Ketch(require('node-fetch'))
+ketch.use_(ketch_)
 
 const txt1 = '{"name" : "tcli", "age" : 18}' 
 
@@ -33,8 +33,8 @@ test('get', async () => {
   expect(txt).toEqual(JSON.parse(txt1))
 })
 
-test('fetchoa', async () => {
-  const res = await fet('http://localhost:666')
+test('ketch', async () => {
+  const res = await ketch('http://localhost:666')
   const txt = res.Data
   console.log(txt)
   expect(JSON.parse(txt)).toEqual(JSON.parse(txt1))

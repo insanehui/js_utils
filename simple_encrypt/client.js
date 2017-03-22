@@ -20,7 +20,7 @@ export async function get(url, para) {
   return JSON.parse(txt)
 }
 
-export async function foa_(res){ // fetchoa后件
+export async function ketch_(res){ // fetchoa后件
   const xtxt = await res.text()
   const txt = decode(xtxt)
   console.log("txt", txt)
