@@ -23,7 +23,6 @@ export async function get(url, para) {
 export async function ketch_(res){ // fetchoa后件
   const xtxt = await res.text()
   const txt = decode(xtxt)
-  console.log("txt", txt)
   res.Data = txt
   return res
 }

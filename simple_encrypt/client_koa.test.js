@@ -36,7 +36,6 @@ test('get', async () => {
 test('ketch', async () => {
   const res = await ketch('http://localhost:666')
   const txt = res.Data
-  console.log(txt)
   expect(JSON.parse(txt)).toEqual(JSON.parse(txt1))
 })
 
