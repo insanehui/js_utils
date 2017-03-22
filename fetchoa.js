@@ -12,7 +12,7 @@
  */
 import _ from 'lodash'
 
-class Foa {
+class Ketch {
 
   constructor(fetch) {
     this._fetch = fetch // _fetch成员，用来容纳中间件，被_def_call_调用，外部不可访问该成员
@@ -46,7 +46,7 @@ class Foa {
 
 export default function(...para){ // New
 
-  const inst =  new Foa(...para)
+  const inst =  new Ketch(...para)
 
   const fn = inst._def_call_.bind(inst) // <?utl:id=using_def_call?>
 
