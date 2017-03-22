@@ -20,3 +20,8 @@ export async function get(url, para) {
   return JSON.parse(txt)
 }
 
+export async function foa_(res){ // fetchoa后件
+  const txt = await res.text()
+  res.Data = decode(txt)
+  return res
+}
