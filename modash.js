@@ -172,6 +172,7 @@ export function logify(func){ // 令一个函数可以打参数和返回日志�
     const ret = func(...para)
     console.log("return: ", ret)
     end()
+    return ret
   }
 }
 
