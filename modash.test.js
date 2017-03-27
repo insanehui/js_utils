@@ -1,4 +1,7 @@
-import {str_display_cut, str_ellipsis, group} from './modash.js'
+import {str_display_cut, str_ellipsis, group,
+  logify,
+} from './modash.js'
+import _ from 'lodash'
 
 test('hello world', () => { 
   // 初探jest的用法，此处并无实际测试内容
@@ -81,3 +84,23 @@ test('group', () => {
   }
 })
 
+xit('logify', () => {
+
+  function i_am_a_func(a, b, c, d){
+    return a + b + c + d
+  }
+
+  const tb = [
+    [
+      i_am_a_func, null,
+    ],
+  ]
+
+  for (let i of tb) {
+    const para = _.initial(i)
+    const hope = _.last(i)
+    const fact = logify(...para)
+
+    fact(1, 2, 3, 4)
+  }
+})

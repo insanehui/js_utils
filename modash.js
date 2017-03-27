@@ -161,6 +161,20 @@ export function test_arrCut(){
   console.log("cut: ", arrCut(t, 9))
 }
 
+export function logify(func){ // 令一个函数可以打参数和返回日志的高阶函数
+
+  const begin = console.groupCollapsed ? console.groupCollapsed.bind(console) : console.log.bind(console)
+  const end = console.groupEnd ? console.groupEnd.bind(console) : _.noop
+
+  return (...para) => {
+    begin(`=== ${func.name} called ===`)
+    console.log("arguments: ", para)
+    const ret = func(...para)
+    console.log("return: ", ret)
+    end()
+  }
+}
+
 export function local_uid(){ // 返回字符串。唯一性只对当前页面有效
   // 暂时没用到，用到时，再弄了
 }
