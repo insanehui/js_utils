@@ -3,7 +3,7 @@ import Koa from 'koa'
 import Ketch from '../ketch.js'
 
 
-import {get, ketch_} from './client.js'
+import {ketch_} from './client.js'
 import {simple_encrypt} from './koa.js'
 
 const ketch = Ketch(require('node-fetch'))
@@ -28,10 +28,10 @@ afterAll(() => {
   server && server.close()
 })
 
-test('get', async () => {
-  const txt = await get('http://localhost:666')
-  expect(txt).toEqual(JSON.parse(txt1))
-})
+// test('get', async () => {
+//   const txt = await get('http://localhost:666')
+//   expect(txt).toEqual(JSON.parse(txt1))
+// })
 
 test('ketch', async () => {
   const res = await ketch('http://localhost:666')
