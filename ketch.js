@@ -18,17 +18,17 @@ class Ketch {
     this._fetch = fetch // _fetch成员，用来容纳中间件，被_def_call_调用，外部不可访问该成员
   }
 
-  _use(middle) {
+  _use(middle) { // 前件（前置中间件）
     const old_fetch = this._fetch
 
     async function new_fetch(...para) {
-      return old_fetch(middle(...para))
+      return old_fetch(...middle(...para))
     }
 
     this._fetch = new_fetch // 注：this._fetch = async ... 这样的语法好像不能通过。。。
   }
 
-  use_(middle) {
+  use_(middle) { // 后件（后置中间件）
     const old_fetch = this._fetch
 
     async function new_fetch(...para) {
