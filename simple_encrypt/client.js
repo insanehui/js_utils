@@ -2,6 +2,7 @@
  * koa插件配套的客户端方法
  */
 import {decode} from './encrypt.js'
+import {res_xkey} from './koa.js'
 
 // import form_encode from 'form-urlencoded'
 // export async function get(url, para) {
@@ -20,9 +21,13 @@ import {decode} from './encrypt.js'
 //   return JSON.parse(txt)
 // }
 
-export async function ketch_(res){ // fetchoa后件
-  const xtxt = await res.text()
-  const txt = decode(xtxt)
+export async function ketch_(res){ // ketch后件，输出res.Data
+
+
+  let txt = await res.text()
+  if ( res.headers.has(res_xkey) ) {
+    txt = decode(txt)
+  } 
   res.Data = txt
   return res
 }
