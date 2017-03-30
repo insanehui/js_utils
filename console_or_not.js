@@ -5,13 +5,26 @@
 
 import {para} from './query_string_para.js'
 
-const {_CONSOLE_LOG_}  = para
+const {_CONSOLE_DEBUG_}  = para
 
-const b_log = console.log.bind(console)
+const meth_names = [
+  'log', 
+  'info', 
+  'group', 
+  'groupCollapsed', 
+  'groupEnd', 
+]
 
-console.log = (...p)=>{
-  if ( _CONSOLE_LOG_ ) {
-    b_log(...p)
+for (const name of meth_names) { 
+  if ( !console[name] ) {
+    continue
   } 
-}
 
+  const meth = console[name].bind(console)
+
+  console[name] = (...p)=>{
+    if ( _CONSOLE_DEBUG_ ) {
+      meth(...p)
+    } 
+  }
+}
