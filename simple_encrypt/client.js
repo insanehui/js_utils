@@ -2,7 +2,8 @@
  * koa插件配套的客户端方法
  */
 import {decode} from './encrypt.js'
-import {res_xkey} from './koa.js'
+import {res_xkey, req_xkey, req_xval} from './koa.js'
+import _ from 'lodash'
 
 // import form_encode from 'form-urlencoded'
 // export async function get(url, para) {
@@ -30,4 +31,9 @@ export async function ketch_(res){ // ketch后件，输出res.Data
   } 
   res.Data = txt
   return res
+}
+
+export function _ketch(...para){ // ketch前件，使用了之后，将可开启传输不加密
+  _.set(para, `1.headers.${req_xkey}`, req_xval)
+  return para
 }
