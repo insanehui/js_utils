@@ -1,8 +1,7 @@
 /* 对lodash的一些补充 */
 import _ from 'lodash'
 
-// 内部基础函数
-function _ungroup(o, keys, p){
+function _ungroup(o, keys, p){ // ungroup的递归主体
   // 这是一个递归函数，之前在cdb团队写过c++版的json_ungroup，后来代码遗失，今天重新梳理 2016年12月21日
   // 这里o是一个对象，keys为还剩下需要ungroup的序列，为数组，p为已经积累的需要合并的数据
 
@@ -55,6 +54,31 @@ export function group(o, [...by], {...opt}){
     })
   })
   return ret
+}
+
+function _traverse(obj, fn, depth, pre){ // 递归主体. 深度遍历一个对象，可以指定深度级别
+  /*
+   * obj: 为当前的对象，而非根对象。目的一是提高效率，二是体现更纯粹的递归思想
+   * depth表示还要进入的深度，0表示结束递归，利用这一点，填负数（如-1）可以进行完全深度遍历！
+   * fn(val, [...path])
+   * pre表示前辈已经走了的路径, 如['a', 'b']
+   */
+
+  if ( depth === 0 || !_.isObject(obj) ) { // 已不需要再深入或者无法再深入，结束递归
+    fn(obj, pre)
+    return
+  } 
+
+  // 递归深入
+  for( const key in obj )
+  {
+    _traverse(obj[key], fn, depth-1, [...pre, key])
+  }
+
+}
+
+export function traverse(obj, fn, depth = 1){
+  _traverse(obj, fn, depth, [])
 }
 
 export function test(){
