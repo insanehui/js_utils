@@ -132,6 +132,11 @@ function _traverse_all(obj, fn, depth, pre){ // [递归主体] _.some的深度tr
 }
 
 export function traverse_all(obj, fn, depth = 1){
+
+  if ( _.isString(fn) ) {
+    fn = _.property(fn)
+  } 
+
   return _traverse_all(obj, fn, depth, [])
 }
 
