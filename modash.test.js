@@ -197,7 +197,32 @@ test('traverse', () => {
 
 test('traverse_all', () => {
   const tb = [
-    [  
+    [  // true的情况
+      {
+        a : {
+          x : {
+            x : 1
+          }, 
+        },
+        "1" : {
+          "3" : {
+            x: '0'
+          },
+        },
+        "2" : {
+          "8" : {
+            x: _.noop
+          },
+          "3" : {
+            x: {}
+          },
+        },
+      }, 
+      _.property('x'),
+      2,
+      true,
+    ],
+    [  // 少了一级，为false
       {
         a : {
           x : 1, 

@@ -94,7 +94,7 @@ function _traverse_any(obj, fn, depth, pre){ // [递归主体] _.some的深度tr
   // 递归深入
   for( const key in obj )
   {
-    const ret = _traverse(obj[key], fn, depth-1, [...pre, key])
+    const ret = _traverse_any(obj[key], fn, depth-1, [...pre, key])
     if ( ret ) {
       return true
     } 
@@ -121,7 +121,7 @@ function _traverse_all(obj, fn, depth, pre){ // [递归主体] _.some的深度tr
   // 递归深入
   for( const key in obj )
   {
-    const ret = _traverse(obj[key], fn, depth-1, [...pre, key])
+    const ret = _traverse_all(obj[key], fn, depth-1, [...pre, key])
     if ( !ret ) {
       return false
     } 
