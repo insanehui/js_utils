@@ -81,6 +81,61 @@ export function traverse(obj, fn, depth = 1){
   _traverse(obj, fn, depth, [])
 }
 
+function _traverse_any(obj, fn, depth, pre){ // [递归主体] _.some的深度traverse版
+  /*
+   * 其他参数同 _traverse
+   * fn(val, [...path]) => bool
+   */
+
+  if ( depth === 0 || !_.isObject(obj) ) { // 已不需要再深入或者无法再深入，结束递归
+    return !!fn(obj, pre)
+  } 
+
+  // 递归深入
+  for( const key in obj )
+  {
+    const ret = _traverse(obj[key], fn, depth-1, [...pre, key])
+    if ( ret ) {
+      return true
+    } 
+  }
+
+  return false
+
+}
+
+export function traverse_any(obj, fn, depth = 1){
+  return _traverse_any(obj, fn, depth, [])
+}
+
+function _traverse_all(obj, fn, depth, pre){ // [递归主体] _.some的深度traverse版
+  /*
+   * 其他参数同 _traverse
+   * fn(val, [...path]) => bool
+   */
+
+  if ( depth === 0 || !_.isObject(obj) ) { // 已不需要再深入或者无法再深入，结束递归
+    return !!fn(obj, pre)
+  } 
+
+  // 递归深入
+  for( const key in obj )
+  {
+    const ret = _traverse(obj[key], fn, depth-1, [...pre, key])
+    if ( !ret ) {
+      return false
+    } 
+  }
+
+  return true
+
+}
+
+export function traverse_all(obj, fn, depth = 1){
+  return _traverse_all(obj, fn, depth, [])
+}
+
+
 export function test(){
   console.log('test!!', [1, ...null])
 }

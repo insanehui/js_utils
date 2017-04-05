@@ -1,6 +1,7 @@
 import {str_display_cut, str_ellipsis, group,
   logify,
   traverse, 
+  traverse_all, 
 } from './modash.js'
 import _ from 'lodash'
 
@@ -191,6 +192,42 @@ test('traverse', () => {
     fact = [] // 清空fact
     traverse(...para)
     expect(fact).toEqual(hope)
+  }
+})
+
+test('traverse_all', () => {
+  const tb = [
+    [  
+      {
+        a : {
+          x : 1, 
+        },
+        "1" : {
+          "3" : {
+            x: 1
+          },
+        },
+        "2" : {
+          "8" : {
+            x: 1
+          },
+          "3" : {
+            x: 1
+          },
+        },
+      }, 
+      _.property('x'),
+      2,
+      false,
+    ],
+  ]
+
+  for (let i of tb) {
+    const para = _.initial(i)
+    const hope = _.last(i)
+    const fact = traverse_all(...para)
+
+    expect(fact).toBe(hope)
   }
 })
 
