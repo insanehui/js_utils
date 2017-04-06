@@ -8,7 +8,7 @@ import {Input as InputBase} from './Form.js'
 import {_active, Active, } from './ActiveStyle.js'
 import {merge_props_with_def_style as merge_st, merge_props, PS} from './utils.js'
 
-import {bg, hsl, inblock, css, sz, ptr} from '../cssobj.js'
+import {bg, hsl, inblock, css, sz, ptr, rel, } from '../cssobj.js'
 
 const fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
 
@@ -206,6 +206,62 @@ export function Button(p){
   }
 
   return <_active {...merge_st(S.button, ps)}>
+    <button {...p1} />
+    </_active>
+}
+
+export function Button1(p){ // 蓝色的button
+
+  const hue = 208
+  const sat = 56 // 饱和度
+  const light = 50 // 亮度
+
+  const style = {
+    color : 'white',
+    backgroundColor : hsl(hue, sat, light),
+    backgroundImage : `linear-gradient(-180deg, ${hsl(hue, sat, light+10)} 0%, ${hsl(hue, sat, light)} 90%)`, 
+    ...rel,
+    ...inblock,
+    padding: '6px 12px',
+    fontSize: '12px',
+    fontWeight : 600, 
+    lineHeight: '20px',
+    whiteSpace : 'nowrap', 
+    verticalAlign : 'middle', 
+    cursor : 'pointer', 
+    userSelect : 'none',
+    backgroundRepeat: 'repeat-x',
+    backgroundPosition: '-1px, -1px',
+    backgroundSize: '110% 110%',
+    border: '1px solid rgba(27,31,35,0.2)',
+    borderRadius : '0.25em',
+    '&:hover' : {
+      backgroundColor : hsl(hue, sat, light-5),
+      backgroundImage : `linear-gradient(-180deg, ${hsl(hue, sat, light + 8)} 0%, ${hsl(hue, sat, light-2)} 90%)`, 
+      border : '1px solid rgba(27,31,35,0.5)', 
+      backgroundPosition: '0 -0.5em',
+    }, 
+    '&:active' : {
+      backgroundColor : hsl(hue, sat, light-5),
+      backgroundImage : 'none', 
+      border : '1px solid rgba(27,31,35,0.5)', 
+      boxShadow : 'inset 0 0.15em 0.3em rgba(27,31,35,0.15)',
+    }, 
+  }
+
+  // 将p根据style，拆分
+  const ps = _.pick(p, 'style')
+
+  const p1 = {
+    ..._.omit(p, 'style'),
+
+    onClick : e=>{ // 阻止缺省的submit行为
+      e.preventDefault()
+      p.onClick && p.onClick(e)
+    },
+  }
+
+  return <_active {...merge_st(style, ps)}>
     <button {...p1} />
     </_active>
 }
