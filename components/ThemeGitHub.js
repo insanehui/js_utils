@@ -211,6 +211,9 @@ export function Button(p){
 }
 
 export function Button1(p){ // 蓝色的button
+  /*
+   * 注：这里太多代码拷贝自Button，后续需要改掉此处不合理的设计
+   */
 
   const hue = 208
   const sat = 56 // 饱和度
@@ -222,9 +225,9 @@ export function Button1(p){ // 蓝色的button
     backgroundImage : `linear-gradient(-180deg, ${hsl(hue, sat, light+10)} 0%, ${hsl(hue, sat, light)} 90%)`, 
     ...rel,
     ...inblock,
-    padding: '6px 12px',
+    padding: '6px 20px',
     fontSize: '12px',
-    fontWeight : 600, 
+    // fontWeight : 600, 
     lineHeight: '20px',
     whiteSpace : 'nowrap', 
     verticalAlign : 'middle', 
@@ -251,12 +254,15 @@ export function Button1(p){ // 蓝色的button
 
   // 将p根据style，拆分
   const ps = _.pick(p, 'style')
+  const {submit} = p
 
   const p1 = {
-    ..._.omit(p, 'style'),
+    ..._.omit(p, 'style', 'submit'),
 
-    onClick : e=>{ // 阻止缺省的submit行为
-      e.preventDefault()
+    onClick : e=>{ 
+      if ( !submit ) {
+        e.preventDefault()
+      } 
       p.onClick && p.onClick(e)
     },
   }
