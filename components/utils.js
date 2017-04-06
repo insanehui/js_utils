@@ -55,7 +55,7 @@ export class PS extends PureComponent { // 注：ps是一个很有争议的模�
   }
 }
 
-export const addStyle = st=> Cmp => { // => fn(Cmp0) => Cmp1，模仿redux里高阶组件的写法，使用柯里化
+export const addStyle = st=> Cmp => { // => fn(Cmp0) => Cmp1，模仿redux里高阶组件的写法，使用柯里化的形式
   
   class styled extends PureComponent {
 
