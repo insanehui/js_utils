@@ -84,12 +84,10 @@ function factory(wrap = true) { // wrap代表包含子元素，占用html元素�
       if ( wrap === true ) {
         return <div {...p1} />
       }
-      else if ( _.isObject(wrap) ) { // 这时传的是一个组件类
+      else if ( _.isObject(wrap) || _.isString(wrap)) { // 这时传的是一个组件类
+        // 好像string类型的组件也能放到jsx中，完美！
         return <wrap {...p1} />
       } 
-      else if ( _.isString(wrap)) {
-        return React.createElement(wrap, p1)
-      }
       else {
         return React.cloneElement(p.children, _.omit(p1, 'children'))
       }
