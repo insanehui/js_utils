@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react'
 import _ from 'lodash'
 
-function factory(wrap = true) { // wrap代表包含子元素，占用html元素层次，false则仅仅起修饰作用
+function factory(Wrap = true) { // Wrap代表包含子元素，占用html元素层次，false则仅仅起修饰作用
 
   class cmp extends PureComponent {
 
@@ -81,12 +81,13 @@ function factory(wrap = true) { // wrap代表包含子元素，占用html元素�
         ...style,
       }
 
-      if ( wrap === true ) {
+      if ( Wrap === true ) {
         return <div {...p1} />
       }
-      else if ( _.isObject(wrap) || _.isString(wrap)) { // 这时传的是一个组件类
+      else if ( _.isObject(Wrap) || _.isString(Wrap)) { // 这时传的是一个组件类
         // 好像string类型的组件也能放到jsx中，完美！
-        return <wrap {...p1} />
+        // 注：就是这里，要求Wrap一定要大写开头!
+        return <Wrap {...p1} />
       } 
       else {
         return React.cloneElement(p.children, _.omit(p1, 'children'))
