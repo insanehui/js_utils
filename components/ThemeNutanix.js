@@ -55,3 +55,8 @@ export const Box = box('div')
 export const font = _.curry((theme, cmp)=>{
   return addStyle(S.font[theme])(cmp)
 })
+
+export const Hr = addStyle({
+  height: 1,
+  borderBottom : `1px solid ${hsl(0, 0, 90)}`,
+})('div')
