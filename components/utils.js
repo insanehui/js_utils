@@ -68,6 +68,20 @@ export const addStyle = st=> Cmp => { // => fn(Cmp0) => Cmp1，模仿redux里高
   return styled
 }
 
+export const addProps = _.curry((p0, Cmp)=>{ // 2017年4月9日 尝试使用柯里化，看看是否有实用性
+
+  class New extends PureComponent {
+
+    render() {
+      const p = this.props 
+      return <Cmp {...merge_props(p0, p)} />
+    }
+  }
+
+  return New
+
+})
+
 export function get_xy(event, el){ // 根据event（通常是鼠标事件），计算出其相对于html元素的client坐标
   const {top, left} = el.getBoundingClientRect()
   const x = event.clientX - left
