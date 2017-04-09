@@ -16,11 +16,15 @@ export const Header = addStyle({
   ...bg( hsl(220, 3, 21) ),
 })('div')
 
+export const S = {
+  barbg : bg(hsl(206, 24, 94)),
+}
+
 export function preset(){
   css({
     '@global' : {
       body : {
-        ...bg(hsl(206, 24, 94)),
+        // ...bg(hsl(206, 24, 94)),
       }, 
     },
   })
