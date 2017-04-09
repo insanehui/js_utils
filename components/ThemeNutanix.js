@@ -13,8 +13,7 @@ export const S = (x=>{
     barbg : bg(hsl(hue, 24, 94)), // 淡灰绿色的背景，作为ui的底框
     font : {
       dark : {
-        // color: hsl(hue, 9, 28), // 深色的字体
-        color: `rgb(66, 73, 81)`, // 深色的字体
+        color: hsl(hue, 9, 28), // 深色的字体
         fontWeight: 600, 
       }
     }
