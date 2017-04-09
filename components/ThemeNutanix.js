@@ -15,8 +15,17 @@ export const S = (x=>{
       dark : {
         color: hsl(hue, 9, 28), // 深色的字体
         fontWeight: 600, 
-      }
-    }
+      },
+      light : {
+        color: hsl(196, 7, 57),
+      },
+    },
+    bd_radius : {
+      borderRadius : 4,
+    },
+    bd : {
+      border: `1px solid ${hsl(220, 4, 87)}`,
+    }, 
   }
 })()
 
@@ -36,7 +45,7 @@ export const Header = addStyle({
 
 export const Label = addStyle({
   fontSize: 14,
-  color: hsl(196, 7, 57),
+  ...S.font.light,
   fontWeight: 600,
   lineHeight: 1.5,
   padding: '4px 5px',
@@ -46,8 +55,8 @@ export const Labelet = addStyle(inblock)(Label)
 
 export const box = addStyle({
   backgroundColor: '#fff',
-  border: `1px solid ${hsl(220, 4, 87)}`,
-  borderRadius : 4,
+  ...S.bd,
+  ...S.bd_radius,
 })
 
 export const Box = box('div')
