@@ -40,3 +40,10 @@ export const Label = addStyle({
 
 export const Labelet = addStyle(inblock)(Label)
 
+export const box = addStyle({
+  backgroundColor: '#fff',
+  border: `1px solid ${hsl(220, 4, 87)}`,
+  borderRadius : 4,
+})
+
+export const Box = box('div')
