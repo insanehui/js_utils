@@ -9,7 +9,7 @@ import {css, bg, hsl, inblock, } from '../cssobj.js'
 export const S = (x=>{
   const hue = 206
 
-  const margin = 5
+  const box_gap = 10 // 盒子的间隔
 
   const bd = {
     border: `1px solid ${hsl(220, 4, 87)}`,
@@ -32,11 +32,12 @@ export const S = (x=>{
     },
     bd,
     bd_radius,
+    box_gap,
     box : {
       backgroundColor: '#fff',
       ...bd,
       ...bd_radius,
-      margin : `0 ${margin}px ${2*margin}px ${margin}px`,
+      margin : `0 ${box_gap/2}px ${box_gap}px ${box_gap/2}px`,
     }, 
   }
 })()
