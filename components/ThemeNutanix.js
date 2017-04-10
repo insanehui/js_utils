@@ -45,7 +45,8 @@ export const S = (x=>{
 export function preset(){
   css({
     '@global' : {
-      body : {
+      '*' : {
+        fontSize: 12,
         // ...bg(hsl(206, 24, 94)),
       }, 
     },
@@ -57,7 +58,6 @@ export const Header = addStyle({
 })('div')
 
 export const Label = addStyle({
-  fontSize: 14,
   ...S.font.light,
   fontWeight: 600,
   lineHeight: 1.5,
