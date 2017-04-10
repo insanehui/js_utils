@@ -9,6 +9,16 @@ import {css, bg, hsl, inblock, } from '../cssobj.js'
 export const S = (x=>{
   const hue = 206
 
+  const margin = 5
+
+  const bd = {
+    border: `1px solid ${hsl(220, 4, 87)}`,
+  }
+
+  const bd_radius = {
+    borderRadius : 4,
+  }
+
   return {
     barbg : bg(hsl(hue, 24, 94)), // 淡灰绿色的背景，作为ui的底框
     font : {
@@ -20,11 +30,13 @@ export const S = (x=>{
         color: hsl(196, 7, 57),
       },
     },
-    bd_radius : {
-      borderRadius : 4,
-    },
-    bd : {
-      border: `1px solid ${hsl(220, 4, 87)}`,
+    bd,
+    bd_radius,
+    box : {
+      backgroundColor: '#fff',
+      ...bd,
+      ...bd_radius,
+      margin : `0 ${margin}px ${2*margin}px ${margin}px`,
     }, 
   }
 })()
@@ -53,11 +65,7 @@ export const Label = addStyle({
 
 export const Labelet = addStyle(inblock)(Label)
 
-export const box = addStyle({
-  backgroundColor: '#fff',
-  ...S.bd,
-  ...S.bd_radius,
-})
+export const box = addStyle(S.box)
 
 export const Box = box('div')
 
