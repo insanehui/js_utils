@@ -140,7 +140,6 @@ export function traverse_all(obj, fn, depth = 1){
   return _traverse_all(obj, fn, depth, [])
 }
 
-
 export function test(){
   console.log('test!!', [1, ...null])
 }
@@ -262,4 +261,13 @@ export function logify(func){ // 令一个函数可以打参数和返回日志�
 
 export function local_uid(){ // 返回字符串。唯一性只对当前页面有效
   // 暂时没用到，用到时，再弄了
+}
+
+/*
+ * 将一个对象清洗成纯对象数据（类似于POD），没有复杂的继承链，没有方法。目前的策略是利用JSON来洗
+ * 常用的一个场景是用来净化freezer里的数据
+ * 也可用来深拷贝一个对象，虽然效率不高
+ */
+export function wash(obj){
+ return JSON.parse(JSON.stringify(obj)) 
 }
