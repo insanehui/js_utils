@@ -259,6 +259,26 @@ export function logify(func){ // 令一个函数可以打参数和返回日志�
   }
 }
 
+export function testify(func){
+  const begin = console.groupCollapsed ? console.groupCollapsed.bind(console) : console.log.bind(console)
+  const end = console.groupEnd ? console.groupEnd.bind(console) : _.noop
+
+  return (...para) => {
+    begin(`=== ${func.name} called ===`)
+    const ret = func(...para)
+    console.log(`
+test('${func.name}', () => {
+  const para = ${JSON.stringify(para, null, '  ')}
+  const hope = ${JSON.stringify(ret, null, '  ')}
+  const fact = ${func.name}(...para)
+  expect(fact).toEqual(hope)
+})
+    `)
+    end()
+    return ret
+  }
+}
+
 export function local_uid(){ // 返回字符串。唯一性只对当前页面有效
   // 暂时没用到，用到时，再弄了
 }
@@ -271,3 +291,15 @@ export function local_uid(){ // 返回字符串。唯一性只对当前页面有
 export function wash(obj){
  return JSON.parse(JSON.stringify(obj)) 
 }
+
+// 对回调形式的func进行promise化
+export const promisify = func => (...para) => new Promise((resolve, reject) => {
+  /*
+  * func的格式为：func(ok_cb, err_cb, ...para)
+  * 对于不符合这种格式的异步函数，可以人肉改写成这种形式，比如经典的setTimeout
+  * const _timeout = (done, fail, ...para) => window.setTimeout(done, ...para) // 改成func要求的格式
+  * const timeout = promisify(_timeout) // 这个时候即可进行promisify
+  */
+  func(resolve, reject, ...para)
+})
+
