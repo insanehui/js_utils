@@ -356,3 +356,10 @@ export function partial_order(pairs){ // 根据关系对，得到偏序的一个
   return res
 }
 
+export function fromjson(j){ // JSON.parse的不抛异常版
+  let ret
+  try {
+    ret = JSON.parse(j)
+  } catch(e) {}
+  return ret
+}
