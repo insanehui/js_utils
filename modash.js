@@ -1,6 +1,16 @@
 /* 对lodash的一些补充 */
 import _ from 'lodash'
 
+function str_for_testify(v){ // 如果是对象，则用json，否则用其原来的形式
+  if ( _.isObject(v) ) {
+    return JSON.stringify(v, null, '  ')
+  } 
+  if ( _.isString(v) ) {
+    return `\`${v.replace(/`/g, '\\`')}\``
+  } 
+  return v
+}
+
 function _ungroup(o, keys, p){ // ungroup的递归主体
   // 这是一个递归函数，之前在cdb团队写过c++版的json_ungroup，后来代码遗失，今天重新梳理 2016年12月21日
   // 这里o是一个对象，keys为还剩下需要ungroup的序列，为数组，p为已经积累的需要合并的数据
@@ -268,8 +278,8 @@ export function testify(func){
     const ret = func(...para)
     console.log(`
 test('${func.name}', () => {
-  const para = ${JSON.stringify(para, null, '  ')}
-  const hope = ${JSON.stringify(ret, null, '  ')}
+  const para = ${str_for_testify(para)}
+  const hope = ${str_for_testify(ret)}
   const fact = ${func.name}(...para)
   expect(fact).toEqual(hope)
 })
@@ -309,3 +319,4 @@ export function numberfirst(v){ // 优先转为数字
   } 
   return v-0
 }
+
