@@ -303,3 +303,9 @@ export const promisify = func => (...para) => new Promise((resolve, reject) => {
   func(resolve, reject, ...para)
 })
 
+export function numberfirst(v){ // 优先转为数字
+  if ( _.isNaN( v-0 ) ) {
+    return v
+  } 
+  return v-0
+}
