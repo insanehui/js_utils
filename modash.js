@@ -320,3 +320,39 @@ export function numberfirst(v){ // 优先转为数字
   return v-0
 }
 
+export function partial_order(pairs){ // 根据关系对，得到偏序的一个顺序
+  /*
+   * 思路：
+   * 递归地去找一个东西的依赖
+   */
+
+  let res = [] // 最终的结果
+
+  function partial_one(item, pairs) { // 这是个递归函数, 目标导出一个序列
+    // console.log("item: ", item, "res: ", res)
+
+    if ( _.includes(res, item) ) { // 说明它已经输出过了，直接返回
+      return res
+    } 
+
+    // 递归地do其依赖
+    for (const pair of pairs) {
+      if ( item === pair[1] ) { // 找到一个依赖
+        res = partial_one(pair[0], pairs)
+      } 
+    }
+
+    return [...res, item]
+
+  }
+
+
+  for (const pair of pairs) {
+    res = partial_one(pair[1], pairs)
+    // console.log('---->', pair, JSON.stringify(res))
+  }
+
+  // console.log("res", res)
+  return res
+}
+

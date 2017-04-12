@@ -2,6 +2,7 @@ import {str_display_cut, str_ellipsis, group,
   logify,
   traverse, 
   traverse_all, 
+  partial_order,
 } from './modash.js'
 import _ from 'lodash'
 
@@ -324,5 +325,65 @@ xit('logify', () => {
     const fact = logify(...para)
 
     fact(1, 2, 3, 4)
+  }
+})
+
+test('partial_order', () => {
+  const tb = [
+    [
+      [
+        ['rabbitmq', 'shipping'],
+        ['usersvc', 'front-end'],
+        ['catalogsvc', 'front-end'],
+        ['cartsvc_0', 'front-end'],
+      ], 
+      [ 'rabbitmq',
+      'shipping',
+      'usersvc',
+      'catalogsvc',
+      'cartsvc_0',
+      'front-end' ],
+    ],
+    [
+      [
+        ['rabbitmq', 'shipping'],
+        ['usersvc', 'front-end'],
+        ['catalogsvc', 'front-end'],
+        ['cartsvc_0', 'front-end'],
+        ['orderssvc_1', 'front-end'],
+        ['payment', 'orderssvc_1'],
+        ['shipping', 'orderssvc_1'],
+        ['zipkinsvc_2', 'usersvc'],
+        ['zipkinsvc_2', 'catalogsvc'],
+        ['zipkinsvc_2', 'cartsvc_0'],
+        ['zipkinsvc_2', 'payment'],
+        ['zipkinsvc_2', 'shipping'],
+        ['zipkinsvc_2', 'orderssvc_1'],
+        ['extsvc', 'front-end'],
+      ], 
+      [ 'rabbitmq',
+      'zipkinsvc_2',
+      'shipping',
+      'usersvc',
+      'catalogsvc',
+      'cartsvc_0',
+      'payment',
+      'orderssvc_1',
+      'extsvc',
+      'front-end' ],
+    ],
+  ]
+
+  for (let i of tb) {
+    const para = _.initial(i)
+    const hope = _.last(i)
+    const fact = partial_order(...para)
+
+    if ( hope ) {
+      expect(fact).toEqual(hope)
+    } 
+    else {
+      console.log("fact:", fact)
+    }
   }
 })
