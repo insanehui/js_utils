@@ -4,7 +4,7 @@
 const debug = require('debug')('koa_logger')
 
 export async function logger(ctx, next) { 
-  await next();
   debug(`${ctx.method} ${ctx.url}`);
+  await next();
 }
 
