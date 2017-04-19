@@ -299,7 +299,10 @@ export function local_uid(){ // 返回字符串。唯一性只对当前页面有
  * 也可用来深拷贝一个对象，虽然效率不高
  */
 export function wash(obj){
- return JSON.parse(JSON.stringify(obj)) 
+  if ( !_.isObject(obj) ) {
+    return obj
+  } 
+  return JSON.parse(JSON.stringify(obj)) 
 }
 
 // 对回调形式的func进行promise化

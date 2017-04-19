@@ -3,6 +3,7 @@ import {str_display_cut, str_ellipsis, group,
   traverse, 
   traverse_all, 
   partial_order,
+  wash, 
 } from './modash.js'
 import _ from 'lodash'
 
@@ -385,5 +386,19 @@ test('partial_order', () => {
     else {
       console.log("fact:", fact)
     }
+  }
+})
+
+test('wash', () => {
+  const tb = [
+    [undefined, undefined], // 对于undefined能正常处理
+  ]
+
+  for (let i of tb) {
+    const para = _.initial(i)
+    const hope = _.last(i)
+    const fact = wash(...para)
+
+    expect(fact).toBe(hope)
   }
 })
