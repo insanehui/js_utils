@@ -4,7 +4,7 @@
  * 输出 ctx.para
  */
 import koaBody from 'koa-body'
-const debug = require('debug')('koa_para')
+const debug = require('debug')('utils:koa_para')
 
 const koa_body = koaBody()
 
