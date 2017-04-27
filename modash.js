@@ -366,3 +366,11 @@ export function fromjson(j){ // JSON.parse的不抛异常版
   } catch(e) {}
   return ret
 }
+
+export function tostr(v){ // 如果是对象（包括数组），则json化，否则直接取string形式
+  if ( _.isObject(v) ) {
+    return JSON.stringify(v, null, '  ')
+  } 
+  return v + ''
+}
+
