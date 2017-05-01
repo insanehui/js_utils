@@ -9,7 +9,8 @@ const streamToPromise = require('stream-to-promise')
 
 import _ from 'lodash'
 
-const debug = require('debug')('utils:koa_proxy');
+const log = require('debug')('utils:koa_proxy');
+const debug = require('debug')('debug:utils:koa_proxy');
 
 export const proxy = url => async (ctx, next)=>{ // 主要先实现能将post请求传递
 
@@ -37,10 +38,11 @@ export const proxy = url => async (ctx, next)=>{ // 主要先实现能将post请
     headers : _.omit(ctx.headers, 'accept-encoding', 'host', ),
   }
 
+  log(`-> ${url}`)
   debug('req opt: ', opt)
 
   const req = http.request(opt, (res) => {
-    debug(`res code: ${res.statusCode}`)
+    log(`<- ${url} res code: ${res.statusCode}`)
     debug(`res header: ${JSON.stringify(res.headers)}`)
 
     // 透传返回码以及headers
