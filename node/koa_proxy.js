@@ -9,11 +9,13 @@ const streamToPromise = require('stream-to-promise')
 
 import _ from 'lodash'
 
-const debug = require('debug')('koa_proxy');
+const debug = require('debug')('utils:koa_proxy');
 
 export const proxy = url => async (ctx, next)=>{ // 主要先实现能将post请求传递
 
   debug("req header", JSON.stringify(ctx.headers, null, '  '))
+
+  const dest_url = Url.parse(url)
 
   var opt = { 
 
@@ -29,10 +31,13 @@ export const proxy = url => async (ctx, next)=>{ // 主要先实现能将post请
     // path: '/get_blueprint',
     // port : 8084,
 
-    ...Url.parse(url),
+    ...dest_url,
+    path : dest_url.path + (ctx.querystring ? '?' + ctx.querystring : ''),
     method: ctx.method,
     headers : _.omit(ctx.headers, 'accept-encoding', 'host', ),
   }
+
+  debug('req opt: ', opt)
 
   const req = http.request(opt, (res) => {
     debug(`res code: ${res.statusCode}`)
