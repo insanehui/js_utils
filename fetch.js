@@ -1,7 +1,29 @@
 // fetch api的一些小封装
 import form_encode from 'form-urlencoded'
+import _ from 'lodash'
 
-// post, 返回promise
+export const post_urlenc = fetch_fn => async (...para) => {
+
+  const headers = {
+    'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+  }
+
+  _.each(headers, (v, i ) => {
+    _.set(para, `1.headers.${i}`, v)
+  })
+  _.set(para, `1.method`, 'POST')
+
+  const obj = _.get(para, '2')
+  if ( _.isObject(obj) ) {
+    _.set(para, `1.body`, form_encode(obj))
+  } 
+
+  return fetch_fn(...para)
+}
+
+
+// [deprecated] post, 返回promise
 export function post(url, para) {
   const headers = {
     'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
@@ -13,6 +35,7 @@ export function post(url, para) {
   }).then(res => res.json())
 }
 
+// [deprecated]
 export function get(url, para) {
   // const headers = {
   //   'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
