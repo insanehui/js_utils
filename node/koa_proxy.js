@@ -79,7 +79,6 @@ export const proxy2 = url => async (ctx, next)=>{ // 不封口的版本
   debug('req opt: ', opt)
 
   let res_buf = '' // 缓存结果内容
-  const res_stream = new require('stream').PassThrough()
 
   const req = http.request(opt, (res) => {
     log(`<- ${url} res code: ${res.statusCode}`)
@@ -90,18 +89,25 @@ export const proxy2 = url => async (ctx, next)=>{ // 不封口的版本
     ctx.set(_.omit(res.headers, 'content-length'))
   })
 
-  req.on('response', (response) => {
-    response.on('data', data=>{
-      res_buf += data
-    })
-    response.pipe(res_stream)
-  })
-
   ctx.req.pipe(req)
 
-  // req和res都要promise化才能正常工作
+  await new Promise(resolve=>{
+    req.on('response', (response) => {
+      response.on('data', data=>{
+        res_buf += data
+        debug(`response get data: ${data.length}`)
+      })
+
+      response.on('end', ()=>{
+        debug(`response end`)
+        resolve()
+      })
+
+    })
+  })
+
+  // req和res都要promise化才能正常工作，两个await的顺序不重要
   await streamToPromise(ctx.req) // 这里传入req也是可以的
-  await streamToPromise(res_stream) 
 
   ctx.body = res_buf
 
