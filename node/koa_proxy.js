@@ -106,7 +106,6 @@ export const proxy2 = url => async (ctx, next)=>{ // 不封口的版本
     })
   })
 
-  // req和res都要promise化才能正常工作，两个await的顺序不重要
   await streamToPromise(ctx.req) // 这里传入req也是可以的
 
   ctx.body = res_buf
