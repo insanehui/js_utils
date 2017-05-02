@@ -12,7 +12,7 @@ import _ from 'lodash'
 const log = require('debug')('utils:koa_proxy');
 const debug = require('debug')('debug:utils:koa_proxy');
 
-export const proxy = url => async (ctx, next)=>{ // 主要先实现能将post请求传递
+export const proxy = url => async ctx=>{ // 注意该中间件没有next，是一个封口件
 
   debug("req header", JSON.stringify(ctx.headers, null, '  '))
 
@@ -60,6 +60,5 @@ export const proxy = url => async (ctx, next)=>{ // 主要先实现能将post请
   await streamToPromise(ctx.req) // 这里传入req也是可以的
   await streamToPromise(ctx.res) 
 
-  await next() // 意味着proxy是一个彻底的前置件
 }
 
