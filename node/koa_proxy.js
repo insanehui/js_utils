@@ -47,7 +47,6 @@ export const proxy = url => async (ctx, next)=>{ // 主要先实现能将post请
 
     // 透传返回码以及headers
     ctx.status = res.statusCode
-
     ctx.set(res.headers)
   })
 
@@ -60,5 +59,7 @@ export const proxy = url => async (ctx, next)=>{ // 主要先实现能将post请
   // req和res都要promise化才能正常工作
   await streamToPromise(ctx.req) // 这里传入req也是可以的
   await streamToPromise(ctx.res) 
+
+  await next() // 意味着proxy是一个彻底的前置件
 }
 
