@@ -22,6 +22,18 @@ import _ from 'lodash'
 //   return JSON.parse(txt)
 // }
 
+export const encrypt = fetch_fn => async (...para) => {
+  _.set(para, `1.headers.${req_xkey}`, req_xval)
+  const res = await fetch_fn(...para)
+  let txt = await res.text()
+  if ( res.headers.has(res_xkey) ) {
+    txt = decode(txt)
+  } 
+  return {
+    text : ()=>txt, 
+  }
+}
+
 export async function ketch_(res){ // ketch后件，输出res.Data
 
 
