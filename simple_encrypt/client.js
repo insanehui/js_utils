@@ -4,6 +4,7 @@
 import {decode} from './encrypt.js'
 import {res_xkey, req_xkey, req_xval} from './koa.js'
 import _ from 'lodash'
+import {fromjson} from '../modash.js'
 
 // import form_encode from 'form-urlencoded'
 // export async function get(url, para) {
@@ -22,15 +23,25 @@ import _ from 'lodash'
 //   return JSON.parse(txt)
 // }
 
-export const encrypt = fetch_fn => async (...para) => {
+export const cheat = fetch_fn => async (...para) => {
   _.set(para, `1.headers.${req_xkey}`, req_xval)
+  return fetch_fn(...para)
+}
+
+export const decrypt = fetch_fn => async (...para) => { // fetch的装饰器
+
+  // eslint-disable-next-line
+  para; // 这是babel的bug，经试验，若省略这一行的话，会出现诡异的错误
+
   const res = await fetch_fn(...para)
   let txt = await res.text()
   if ( res.headers.has(res_xkey) ) {
     txt = decode(txt)
   } 
   return {
+    ...res,
     text : ()=>txt, 
+    json : ()=>fromjson(txt),
   }
 }
 
