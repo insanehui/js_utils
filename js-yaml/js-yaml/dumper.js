@@ -307,6 +307,10 @@ function chooseScalarStyle(string, singleLineOnly, indentPerLevel, lineWidth, te
   return hasFoldableLine ? STYLE_FOLDED : STYLE_LITERAL;
 }
 
+/*
+ * 似乎是生成yaml里单值（非对象和数组）的函数
+ * iskey: 表示string是否为key（key和value都会用该函数来处理）
+ */
 // Note: line breaking/folding is implemented for only the folded style.
 // NB. We drop the last trailing newline (if any) of a returned block scalar
 //  since the dumper adds its own newline. This always works:
@@ -331,8 +335,11 @@ function writeScalar(state, string, level, iskey) {
     //  state.lineWidth > 40 + state.indent: width decreases until the lower bound.
     // This behaves better than a constant minimum width which disallows narrower options,
     // or an indent threshold which causes the width to suddenly increase.
-    var lineWidth = state.lineWidth === -1
-      ? -1 : Math.max(Math.min(state.lineWidth, 40), state.lineWidth - indent);
+
+    // var lineWidth = state.lineWidth === -1
+    //   ? -1 : Math.max(Math.min(state.lineWidth, 40), state.lineWidth - indent);
+
+    var lineWidth = -1 // 由于lineWidth会导致折行，现放开其限制以避免折行行为
 
     // Without knowing if keys are implicit/explicit, assume implicit for safety.
     var singleLineOnly = iskey
@@ -661,9 +668,11 @@ function detectType(state, object, explicit) {
   return false;
 }
 
+/*
+ * 对象序列化的核心函数，被dump调用
+ */
 // Serializes `object` and writes it to global `result`.
 // Returns true on success, or false on invalid object.
-//
 function writeNode(state, level, object, block, compact, iskey) {
   state.tag = null;
   state.dump = object;
@@ -781,14 +790,19 @@ function inspectNode(object, objects, duplicatesIndexes) {
   }
 }
 
+// yaml.dump的入口函数
 function dump(input, options) {
   options = options || {};
 
   var state = new State(options);
 
-  if (!state.noRefs) getDuplicateReferences(input, state);
+  if (!state.noRefs){
+    getDuplicateReferences(input, state);
+  }
 
-  if (writeNode(state, 0, input, true, true)) return state.dump + '\n';
+  if (writeNode(state, 0, input, true, true)) {
+    return state.dump + '\n';
+  }
 
   return '';
 }
