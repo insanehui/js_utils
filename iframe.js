@@ -1,5 +1,6 @@
 // iframe的一些工具
 
+// TODO: 后面这个函数可能不再导出，因为下面导出的iparent对象会包含足够的信息
 export function get_parent_url() { // 获取父页面的url，如果没有被iframe包括则返回null
   var url = null
   if (parent !== window) 
@@ -19,4 +20,13 @@ export function get_parent_url() { // 获取父页面的url，如果没有被ifr
   }
   return url; 
 }
+
+
+let iparent = null
+if( get_parent_url() ){
+  const host = get_parent_url().split('//')[1].split('/')[0]
+  iparent = {host}
+}
+
+export {iparent}
 
