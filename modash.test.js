@@ -322,7 +322,7 @@ xit('logify', () => {
 
   for (let i of tb) {
     const para = _.initial(i)
-    const hope = _.last(i)
+    // const hope = _.last(i)
     const fact = logify(...para)
 
     fact(1, 2, 3, 4)
