@@ -1,6 +1,5 @@
 // Flex布局相关的组件
-import React from 'react'
-import {merge_props_with_def_style as merge_st} from './utils.js'
+import {addStyle} from './utils.js'
 
 const S = (x=>{
 
@@ -24,14 +23,6 @@ const S = (x=>{
 
 })()
 
-export function Flex(p){ // TODO: 可以考虑增加一些 wrap等属性，更方便配置flex的一些行为
-  return <div {...merge_st(S.flex, p)}/>
-}
-
-export function H(p){
-  return <div {...merge_st(S.h, p)}/>
-}
-
-export function V(p){
-  return <div {...merge_st(S.v, p)}/>
-}
+export const Flex = addStyle(S.flex)('div')
+export const H = addStyle(S.h)('div')
+export const V = addStyle(S.v)('div')
