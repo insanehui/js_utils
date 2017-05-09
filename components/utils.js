@@ -24,6 +24,7 @@ export function merge_props(p0, p1){ // 两个props合并，主要是针对style
   }
 }
 
+// TODO: 后续不再导出该函数，用addStyle更高级的函数来替代
 export function merge_props_with_def_style(def_style, p){ // 返回新的props
 
   if ( !_.isObject(def_style) ) {
