@@ -5,6 +5,7 @@
  */
 import koaBody from 'koa-body'
 const debug = require('debug')('utils:koa_para')
+import {tostr} from '../modash.js'
 
 const koa_body = koaBody()
 
@@ -19,7 +20,7 @@ export async function para(ctx, next) {
    */
   await koa_body(ctx, async x=>{
     ctx.para = { ...ctx.para, ...ctx.request.body }
-    debug(ctx.para)
+    debug(`${ctx.state.id || ''}`, ctx.para)
     await next()
   })
 }
