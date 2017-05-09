@@ -56,6 +56,7 @@ export class PS extends PureComponent { // 注：ps是一个很有争议的模�
   }
 }
 
+// TODO: 后续分析一下有没有将其重写为支持多个style参数的必要
 export const addStyle = st=> Cmp => { // => fn(Cmp0) => Cmp1，模仿redux里高阶组件的写法，使用柯里化的形式
   
   class styled extends PureComponent {
