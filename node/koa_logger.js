@@ -10,7 +10,9 @@ const debug = require('debug')('debug:utils:koa_logger')
 import {count} from '../counter.js' // 计数器，用来统计会话
 import {tostr} from '../modash.js'
 
-const color_table = ['bgRed', 'bgGreen', 'bgBlue', 'bgMagenta', 'bgCyan']
+// 会话id的背景色表，字体色固定为白色
+// 没有黄色是因为黄底白字看不清
+const color_table = ['bgRed', 'bgGreen', 'bgBlue', 'bgMagenta', 'bgCyan'] 
 
 export async function logger(ctx, next) { 
   let id = count()
