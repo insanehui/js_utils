@@ -4,7 +4,7 @@
  * 输出 ctx.para
  */
 import koaBody from 'koa-body'
-const debug = require('debug')('utils:koa_para')
+const _log = require('debug')('utils:koa_para')
 import {tostr} from '../modash.js'
 
 const koa_body = koaBody()
@@ -18,9 +18,13 @@ export async function para(ctx, next) {
    * 将koa-body的next参数传入一个自写的函数
    * 在该函数里使用其处理的结果，并且接上原本的next
    */
-  await koa_body(ctx, async x=>{
+  await koa_body(ctx, async ()=>{
     ctx.para = { ...ctx.para, ...ctx.request.body }
-    debug(`${ctx.state.id || ''}`, ctx.para)
+
+    const x = ctx.state.logger
+    const log = x ? x(_log) : _log
+
+    log(ctx.para)
     await next()
   })
 }
