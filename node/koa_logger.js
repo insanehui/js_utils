@@ -4,8 +4,8 @@
  */
 
 import 'colors'
-const log = require('debug')('utils:koa_logger')
-const debug = require('debug')('debug:utils:koa_logger')
+const _log = require('debug')('utils:koa_logger')
+const _debug = require('debug')('debug:utils:koa_logger')
 
 import {count} from '../counter.js' // 计数器，用来统计会话
 import {tostr} from '../modash.js'
@@ -15,13 +15,21 @@ import {tostr} from '../modash.js'
 const color_table = ['bgRed', 'bgGreen', 'bgBlue', 'bgMagenta', 'bgCyan'] 
 
 export async function logger(ctx, next) { 
-  let id = count()
-  id = ctx.state.id = (`[${id}]`).white[color_table[ id % color_table.length]]
+  let id = ctx.state.id =  count() // 此时id是一个数字
+
+  // 这时id转变为带颜色和排版信息的字符串类型
+  id = (`[${id}]`).white[color_table[ id % color_table.length]] 
+  const logger = ctx.state.logger = logf => (...para) => {
+    return logf(id, ...para)
+  }
+
+  const log = logger(_log)
+  const debug = logger(_debug)
 
   try {
     // 给会话编个号
 
-    log(`${id} <<<<<<<<<<<<< ${(ctx.method + ' ' + ctx.url).green} ${ctx.request.ip} <<<<<<<<<<<<<`)
+    log(`<<<<<<<<<<<<< ${(ctx.method + ' ' + ctx.url).green} ${ctx.request.ip} <<<<<<<<<<<<<`)
     debug(ctx.headers)
 
     await next()
@@ -33,7 +41,7 @@ export async function logger(ctx, next) {
 
   const ok = ctx.status === 200
 
-  log(`${id} >>>>>>>>>>>>> ${(ctx.status + '')[ok ? 'green' : 'red']} >>>>>>>>>>>>>`)
+  log(`>>>>>>>>>>>>> ${(ctx.status + '')[ok ? 'green' : 'red']} >>>>>>>>>>>>>`)
 
   if ( ok ) {
     debug(ctx.body)
