@@ -5,7 +5,6 @@
  */
 import koaBody from 'koa-body'
 const _log = require('debug')('utils:koa_para')
-import {tostr} from '../modash.js'
 
 const koa_body = koaBody()
 
