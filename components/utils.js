@@ -1,6 +1,7 @@
 // 提供一些常用的React组件编写的工具
 import _ from 'lodash'
 import React, { PureComponent } from 'react'
+import R from 'ramda'
 
 export function merge_props(p0, p1){ // 两个props合并，主要是针对style再合并一层
 
@@ -68,6 +69,39 @@ export const addStyle = (st = {}) => (Cmp = 'div') => { // => fn(Cmp0) => Cmp1�
   }
 
   return styled
+}
+
+const isCmp =  R.either(_.isFunction, _.isString) // 判断一个参数是否代表一个组件
+
+/*
+ * 这是一个神奇的函数，暂时将其称这为"基因"
+ */
+export function styler(para = {} ) { 
+
+  if (isCmp(para)) { // 如果参数已经是一个组件，则直接返回
+    return para
+  } 
+
+  // 否则，储存基因（即样式）
+  const style = para
+
+  return (next = 'div') =>{
+    if ( isCmp(next) ) { // 如果next是一个组件，则返回一个新组件
+
+      const Cmp = next // 赋给一个大写的变量，这是React jsx的一个潜规则
+
+      class New extends PureComponent {
+        render() {
+          const p = this.props 
+          return <Cmp {...merge_props_with_def_style(style, p)} />
+        }
+      }
+      return New
+    } 
+
+    const sum = {...style, ...next} // 合并样式
+    return styler(sum)
+  }
 }
 
 export const addProps = _.curry((p0, Cmp)=>{ // 2017年4月9日 尝试使用柯里化，看看是否有实用性
