@@ -277,7 +277,7 @@ export function testify(func){
     begin(`=== ${func.name} called ===`)
     const ret = func(...para)
     console.log(`
-test('${func.name}', () => {
+it('${func.name}', () => {
   const para = ${str_for_testify(para)}
   const hope = ${str_for_testify(ret)}
   const fact = ${func.name}(...para)
