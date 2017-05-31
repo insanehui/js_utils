@@ -128,13 +128,16 @@ export function get_xy(event, el){ // 根据event（通常是鼠标事件），�
 export function parse_svg_transform(t){ // 将一个svg的transform字段解析成结构化的数据
   // 用状态机来实现
   // TODO: 后续可能要用数字来表示state，用于处理括号嵌套的场景
+  const res = {}
+
+  if ( !_.isString(t) ) {
+    return res
+  } 
 
   const space = /\s/
 
   let buf = ''
   let state = 'normal' // 表示下一步的状态，可选状态还有item
-
-  const res = {}
 
   function push(item) {
     const key = item.slice(0, item.indexOf('('))
@@ -175,8 +178,26 @@ export function parse_svg_transform(t){ // 将一个svg的transform字段解析�
 
 // 用于svg的translate
 export const translate = (x, y) => (Cmp = 'g') => {
-  let transform = `translate(${x}, ${y})`
-  return addStyle({transform})(Cmp)
+
+  let transform0 = { translate: `translate(${x}, ${y})` }
+
+  class merged extends PureComponent {
+
+    render() {
+      const p = this.props 
+      const transform1 = parse_svg_transform(p.transform)
+      const transform = _.map({...transform0, ...transform1}).join(' ')
+
+      const p1 = {
+        ...p,
+        transform,
+      }
+
+      return <Cmp {...p1} />
+    }
+  }
+
+  return merged
 }
 
 
