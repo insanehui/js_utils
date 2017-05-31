@@ -125,5 +125,58 @@ export function get_xy(event, el){ // 根据event（通常是鼠标事件），�
   return {x, y}
 }
 
+export function parse_svg_transform(t){ // 将一个svg的transform字段解析成结构化的数据
+  // 用状态机来实现
+  // TODO: 后续可能要用数字来表示state，用于处理括号嵌套的场景
+
+  const space = /\s/
+
+  let buf = ''
+  let state = 'normal' // 表示下一步的状态，可选状态还有item
+
+  const res = {}
+
+  function push(item) {
+    const key = item.slice(0, item.indexOf('('))
+    res[key] = item
+  }
+
+  for(let i = 0; i<t.length; i++){
+    const c = t[i]
+
+    // 改变状态部分
+    if ( state ==='normal') {
+      if ( !space.test(c) ) { // 如果非空白字符
+        state = 'item'
+      } 
+    } 
+    else if ( state === 'item' ) {
+      if ( buf.endsWith(')') ) {
+        state = 'normal'
+      } 
+    } 
+
+    // 业务逻辑部分
+    if ( buf && state === 'normal' ){ 
+      push(buf)
+      buf = ''
+    }
+    else { 
+      buf += c
+    }
+  }
+
+  if ( buf ) {
+    push(buf)
+  } 
+
+  return res
+}
+
+// 用于svg的translate
+export const translate = (x, y) => (Cmp = 'g') => {
+  let transform = `translate(${x}, ${y})`
+  return addStyle({transform})(Cmp)
+}
 
 
