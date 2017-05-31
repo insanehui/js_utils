@@ -176,10 +176,10 @@ export function parse_svg_transform(t){ // 将一个svg的transform字段解析�
   return res
 }
 
-// 用于svg的translate
-export const translate = (x, y) => (Cmp = 'g') => {
+// 用于叠加svg transform的函数
+export const transformer = expr => (Cmp = 'g') => {
 
-  let transform0 = { translate: `translate(${x}, ${y})` }
+  let transform0 = parse_svg_transform(expr)
 
   class merged extends PureComponent {
 
@@ -200,4 +200,6 @@ export const translate = (x, y) => (Cmp = 'g') => {
   return merged
 }
 
+// 用于svg的translate
+export const translate = (x, y) => (Cmp = 'g') => transformer(`translate(${x}, ${y})`)(Cmp)
 
