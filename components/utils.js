@@ -90,13 +90,13 @@ export function styler(para = {} ) {
 
       const Cmp = next // 赋给一个大写的变量，这是React jsx的一个潜规则
 
-      class New extends PureComponent {
+      class Styler extends PureComponent {
         render() {
           const p = this.props 
           return <Cmp {...merge_props_with_def_style(style, p)} />
         }
       }
-      return New
+      return Styler
     } 
 
     const sum = {...style, ...next} // 合并样式
@@ -107,7 +107,6 @@ export function styler(para = {} ) {
 export const addProps = _.curry((p0, Cmp)=>{ // 2017年4月9日 尝试使用柯里化，看看是否有实用性
 
   class New extends PureComponent {
-
     render() {
       const p = this.props 
       return <Cmp {...merge_props(p0, p)} />
@@ -181,7 +180,7 @@ export const transformer = expr => (Cmp = 'g') => {
 
   let transform0 = parse_svg_transform(expr)
 
-  class merged extends PureComponent {
+  class Transformer extends PureComponent {
 
     render() {
       const p = this.props 
@@ -197,7 +196,7 @@ export const transformer = expr => (Cmp = 'g') => {
     }
   }
 
-  return merged
+  return Transformer
 }
 
 // 用于svg的translate
