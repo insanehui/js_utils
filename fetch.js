@@ -22,6 +22,16 @@ export const post_urlenc = fetch_fn => async (...para) => {
   return fetch_fn(...para)
 }
 
+// 令请求可以带cookie
+export const credentials_include = fetch_fn => async (...para) => {
+  let [url, opt, ...rest] = para
+  opt = {
+    ...opt,
+    credentials: "include",
+  }
+
+  return fetch_fn(url, opt, ...rest)
+}
 
 // [deprecated] post, 返回promise
 export function post(url, para) {
