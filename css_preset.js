@@ -4,10 +4,18 @@ import {css, bdbox, } from './cssobj.js'
 
 css({
   '@global' : {
-    '*' : {...bdbox}, 
+    '*' : {
+      // box-sizing 使用border box
+      ...bdbox,
+
+      // 所有元素margin置为0
+      margin:0,
+    },  
+
     ':focus' : {
       outline: 'none',
     },
+
   },
 })
 
