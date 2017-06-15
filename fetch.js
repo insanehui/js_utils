@@ -4,6 +4,9 @@ import _ from 'lodash'
 
 // 直接取 res.json()
 export const json = fetch_fn => async (...para) => {
+  // eslint-disable-next-line
+  para; // 这是babel的bug，经试验，若省略这一行的话，会出现诡异的错误
+
   const res = await fetch_fn(...para)
   return res.json()
 }
