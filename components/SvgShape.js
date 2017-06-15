@@ -15,7 +15,7 @@ export function Arrow(p){
   const w0 = p1.x - p0.x
   const h0 = p2.y - p0.y
 
-  let {w, h, x, y, tx, ty} = p
+  let {w, h, x, y, tx, ty, color} = p
   x -= 0
   y -= 0
   w -= 0
@@ -26,7 +26,7 @@ export function Arrow(p){
   const transform = `translate(${x}, ${y}) rotate(${180*Math.atan2(ty, tx)/Math.PI}) scale(${w/w0},${h/h0}) `
   // const transform = `translate(${x}, ${y}) rotate(45) scale(${w/w0},${h/h0}) `
 
-  return <path d={`M ${p0.x} ${p0.y} L ${p1.x} ${p1.y} L ${p2.x} ${p2.y} Z`} transform={transform} fill="#000000" stroke="#000000" strokeMiterlimit="10" pointerEvents="all"></path>
+  return <path d={`M ${p0.x} ${p0.y} L ${p1.x} ${p1.y} L ${p2.x} ${p2.y} Z`} transform={transform} fill={color} stroke={color} strokeMiterlimit="10" pointerEvents="all"></path>
 }
 
 Arrow.defaultProps = {
@@ -37,6 +37,7 @@ Arrow.defaultProps = {
   h : 200,
   tx : 1, // 表示actangent的角度，注：tx和ty为pt2 - pt1的值，而pt2代表终点，箭头指向pt2。注意屏幕坐标方向与数学上的区别
   ty : -1,
+  color: 'black',
 }
 
 export function AutoCurveLink(p){ // 智能连接曲线
