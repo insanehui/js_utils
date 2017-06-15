@@ -11,6 +11,21 @@ export const json = fetch_fn => async (...para) => {
   return res.json()
 }
 
+// 支持一个对象来指定query string
+export const query = fetch_fn => async(...para) => {
+  /*
+   * 通过 opt:{query} 对象来生成query string的内容
+   */
+  let [url, opt, ...rest]  = para
+  const obj = _.get(opt, 'query')
+  if ( _.isObject(obj) ) { 
+    const qs = form_encode(obj)
+    url = url.indexOf('?') === -1 ? url + '?' + qs : url + '&' + qs
+  } 
+
+  return fetch_fn(url, _.omit(opt, 'query'), ...rest)
+}
+
 // 支持urlencoded形式的post body
 export const post_urlenc = fetch_fn => async (...para) => { 
   /*
