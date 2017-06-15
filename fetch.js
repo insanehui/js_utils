@@ -2,7 +2,14 @@
 import form_encode from 'form-urlencoded'
 import _ from 'lodash'
 
-export const post_urlenc = fetch_fn => async (...para) => {
+// 直接取 res.json()
+export const json = fetch_fn => async (...para) => {
+  const res = await fetch_fn(...para)
+  return res.json()
+}
+
+// 支持urlencoded形式的post body
+export const post_urlenc = fetch_fn => async (...para) => { 
 
   const headers = {
     'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
