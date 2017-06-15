@@ -1,4 +1,7 @@
-// 目前支持:hover，:focus, :active
+/*
+ * 建议使用设计更良好的 Active.js
+ * 目前支持:hover，:focus, :active
+ */ 
 
 import React, { PureComponent } from 'react'
 import _ from 'lodash'
