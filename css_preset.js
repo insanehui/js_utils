@@ -15,7 +15,6 @@ css({
     ':focus' : {
       outline: 'none',
     },
-
   },
 })
 
