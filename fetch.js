@@ -13,6 +13,10 @@ export const json = fetch_fn => async (...para) => {
 
 // 支持urlencoded形式的post body
 export const post_urlenc = fetch_fn => async (...para) => { 
+  /*
+   * 作用是能识别第二个参数: { body } 里为对象形式的body，将其转为
+   * urlencoded的格式提交
+   */
 
   const headers = {
     'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
@@ -24,7 +28,8 @@ export const post_urlenc = fetch_fn => async (...para) => {
   })
   _.set(para, `1.method`, 'POST')
 
-  const obj = _.get(para, '2')
+  const obj = _.get(para, '1.body')
+
   if ( _.isObject(obj) ) {
     _.set(para, `1.body`, form_encode(obj))
   } 
