@@ -8,7 +8,7 @@ import {fromjson} from '../modash.js'
 
 export const cheat = fetch_fn => async (...para) => {
   _.set(para, `1.headers.${req_xkey}`, req_xval)
-  return fetch_fn(...para)
+  return await fetch_fn(...para) // 多加一个async和await的用意是为了更好地处理异步操作中的异常
 }
 
 export const decrypt = fetch_fn => async (...para) => { // fetch的装饰器
