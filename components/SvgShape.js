@@ -1,6 +1,6 @@
 // 提供一些svg的常用形状
 
-import React from 'react'
+import React, { PureComponent } from 'react'
 import _ from 'lodash'
 
 export function Arrow(p){
@@ -63,4 +63,27 @@ AutoCurveLink.defaultProps = {
   x2 : 100, 
   y2 : 0, 
 }
+
+// 用path来画rect，似乎是更保真？试验一下
+export class PRect extends PureComponent {
+  static defaultProps = { // 跟rect的的属性基本类似
+    x: 0,
+    y: 0,
+    width: 100,
+    height: 100,
+    // ...其他react通用属性，会透传
+  }
+
+  render() {
+    const {x, y, width, height, ...forward} = this.props
+
+    const p_path = {
+      d : `M ${x} ${y} h ${width} v ${height} h ${-width} z`,
+      transform : `translate(0.5, 0.5)`,
+    }
+    return <path {...forward} {...p_path} />
+  }
+}
+
+
 
