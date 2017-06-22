@@ -75,6 +75,7 @@ const isCmp =  R.either(_.isFunction, _.isString) // 判断一个参数是否代
 
 /*
  * 这是一个神奇的函数，暂时将其称这为"基因"
+ * TODO: 后续要仿照其写法写一个props版的"proper"（在有需求的时候）
  */
 export function styler(para = {} ) { 
 
