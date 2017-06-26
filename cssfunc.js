@@ -14,3 +14,6 @@ export const ellipsis = styler({
 })
 
 
+export const pointer = styler({
+  cursor: 'pointer',
+})
