@@ -213,3 +213,16 @@ export const transformer = expr => (Cmp = 'g') => {
 // 用于svg的translate
 export const translate = (x, y) => (Cmp = 'g') => transformer(`translate(${x}, ${y})`)(Cmp)
 
+// ========================= redux相关 =============================
+/*
+ * 用于redux的map store to props, 例
+ * const sm = pick_store('aa', 'bb')(s=>{...原来的map store to props代码...})
+ */
+export const pick_store = (...keys) => fn => s => {
+  return {
+    ..._.pick(s, keys),
+    ...(fn && fn(s)),
+  }
+}
+
+
