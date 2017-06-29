@@ -13,7 +13,10 @@ export const ellipsis = styler({
   textOverflow: 'ellipsis',
 })
 
-
 export const pointer = styler({
   cursor: 'pointer',
+})
+
+export const grab = styler({
+  cursor: '-webkit-grab',
 })
