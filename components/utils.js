@@ -236,4 +236,23 @@ export const pick_method = method_lib => fn => s => {
   }
 }
 
+/*
+ * 令dm自带一个set store的方法，会调用set store方法
+ */
+export const set_store_enable = (action_name = 'set') => fn => d => {
+  return {
+    set_store : data=>{
+      d({ type: 'set', data,})
+    },
+    ...(fn && fn(d)),
+  }
+}
+
+export const freezer_set_store = (s, a) => {
+  const {data} = a
+  s = s.set(data)
+}
+
+
+
 
