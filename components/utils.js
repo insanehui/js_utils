@@ -248,6 +248,9 @@ export const set_store_enable = (action_name = 'set') => fn => d => {
   }
 }
 
+/*
+ * 当store是一个freezer对象时的一个简单set的reducer
+ */
 export const freezer_set_store = (s, a) => {
   const {data} = a
   s = s.set(data)
