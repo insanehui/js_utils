@@ -81,7 +81,7 @@ export class PRect extends PureComponent {
       d : `M ${x} ${y} h ${width} v ${height} h ${-width} z`,
       transform : `translate(0.5, 0.5)`,
     }
-    return <path {...forward} {...p_path} />
+    return <path {...p_path} {...forward} />
   }
 }
 
