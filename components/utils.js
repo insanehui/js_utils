@@ -211,7 +211,7 @@ export const transformer = expr => (Cmp = 'g') => {
 }
 
 // 用于svg的translate
-export const translate = (x, y) => (Cmp = 'g') => transformer(`translate(${x}, ${y})`)(Cmp)
+export const translator = (x, y) => (Cmp = 'g') => transformer(`translate(${x}, ${y})`)(Cmp)
 
 // ========================= redux相关 =============================
 /*
