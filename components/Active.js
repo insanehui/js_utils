@@ -31,10 +31,10 @@ export function active(Cmp) {
           p.onBlur && p.onBlur(e)
         }),
 
-        // onMouseMove : (e=>{
-        //   this.setState({ hovered: true})
-        //   p.onMouseMove && p.onMouseMove(e)
-        // }),
+        onMouseMove : (e=>{
+          this.setState({ hovered: true})
+          p.onMouseMove && p.onMouseMove(e)
+        }),
 
         // onMouseOut : (e=>{
         //   this.setState({ hovered : false })
