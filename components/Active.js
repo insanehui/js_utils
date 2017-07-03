@@ -31,14 +31,24 @@ export function active(Cmp) {
           p.onBlur && p.onBlur(e)
         }),
 
-        onMouseMove : (e=>{
+        // onMouseMove : (e=>{
+        //   this.setState({ hovered: true})
+        //   p.onMouseMove && p.onMouseMove(e)
+        // }),
+
+        // onMouseOut : (e=>{
+        //   this.setState({ hovered : false })
+        //   p.onMouseOut && p.onMouseOut(e)
+        // }),
+
+        onMouseEnter : (e=>{
           this.setState({ hovered: true})
-          p.onMouseMove && p.onMouseMove(e)
+          p.onMouseEnter && p.onMouseEnter(e)
         }),
 
-        onMouseOut : (e=>{
+        onMouseLeave : (e=>{
           this.setState({ hovered : false })
-          p.onMouseOut && p.onMouseOut(e)
+          p.onMouseLeave && p.onMouseLeave(e)
         }),
 
         onMouseDown : (e=>{
