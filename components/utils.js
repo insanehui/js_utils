@@ -213,6 +213,8 @@ export const transformer = expr => (Cmp = 'g') => {
 // 用于svg的translate
 export const translator = (x, y) => (Cmp = 'g') => transformer(`translate(${x}, ${y})`)(Cmp)
 
+export const scaler = (x, y) => (Cmp = 'g' ) => transformer(`scale(${x}${_.isUndefined(y) ? '' : `, ${y}`})`)(Cmp)
+
 // ========================= redux相关 =============================
 /*
  * 用于redux的map store to props, 例
