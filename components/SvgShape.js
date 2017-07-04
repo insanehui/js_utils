@@ -96,10 +96,6 @@ export const DocRect = p => {
   const dx0 = dx*2/3
   const dy0 = dy*2/3
 
-  const props = {
-    transform : `translate(0.5, 0.5)`,
-  }
-
   const frame = {
     d : `M ${x} ${y} h ${width-dx0} l ${dx0} ${dy0} v ${height-dy0} h ${-width} z`,
   }
@@ -112,7 +108,7 @@ export const DocRect = p => {
     d : `M ${x+width-dx0} 0 v ${dy0} h ${dx0}`,
   }
 
-  return <g {...props} {...forward} >
+  return <g {...forward} >
     <path {...frame}/>
     <path {...triangle_big}/>
     <path {...triangle_small}/>
