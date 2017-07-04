@@ -100,6 +100,8 @@ export const DocRect = p => {
   const {width, height, ...forward} = p
   const x = _.get(p, 'x', 0)
   const y = _.get(p, 'y', 0)
+  const rx = _.get(p, 'rx', 0)
+  const ry = _.get(p, 'ry', 0)
   const dx = _.get(p, 'dx', width/9)
   const dy = _.get(p, 'dy', height/9)
 
@@ -107,7 +109,14 @@ export const DocRect = p => {
   const dy0 = dy*2/3
 
   const frame = {
-    d : `M ${x} ${y} h ${width-dx0} l ${dx0} ${dy0} v ${height-dy0} h ${-width} z`,
+    d : `M ${x+rx} ${y} h ${width-dx0-rx} l ${dx0} ${dy0} 
+      v ${height-ry-dy0} 
+      a ${rx} ${ry} 0 0 1 ${-rx} ${ry} 
+      h ${-width+2*rx} 
+      a ${rx} ${ry} 0 0 1 ${-rx} ${-ry} 
+      v ${-height+2*ry} 
+      a ${rx} ${ry} 0 0 1 ${rx} ${-ry} 
+      `,
   }
 
   const triangle_big = {
