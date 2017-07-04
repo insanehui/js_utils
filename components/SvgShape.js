@@ -97,13 +97,24 @@ export class PRect extends PureComponent {
 
 // 如文档的图标，右上角折回来的形状
 export const DocRect = p => {
-  const {width, height, ...forward} = p
-  const x = _.get(p, 'x', 0)
-  const y = _.get(p, 'y', 0)
-  const rx = _.get(p, 'rx', 0)
-  const ry = _.get(p, 'ry', 0)
-  const dx = _.get(p, 'dx', width/9)
-  const dy = _.get(p, 'dy', height/9)
+
+  const {x, y, rx, ry, width, height, ...forward} = {
+    ...{
+      x: 0,
+      y: 0,
+      rx : 0,
+      ry : 0, 
+    }, 
+    ...p,
+  }
+
+  const {dx, dy} = {
+    ...{
+      dx : width/9,
+      dy : height/9,
+    },
+    ...p,
+  }
 
   const dx0 = dx*2/3
   const dy0 = dy*2/3
