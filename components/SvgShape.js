@@ -85,5 +85,38 @@ export class PRect extends PureComponent {
   }
 }
 
+// 如文档的图标，右上角折回来的形状
+export const DocRect = p => {
+  const {width, height, ...forward} = p
+  const x = _.get(p, 'x', 0)
+  const y = _.get(p, 'y', 0)
+  const dx = _.get(p, 'dx', width/9)
+  const dy = _.get(p, 'dy', height/9)
+
+  const dx0 = dx*2/3
+  const dy0 = dy*2/3
+
+  const props = {
+    transform : `translate(0.5, 0.5)`,
+  }
+
+  const frame = {
+    d : `M ${x} ${y} h ${width-dx0} l ${dx0} ${dy0} v ${height-dy0} h ${-width} z`,
+  }
+
+  const triangle_big = {
+    d : `M ${x+width-dx} 0 v ${dy} h ${dx}`,
+  }
+
+  const triangle_small = {
+    d : `M ${x+width-dx0} 0 v ${dy0} h ${dx0}`,
+  }
+
+  return <g {...props} {...forward} >
+    <path {...frame}/>
+    <path {...triangle_big}/>
+    <path {...triangle_small}/>
+  </g>
+}
 
 
