@@ -69,16 +69,26 @@ export class PRect extends PureComponent {
   static defaultProps = { // 跟rect的的属性基本类似
     x: 0,
     y: 0,
+    rx : 0,
+    ry : 0,
     width: 100,
     height: 100,
     // ...其他react通用属性，会透传
   }
 
   render() {
-    const {x, y, width, height, ...forward} = this.props
+    const {x, y, rx, ry, width, height, ...forward} = this.props
 
     const p_path = {
-      d : `M ${x} ${y} h ${width} v ${height} h ${-width} z`,
+      d : `M ${x+rx} ${y} h ${width-2*rx} 
+        a ${rx} ${ry} 0 0 1 ${rx} ${ry} 
+        v ${height-2*ry} 
+        a ${rx} ${ry} 0 0 1 ${-rx} ${ry} 
+        h ${-width+2*rx} 
+        a ${rx} ${ry} 0 0 1 ${-rx} ${-ry} 
+        v ${-height+2*ry} 
+        a ${rx} ${ry} 0 0 1 ${rx} ${-ry} 
+        `,
       transform : `translate(0.5, 0.5)`,
     }
     return <path {...p_path} {...forward} />
