@@ -393,11 +393,16 @@ export function partial_compare(a, b, pairs){
   } 
 
   // 判断能否 a->b
-  for (const pair of pairs) {
-    console.log(pair)
-  }
+  if ( partial_reachable(a, b, pairs) ) {
+    return -1
+  } 
 
   // 再判断能否 b->a
+  if ( partial_reachable(b, a, pairs) ) {
+    return 1
+  } 
+
+  return null
 }
 
 export function fromjson(j){ // JSON.parse的不抛异常版
