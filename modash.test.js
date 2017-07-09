@@ -3,6 +3,7 @@ import {str_display_cut, str_ellipsis, group,
   traverse, 
   traverse_all, 
   partial_order,
+  partial_reachable,
   wash, 
 } from './modash.js'
 import _ from 'lodash'
@@ -387,6 +388,51 @@ test('partial_order', () => {
       console.log("fact:", fact)
     }
   }
+})
+
+describe('partial_reachable', () => {
+  // <url:./partial_reachable.png>
+  const pairs = [
+    ['f', 'a'],
+    ['a', 'c'],
+    ['c', 'e'],
+    ['f', 'd'],
+    ['d', 'g'],
+    ['b', 'c'],
+    ['b', 'd'],
+    ['d', 'e'],
+  ]
+
+  it('horizontal false', () => {
+    const para = [
+      "a",
+      "b",
+      pairs,
+    ]
+    const hope = false
+    const fact = partial_reachable(...para)
+    expect(fact).toEqual(hope)
+  })
+  it('longway true', () => {
+    const para = [
+      "f",
+      "e",
+      pairs,
+    ]
+    const hope = true
+    const fact = partial_reachable(...para)
+    expect(fact).toEqual(hope)
+  })
+  it('vertical false', () => {
+    const para = [
+      "a",
+      "g",
+      pairs,
+    ]
+    const hope = false
+    const fact = partial_reachable(...para)
+    expect(fact).toEqual(hope)
+  })
 })
 
 test('wash', () => {

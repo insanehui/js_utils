@@ -362,6 +362,44 @@ export function partial_order(pairs){ // 根据关系对，得到偏序的一个
   return res
 }
 
+// 根据关系对，判断a能否到达b
+export function partial_reachable(a, b, pairs) { // 递归
+  for (const pair of pairs) {
+    // 找到以a为起点的地方
+    if ( a !== pair[0] ) { 
+      continue
+    } 
+
+    const next = pair[1]
+    if ( next === b ) { // 找到终点
+      return true // 返回结果
+    } 
+
+    // 否则看看next能否到达
+    if ( partial_reachable(next, b, pairs) ) {
+      return true
+    } 
+  }
+  return false
+}
+
+// 根据关系对，比较两个元素
+export function partial_compare(a, b, pairs){
+  /*
+   * 如果存在路径a->b，则认为a<b，返回-1，相等返回0，大于返回1，无法比较返回null
+   */
+  if ( a === b ) {
+    return 0
+  } 
+
+  // 判断能否 a->b
+  for (const pair of pairs) {
+    console.log(pair)
+  }
+
+  // 再判断能否 b->a
+}
+
 export function fromjson(j){ // JSON.parse的不抛异常版
   let ret
   try {
