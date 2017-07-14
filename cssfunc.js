@@ -20,3 +20,11 @@ export const pointer = styler({
 export const grab = styler({
   cursor: '-webkit-grab',
 })
+
+export const abs = styler({
+  position: 'absolute',
+})
+
+export const rel = styler({
+  position: 'relative',
+})
