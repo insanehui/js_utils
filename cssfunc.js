@@ -28,3 +28,9 @@ export const abs = styler({
 export const rel = styler({
   position: 'relative',
 })
+
+export const none = styler({
+  display : 'none',
+})
+
+export const None = none()
