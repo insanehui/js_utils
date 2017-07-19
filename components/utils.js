@@ -241,6 +241,24 @@ export const inject_method = method_lib => fn => s => {
 }
 
 /*
+ * 给dm生成直接与reducer对应的method
+ * const dm = gen_method('aa', 'bb')(d=>{...})
+ */
+export const gen_method = (...methods) => fn => d => {
+  let obj = {}
+  for (const method of methods) {
+    obj[method] = para =>{
+      return d({type : method, ...para})
+    }
+  }
+
+  return {
+    ...obj,
+    ...(fn && fn(d)),
+  }
+}
+
+/*
  * 令dm自带一个set store的方法，会调用set store方法
  */
 export const set_store_enable = (action_name = 'set') => fn => d => {
