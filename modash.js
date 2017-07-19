@@ -35,6 +35,32 @@ function _ungroup(o, keys, p){ // ungroup的递归主体
   return arr
 }
 
+/*
+ * path是个数组
+ */
+export function iset(data, path, value){ // 具有immutable性质的set，用法类似_.set
+  const [first, ...rest] = path
+  const first_val = _.get(data, [first]) 
+  if ( rest.length === 0 ) { // 如果只有一级
+    if ( first_val === value ) { // 如果和当前的值相等
+      return data // 将原值返回
+    } 
+    else {
+      return {
+        ...data,
+        [first] : value,
+      }
+    }
+  } 
+
+  // 进入递归
+  const sub = iset(first_val, rest, value)
+  return {
+    ...data,
+    [first] : sub,
+  }
+}
+
 // 经典ungroup
 export function ungroup(o, ...keys){
   return _ungroup(o, keys, {})
