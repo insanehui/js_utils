@@ -38,7 +38,7 @@ function _ungroup(o, keys, p){ // ungroup的递归主体
 /*
  * path是个数组
  */
-export function iset(data, path, value){ // 具有immutable性质的set，用法类似_.set
+function _iset_(data, path, value){ // iset的预备函数，递归
   const [first, ...rest] = path
   const first_val = _.get(data, [first]) 
   if ( rest.length === 0 ) { // 如果只有一级
@@ -54,11 +54,18 @@ export function iset(data, path, value){ // 具有immutable性质的set，用法
   } 
 
   // 进入递归
-  const sub = iset(first_val, rest, value)
+  const sub = _iset_(first_val, rest, value)
   return {
     ...data,
     [first] : sub,
   }
+}
+
+export function iset(data, path, value){  // 具有immutable性质的set，用法类似_.set
+  if ( _.isString(path) ) {
+    path = path.split('.')
+  } 
+  return _iset_(data, path, value)
 }
 
 // 经典ungroup
