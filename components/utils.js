@@ -229,9 +229,11 @@ export const pick_store = (...keys) => fn => s => {
 
 /*
  * 用于将state_method里的方法注入到组件，例：
- * const sm = pick_method({method1, method2})(s=>{...})
+ * const sm = inject_method({method1, method2})(s=>{...})
+ * 或者是
+ * const dm = inject_method({method1, method2})(d=>{...})
  */
-export const pick_method = method_lib => fn => s => {
+export const inject_method = method_lib => fn => s => {
   return {
     ..._.mapValues(method_lib, method=>method(s)),
     ...(fn && fn(s)),
