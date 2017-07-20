@@ -61,6 +61,9 @@ function _iset_(data, path, value){ // iset的预备函数，递归
   }
 }
 
+/*
+ * [注：_.merge似乎也能解决大部分需求，不一定需要用上本函数]
+ */
 export function iset(data, path, value){  // 具有immutable性质的set，用法类似_.set
   if ( _.isString(path) ) {
     path = path.split('.')
