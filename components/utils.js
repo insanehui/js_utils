@@ -241,6 +241,7 @@ export const inject_method = method_lib => fn => s => {
 }
 
 /*
+ * [注：建议用thunker代替，为本函数的增加版]
  * 给dm生成直接与reducer对应的method
  * const dm = gen_method('aa', 'bb')(d=>{...})
  */
@@ -257,6 +258,35 @@ export const gen_method = (...methods) => fn => d => {
     ...(fn && fn(d)),
   }
 }
+
+/*
+ * 为get_method的增加版
+ * TODO: 考虑如何支持异步thunk，以及异常处理
+ */
+export const thunker = (...methods) => (thunks={}, fn) => d => { // 更方便地使用thunk
+  let obj = {}
+  for (const method of methods) {
+    obj[method] = para =>{
+      return d({type : method, ...para})
+    }
+  }
+
+  thunks = _.mapValues(thunks, thunk=>{ // 注意，研究一下这里如果thunk是异步操作，如何处理？
+    return (...para)=>{
+      d((d, getState) => {
+        const s = getState()
+        return thunk(obj, s, ...para)
+      })
+    }
+  })
+
+  return {
+    ...obj,
+    ...thunks,
+    ...(fn && fn(d)),
+  }
+}
+
 
 /*
  * 令dm自带一个set store的方法，会调用set store方法
