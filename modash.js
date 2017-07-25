@@ -290,10 +290,10 @@ export function test_arrCut(){
   console.log("cut: ", arrCut(t, 9))
 }
 
-export function logify(func){ // 令一个函数可以打参数和返回日志的高阶函数
+const begin = console.groupCollapsed ? console.groupCollapsed.bind(console) : console.log.bind(console)
+const end = console.groupEnd ? console.groupEnd.bind(console) : _.noop
 
-  const begin = console.groupCollapsed ? console.groupCollapsed.bind(console) : console.log.bind(console)
-  const end = console.groupEnd ? console.groupEnd.bind(console) : _.noop
+export function logify(func){ // 令一个函数可以打参数和返回日志的高阶函数
 
   return (...para) => {
     begin(`=== ${func.name} called ===`)
@@ -306,8 +306,6 @@ export function logify(func){ // 令一个函数可以打参数和返回日志�
 }
 
 export function testify(func){
-  const begin = console.groupCollapsed ? console.groupCollapsed.bind(console) : console.log.bind(console)
-  const end = console.groupEnd ? console.groupEnd.bind(console) : _.noop
 
   return (...para) => {
     begin(`=== ${func.name} called ===`)
@@ -323,6 +321,15 @@ it('${func.name}', () => {
     end()
     return ret
   }
+}
+
+export const timify = (func, name)=>(...para)=>{
+  begin(`... ${name || func.name} ...`)
+  const time = Date.now()
+  const ret = func(...para)
+  console.log("time: ", Date.now()-time)
+  end()
+  return ret
 }
 
 export function local_uid(){ // 返回字符串。唯一性只对当前页面有效
