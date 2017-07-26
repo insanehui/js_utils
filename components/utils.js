@@ -264,9 +264,9 @@ export const gen_method = (...methods) => fn => d => {
  * TODO: 考虑如何支持异步thunk，以及异常处理
  */
 export const thunker = (...methods) => (thunks={}, fn) => d => { // 更方便地使用thunk
-  let obj = {}
+  let lib = {} // 用来装方法的库
   for (const method of methods) {
-    obj[method] = para =>{
+    lib[method] = para =>{
       return d({type : method, ...para})
     }
   }
@@ -275,13 +275,13 @@ export const thunker = (...methods) => (thunks={}, fn) => d => { // 更方便地
     return (...para)=>{
       d((d, getState) => {
         const s = getState()
-        return thunk(obj, s, ...para)
+        return thunk(lib, s, getState, ...para)
       })
     }
   })
 
   return {
-    ...obj,
+    ...lib,
     ...thunks,
     ...(fn && fn(d)),
   }
