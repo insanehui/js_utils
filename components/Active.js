@@ -32,7 +32,7 @@ export function active(Cmp) {
         }),
 
         onBlur : (e=>{
-          this.setState({ focus : false})
+          this.setState({ focused : false})
           p.onBlur && p.onBlur(e)
         }),
 
