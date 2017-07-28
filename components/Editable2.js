@@ -21,14 +21,16 @@ class Editable extends PureComponent {
   off = ()=>this.setState({ is_editing : false })
 
   editKeyDown = e=>{
-    const {onChange} = this.props
+    const {onChange, value} = this.props
     const {keyCode} = e
     const {ENTER} = KeyCode
     const {input} = this
 
     if (keyCode === ENTER ) {
-      onChange && onChange(input.value)
       this.off()
+      if ( value !== input.value ) {
+        onChange && onChange(input.value)
+      } 
     }
     // esc键会自动触发blur消息
   }
