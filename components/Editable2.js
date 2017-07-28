@@ -13,6 +13,7 @@ class Editable extends PureComponent {
 
   static defaultProps = {
     tag : 'span',
+    autoSelect : true, // 激活输入模式是否自动选择
   }
 
   on = ()=>this.setState({ is_editing : true })
@@ -20,35 +21,49 @@ class Editable extends PureComponent {
   off = ()=>this.setState({ is_editing : false })
 
   editKeyDown = e=>{
+    const {onChange} = this.props
     const {keyCode} = e
-    const {ENTER, ESC} = KeyCode
+    const {ENTER} = KeyCode
+    const {input} = this
 
     if (keyCode === ENTER ) {
+      onChange && onChange(input.value)
       this.off()
     }
-    else if (keyCode === ESC ) {
-      console.log("esc")
-      this.off()
-    }
+    // esc键会自动触发blur消息
   }
+
+  input_ref = el=>{ 
+    const {autoSelect} = this.props
+    if ( el ) {
+      this.input=el
+      if ( autoSelect ) {
+        el.select()
+      } 
+    } 
+  } 
 
   Input = ()=>{
     const {value} = this.props
     const input = {
       defaultValue : value,
-      onKeyDown : this.editKeyDown,
       style : {
         fontSize : 'inherit',
         fontFamily : 'inherit',
         border : 'none',
         outline : 'none',
-      }
+      },
+      ref : this.input_ref,
+      onKeyDown : this.editKeyDown,
+      onBlur : this.off,
     }
     return <input {...input}/>
   }
 
   render() {
-    const {tag, value, ...forward} = this.props
+    const {tag, value,  
+      autoSelect, onChange, // filter
+      ...forward} = this.props
     const {is_editing} = this.state 
     const Tag = tag
 
