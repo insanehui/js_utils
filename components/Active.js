@@ -13,7 +13,7 @@ import _ from 'lodash'
 
 import {merge_props as cp} from './utils.js'
 
-export function active(Cmp, style = {}) { 
+export function active(Cmp, active_style = {}, def_style = {}) { 
   /*
    * style的格式为 {
    *  hovered : {}, 
@@ -77,20 +77,20 @@ export function active(Cmp, style = {}) {
 
       }
 
-      let active_style = {} // 生成active的style
+      let style = def_style // 生成active的style
       for(const key in s) {
         const item = s[key]
         if ( item ) {
-          active_style = {...active_style, ...style[key]}
+          style = {...style, ...active_style[key]}
         } 
       }
 
       const p1 = {
         ...cp({
-          style : active_style, 
+          style, 
         }, p),
         ...event,
-        ...s,
+        ...(_.isString(Cmp) ? null : s),
       }
 
       return <Cmp {...p1} />
