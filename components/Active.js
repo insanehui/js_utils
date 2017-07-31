@@ -11,7 +11,16 @@
 import React, { PureComponent } from 'react'
 import _ from 'lodash'
 
-export function active(Cmp) { 
+import {merge_props as cp} from './utils.js'
+
+export function active(Cmp, style = {}) { 
+  /*
+   * style的格式为 {
+   *  hovered : {}, 
+   *  focused : {}, 
+   *  active : {}, 
+   * }
+   */
 
   class Active extends PureComponent {
 
@@ -68,8 +77,18 @@ export function active(Cmp) {
 
       }
 
+      let active_style = {} // 生成active的style
+      for(const key in s) {
+        const item = s[key]
+        if ( item ) {
+          active_style = {...active_style, ...style[key]}
+        } 
+      }
+
       const p1 = {
-        ...p,
+        ...cp({
+          style : active_style, 
+        }, p),
         ...event,
         ...s,
       }
