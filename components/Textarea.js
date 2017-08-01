@@ -27,12 +27,12 @@ class Textarea extends PureComponent {
       ...text_style,
 
       position: 'absolute',
-      // top: -9999,
+      top: -9999,
 
       // 以下是临时测试
-      top : 300,
-      left : 300,
-      border : `1px solid gray`,
+      // top : 300,
+      // left : 300,
+      // border : `1px solid gray`,
     })
 
     if ( value.endsWith('\n') || !value ) { // 如果末尾有空行，或者为空
