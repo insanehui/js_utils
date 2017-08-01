@@ -19,7 +19,12 @@ class Textarea extends PureComponent {
 
     // shadow会沿用textarea一些关键的样式配置
     const text_style = _.pick(window.getComputedStyle(textarea),
-      'fontSize', 'fontFamily', 'whiteSpace', 'wordWrap'
+      'fontSize', 'fontFamily', 'whiteSpace', 'wordWrap', 
+      'boxSizing', 
+      'borderTopStyle', 'borderLeftStyle', 'borderRightStyle', 'borderBottomStyle',
+      'borderTopColor', 'borderLeftColor', 'borderRightColor', 'borderBottomColor',
+      'paddingTop', 'paddingLeft', 'paddingRight', 'paddingBottom',
+      'width',
     )
 
     css(shadow, {
@@ -35,13 +40,14 @@ class Textarea extends PureComponent {
       // border : `1px solid gray`,
     })
 
+    value = value || ''
     if ( value.endsWith('\n') || !value ) { // 如果末尾有空行，或者为空
       value += ' ' // 多加一个空格
     } 
 
     shadow.innerHTML = value
     const shadow_style = window.getComputedStyle(shadow)
-    console.log("computed", shadow_style)
+    // console.log("computed", shadow_style)
     const {height} = shadow_style
     this.setState({ height })
   }
