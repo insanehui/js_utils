@@ -13,7 +13,7 @@ import _ from 'lodash'
 
 import {merge_props as cp} from './utils.js'
 
-const fn = _.curry((inject_props, Cmp, active_style = {}, def_style = {})=>{
+const fn = _.curry((inject_props, Cmp, active_style, def_style)=>{
   /*
    * style的格式为 {
    *  hovered : {}, 
@@ -102,3 +102,4 @@ const fn = _.curry((inject_props, Cmp, active_style = {}, def_style = {})=>{
 
 export const active = fn(true)
 export const active_style = fn(false)
+export const active_props = fn(true, _, {}, {})
