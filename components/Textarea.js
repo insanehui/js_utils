@@ -66,7 +66,12 @@ class Textarea extends PureComponent {
     document.body.removeChild(this.shadow)
   }
 
-  componentWillReceiveProps = this.update_shadow
+  componentWillReceiveProps(np){
+    if ( np.value === this.props.value ) {
+      return
+    } 
+    this.update_shadow(np)
+  }
 
   ref = el=>{ this.textarea = el }
 
