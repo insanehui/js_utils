@@ -11,10 +11,10 @@ class Textarea extends PureComponent {
 
   state = {} // state用来存储动态的style
 
-  componentDidMount(){
-    // 部署一个辅助div
-    const shadow = document.createElement('div')
+  update_shadow = np =>{ // 根据主输入框value的变化，更新shadow
+    const {value} = np
     const {style} = this.props
+    const {shadow} = this
     css(shadow, {
       ...style,
 
@@ -28,23 +28,29 @@ class Textarea extends PureComponent {
       left : 300,
       border : `1px solid gray`,
     })
+
+    shadow.innerHTML = value
+    const cstyle = window.getComputedStyle(shadow)
+    console.log("computed", cstyle)
+    const {height} = cstyle
+    this.setState({ height })
+  }
+
+  componentDidMount(){
+    // 部署一个辅助div
+    const shadow = document.createElement('div')
     document.body.appendChild(shadow)
     this.shadow = shadow
+
+    // 更新
+    this.update_shadow(this.props)
   }
 
   componentWillUnmount(){
     document.body.removeChild(this.shadow)
   }
 
-  componentWillReceiveProps(np){ 
-    // 先更新shadow，以得到其尺寸
-    const {value} = np
-    this.shadow.innerHTML = value
-    const cstyle = window.getComputedStyle(this.shadow)
-    console.log("computed", cstyle)
-    const {height} = cstyle
-    this.setState({ height })
-  }
+  componentWillReceiveProps = this.update_shadow
 
   render() {
     const props = P({style:this.state}, this.props)
