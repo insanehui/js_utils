@@ -64,6 +64,7 @@ class Editable extends PureComponent {
 
   render() {
     const {tag, value,  
+      trigger = 'onClick',
       autoSelect, onChange, // filter
       ...forward} = this.props
     const {is_editing} = this.state 
@@ -71,7 +72,7 @@ class Editable extends PureComponent {
 
     const props = {
       ...forward,
-      onClick : ()=>this.setState({ is_editing : true }),
+      [trigger] : ()=>this.setState({ is_editing : true }),
     }
 
     return <Tag {...props}>
