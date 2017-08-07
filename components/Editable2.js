@@ -4,6 +4,7 @@
 import React, { PureComponent } from 'react'
 
 import KeyCode from '../keycode.js'
+import {eclose} from '../modash.js'
 
 class Editable extends PureComponent {
 
@@ -16,7 +17,7 @@ class Editable extends PureComponent {
     autoSelect : true, // 激活输入模式是否自动选择
   }
 
-  on = ()=>this.setState({ is_editing : true })
+  on = eclose(()=>this.setState({ is_editing : true }))
 
   off = ()=>this.setState({ is_editing : false })
 
@@ -72,7 +73,7 @@ class Editable extends PureComponent {
 
     const props = {
       ...forward,
-      [trigger] : ()=>this.setState({ is_editing : true }),
+      [trigger] : this.on,
     }
 
     return <Tag {...props}>

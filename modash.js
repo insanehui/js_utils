@@ -463,3 +463,18 @@ export function tostr(v){ // 如果是对象（包括数组），则json化，�
   return v + ''
 }
 
+// 令事件处理函数的event stopPropagation
+export const eclose = (fn = ()=>{} , n) => (...para) =>{
+  /*
+   * 这里的大坑是：react的测试模式和生产模式的事件机制不一样！测试模式有一个代理对象
+   * 而生产模式则没有该对象，因此不能依赖这些潜在的机制
+   */ 
+  if ( !n) {
+    n = fn.length
+  } 
+  const e = para[n]
+
+  e.stopPropagation()
+  return fn(...para)
+}
+
