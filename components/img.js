@@ -7,10 +7,9 @@ class Base extends PureComponent {
   onDragStart = e=>{
     e.preventDefault()
     const {onDragStart} = this.props
-    onDragStart(e)
+    onDragStart && onDragStart(e)
   }
 }
-
 
 export class Img extends Base {
   render() {
