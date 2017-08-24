@@ -241,6 +241,23 @@ export const inject_method = method_lib => fn => s => {
 }
 
 /*
+ * inject_method的decorator版
+ * 例：
+  const map = {
+    @inject({method1}) s(s){...},
+  }
+ */ 
+export const inject_method_dec = method_lib => (t, n, d)=> {
+  const {value:fn} = d
+  d.value = s=>{
+    return {
+      ..._.mapValues(method_lib, method=>method(s)),
+      ...(fn && fn(s)),
+    }
+  }
+}
+
+/*
  * [注：建议用thunker代替，为本函数的增加版]
  * 给dm生成直接与reducer对应的method
  * const dm = gen_method('aa', 'bb')(d=>{...})

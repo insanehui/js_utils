@@ -478,3 +478,10 @@ export const eclose = (fn = ()=>{} , n) => (...para) =>{
   return fn(...para)
 }
 
+// 令高阶函数可以拿来修饰对象的方法
+export const method_decorative = fn => (target, name, descriptor) =>{
+  const {value} = descriptor
+  descriptor.value = fn(value)
+  return descriptor
+}
+
