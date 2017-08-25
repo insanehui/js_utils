@@ -258,6 +258,27 @@ export const inject_method_dec = method_lib => (t, n, d)=> {
 }
 
 /*
+ * 生成直接对应action的方法，作为装饰器使用
+ */
+export const inject_action_decor = (...methods) => (t, n, desc) => {
+  const {value:fn} = desc
+
+  desc.value = d => {
+    let obj = {}
+    for (const method of methods) {
+      obj[method] = para =>{
+        return d({type : method, ...para})
+      }
+    }
+
+    return {
+      ...obj,
+      ...(fn && fn(d)),
+    }
+  }
+}
+
+/*
  * [注：建议用thunker代替，为本函数的增加版]
  * 给dm生成直接与reducer对应的method
  * const dm = gen_method('aa', 'bb')(d=>{...})
