@@ -478,6 +478,22 @@ export const eclose = (fn = ()=>{} , n) => (...para) =>{
   return fn(...para)
 }
 
+// eclose的装饰器版
+export const estop = (a1, name, d) => {
+  const {value:fn} = d
+  d.value = (...para) => {
+    const n = fn.length
+    const e = para[n]
+    if ( _.hasIn(e, 'stopPropagation') ) {
+      e.stopPropagation()
+    } 
+    else {
+      console.warn(`no stopPropagation for ${name}`)
+    }
+    return fn(...para)
+  }
+}
+
 // 令高阶函数可以拿来修饰对象的方法
 export const method_decorative = fn => (target, name, descriptor) =>{
   const {value} = descriptor
