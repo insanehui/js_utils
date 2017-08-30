@@ -227,6 +227,17 @@ export const pick_store = (...keys) => fn => s => {
   }
 }
 
+// pick_store的装饰器版
+export const pick_store_decor = (...props) => (t, n, d) => {
+  const {value:fn} = d
+  d.value = s=>{
+    return {
+      ..._.pick(s, props),
+      ...(fn && fn(s)),
+    }
+  }
+}
+
 /*
  * 用于将state_method里的方法注入到组件，例：
  * const sm = inject_method({method1, method2})(s=>{...})
