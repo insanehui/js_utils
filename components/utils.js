@@ -216,6 +216,15 @@ export const translator = (x, y) => (Cmp = 'g') => transformer(`translate(${x}, 
 export const scaler = (x, y) => (Cmp = 'g' ) => transformer(`scale(${x}${_.isUndefined(y) ? '' : `, ${y}`})`)(Cmp)
 
 // ========================= redux相关 =============================
+
+/*
+ * 将一个高阶函数转成方法的修饰器（类的修饰器不需要转）
+ */
+const decorative = fn => (t, n, d) => {
+  const {value} = d
+  d.value = fn(value)
+}
+
 /*
  * 用于redux的map store to props, 例
  * const sm = pick_store('aa', 'bb')(s=>{...原来的map store to props代码...})
@@ -228,15 +237,7 @@ export const pick_store = (...keys) => fn => s => {
 }
 
 // pick_store的装饰器版
-export const pick_store_decor = (...props) => (t, n, d) => {
-  const {value:fn} = d
-  d.value = s=>{
-    return {
-      ..._.pick(s, props),
-      ...(fn && fn(s)),
-    }
-  }
-}
+export const pick_store_decor = (...props) => decorative(pick_store(...props))
 
 /*
  * 用于将state_method里的方法注入到组件，例：
