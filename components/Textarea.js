@@ -18,14 +18,24 @@ class Textarea extends PureComponent {
     const {shadow, textarea} = this
 
     // shadow会沿用textarea一些关键的样式配置
-    const text_style = _.pick(window.getComputedStyle(textarea),
+    let keys = [
       'fontSize', 'fontFamily', 'whiteSpace', 'wordWrap', 
       'boxSizing', 
       'borderTopStyle', 'borderLeftStyle', 'borderRightStyle', 'borderBottomStyle',
       'borderTopColor', 'borderLeftColor', 'borderRightColor', 'borderBottomColor',
       'paddingTop', 'paddingLeft', 'paddingRight', 'paddingBottom',
-      'width',
-    )
+      /*
+       * 不需要取 'minWidth', 'maxWidth' ，因为这些属性只支持绝对值，如果传calc这样的表达式，将不能正常工作
+       */
+    ]
+
+    /*
+     * 如果外面指定了width，则表示width可以是一个表达式（如calc），因此需要取得其真正值
+     * 如果外面没有指定width，则表示textarea的width需要通过参考获得，因此不能在开始就将width定死
+     */
+    if ( _.has(style, 'width') ) { keys.push('width') } 
+
+    const text_style = _.pick(window.getComputedStyle(textarea), keys)
 
     css(shadow, {
       ...style,
@@ -35,9 +45,10 @@ class Textarea extends PureComponent {
       top: -9999,
 
       // 以下是临时测试
+      // border : `1px solid gray`,
       // top : 300,
       // left : 300,
-      // border : `1px solid gray`,
+      // backgroundColor : 'lightblue',
     })
 
     value = value || ''
@@ -48,8 +59,8 @@ class Textarea extends PureComponent {
     shadow.innerHTML = value
     const shadow_style = window.getComputedStyle(shadow)
     // console.log("computed", shadow_style)
-    const {height} = shadow_style
-    this.setState({ height })
+    const {height, width} = shadow_style
+    this.setState({ height, width })
   }
 
   componentDidMount(){
@@ -81,7 +92,8 @@ class Textarea extends PureComponent {
         ...this.state,
         overflow : 'hidden',
         resize : 'none',
-      }
+      },
+      spellCheck : false,
     }, this.props)
     return <textarea {...props} ref={this.ref}/>
   }
