@@ -76,7 +76,13 @@ class Textarea extends PureComponent {
   ref = el=>{ this.textarea = el }
 
   render() {
-    const props = P({style:this.state}, this.props)
+    const props = P({
+      style:{
+        ...this.state,
+        overflow : 'hidden',
+        resize : 'none',
+      }
+    }, this.props)
     return <textarea {...props} ref={this.ref}/>
   }
 }
