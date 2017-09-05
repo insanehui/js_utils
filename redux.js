@@ -3,6 +3,8 @@
  */
 
 import { connect as _connect } from 'react-redux'
+import _ from 'lodash'
+
 import {decorative} from './modash.js'
 /*
  * 一个包装版的connect，传入一个对象取代原来的参数的目的是可以使用装饰器

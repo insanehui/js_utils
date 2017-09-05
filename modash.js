@@ -497,7 +497,7 @@ export const estop = (a1, name, d) => {
 /*
  * 将一个高阶函数转成方法的修饰器（类的修饰器不需要转）
  */
-const decorative = fn => (t, n, d) => {
+export const decorative = fn => (t, n, d) => {
   const {value} = d
   d.value = fn(value)
 }
