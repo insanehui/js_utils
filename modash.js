@@ -494,10 +494,11 @@ export const estop = (a1, name, d) => {
   }
 }
 
-// 令高阶函数可以拿来修饰对象的方法
-export const method_decorative = fn => (target, name, descriptor) =>{
-  const {value} = descriptor
-  descriptor.value = fn(value)
-  return descriptor
+/*
+ * 将一个高阶函数转成方法的修饰器（类的修饰器不需要转）
+ */
+const decorative = fn => (t, n, d) => {
+  const {value} = d
+  d.value = fn(value)
 }
 

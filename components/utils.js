@@ -218,6 +218,7 @@ export const scaler = (x, y) => (Cmp = 'g' ) => transformer(`scale(${x}${_.isUnd
 // ========================= redux相关 =============================
 
 /*
+ * [deprecated] 移至modash
  * 将一个高阶函数转成方法的修饰器（类的修饰器不需要转）
  */
 const decorative = fn => (t, n, d) => {
@@ -226,6 +227,7 @@ const decorative = fn => (t, n, d) => {
 }
 
 /*
+ * [deprecated] 移到redux.js
  * 用于redux的map store to props, 例
  * const sm = pick_store('aa', 'bb')(s=>{...原来的map store to props代码...})
  */
@@ -236,7 +238,9 @@ export const pick_store = (...keys) => fn => s => {
   }
 }
 
-// pick_store的装饰器版
+/*
+ * [deprecated] 移到redux.js
+ */
 export const pick_store_decor = (...props) => decorative(pick_store(...props))
 
 /*
@@ -270,6 +274,7 @@ export const inject_method_dec = method_lib => (t, n, d)=> {
 }
 
 /*
+ * [deprecated] 移至redux.js
  * 生成直接对应action的方法，作为装饰器使用
  */
 export const inject_action_decor = (...methods) => (t, n, desc) => {
