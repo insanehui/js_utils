@@ -1,7 +1,5 @@
 /*
  * redux的一些工具
- * TODO: 后续把react utils里的一些工具函数也迁移到这里来
-import { pick_store_decor as pick, inject_action_decor as inject} from './utils/components/utils.js'
  */
 
 import { connect as _connect } from 'react-redux'
