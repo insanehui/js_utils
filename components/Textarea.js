@@ -86,6 +86,16 @@ class Textarea extends PureComponent {
 
   ref = el=>{ this.textarea = el }
 
+  focus = ()=>{ // focus方法
+    let {textarea} = this
+    textarea && textarea.focus()
+  }
+
+  blur = ()=>{ // blur方法
+    let {textarea} = this
+    textarea && textarea.blur()
+  }
+
   render() {
     const props = P({
       style:{
