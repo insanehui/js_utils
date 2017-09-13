@@ -2,7 +2,6 @@
 
 // 引用计数器
 import _ from 'lodash'
-import {New as Counter} from './counter.js'
 
 class Uniquer {
 
@@ -12,19 +11,20 @@ class Uniquer {
 
   constructor(sp = '_', idx0 = 0) { // 分隔符
     this.sp = sp
-    this.c = Counter(idx0)
+    this.i = idx0
   }
   
   gen(val, key) { // key为可选，用于后续查询，不能为falsy
 
     const s = this.s
-    let ret
+    let ret = val
+    let i = this.i
     if ( val === undefined ) {
-      ret = this.c.scount()
+      ret = i++
     } 
 
     while ( s.has(ret) ) {
-      ret = (val || '') + (this.sp + this.c.scount())
+      ret = (val || '') + (this.sp + i++)
     } 
     s.add(ret)
 
