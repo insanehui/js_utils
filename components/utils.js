@@ -217,20 +217,13 @@ export const scaler = (x, y) => (Cmp = 'g' ) => transformer(`scale(${x}${_.isUnd
 
 // ========================= redux相关 =============================
 
-/*
- * [deprecated] 移至modash
- * 将一个高阶函数转成方法的修饰器（类的修饰器不需要转）
- */
+// [deprecated] 移至modash
 const decorative = fn => (t, n, d) => {
   const {value} = d
   d.value = fn(value)
 }
 
-/*
- * [deprecated] 移到redux.js
- * 用于redux的map store to props, 例
- * const sm = pick_store('aa', 'bb')(s=>{...原来的map store to props代码...})
- */
+// [deprecated] 移到redux.js
 export const pick_store = (...keys) => fn => s => {
   return {
     ..._.pick(s, keys),
@@ -238,17 +231,10 @@ export const pick_store = (...keys) => fn => s => {
   }
 }
 
-/*
- * [deprecated] 移到redux.js
- */
+// [deprecated] 移到redux.js
 export const pick_store_decor = (...props) => decorative(pick_store(...props))
 
-/*
- * 用于将state_method里的方法注入到组件，例：
- * const sm = inject_method({method1, method2})(s=>{...})
- * 或者是
- * const dm = inject_method({method1, method2})(d=>{...})
- */
+// [deprecated] 移到redux.js
 export const inject_method = method_lib => fn => s => {
   return {
     ..._.mapValues(method_lib, method=>method(s)),
@@ -256,14 +242,15 @@ export const inject_method = method_lib => fn => s => {
   }
 }
 
-/*
- * inject_method的decorator版
- * 例：
+// [deprecated] 移到redux.js
+export const inject_method_dec = method_lib => (t, n, d)=> {
+  /*
+   * inject_method的decorator版
+   * 例：
   const map = {
     @inject({method1}) s(s){...},
   }
- */ 
-export const inject_method_dec = method_lib => (t, n, d)=> {
+  */ 
   const {value:fn} = d
   d.value = s=>{
     return {
@@ -273,11 +260,11 @@ export const inject_method_dec = method_lib => (t, n, d)=> {
   }
 }
 
-/*
- * [deprecated] 移至redux.js
- * 生成直接对应action的方法，作为装饰器使用
- */
+// [deprecated] 移至redux.js
 export const inject_action_decor = (...methods) => (t, n, desc) => {
+  /*
+   * 生成直接对应action的方法，作为装饰器使用
+   */
   const {value:fn} = desc
 
   desc.value = d => {
