@@ -54,6 +54,11 @@ class Uniquer {
     return this.m[key]
   }
 
+  clear(){
+    this.s.clear()
+    this.m = {}
+  }
+
 }
 
 const def = new Uniquer()
