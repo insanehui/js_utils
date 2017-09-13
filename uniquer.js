@@ -18,21 +18,22 @@ class Uniquer {
   gen(val, key) { // key为可选，用于后续查询，不能为falsy
 
     const s = this.s
-    while ( s.has(val) ) {
-      if ( val === undefined ) {
-        val = this.c.scount()
-      } else {
-        val += (this.sp + this.c.scount())
-      }
+    let ret
+    if ( val === undefined ) {
+      ret = this.c.scount()
     } 
-    s.add(val)
+
+    while ( s.has(ret) ) {
+      ret = (val || '') + (this.sp + this.c.scount())
+    } 
+    s.add(ret)
 
     // key的唯一性由使用者保证
     if ( key ) {
-      this.m[key] = val
+      this.m[key] = ret
     } 
 
-    return val
+    return ret
   }
 
   add(val, key) { // key可选，用于查询
