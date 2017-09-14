@@ -240,6 +240,17 @@ export function test_ungroup(){
 
 }
 
+// 对lodash的compact的一个封装，令其支持对象
+export const compact = val => {
+  if ( _.isArray(val) ) {
+    return _.compact(val)
+  } 
+  if ( _.isObject(val) ) {
+    return _.pickBy(val, x=>x)
+  } 
+  return val  
+}
+
 // 将arr以值为分割，截成2段，返回新数组，形如：[ before, after ]，不包括v
 function arrCut(arr, v) { 
   const i = _.indexOf(arr, v)
