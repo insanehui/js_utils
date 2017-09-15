@@ -102,6 +102,16 @@ export function group(o, [...by], {...opt}){
   return ret
 }
 
+// 从一个集合中取任意一个元素
+export const anyone = c => {
+  let ret
+  for(const key in c) {
+    ret = c[key]
+    return ret
+  }
+  return ret
+}
+
 function _traverse(obj, fn, depth, pre){ // 递归主体. 深度遍历一个对象，可以指定深度级别
   /*
    * obj: 为当前的对象，而非根对象。目的一是提高效率，二是体现更纯粹的递归思想
