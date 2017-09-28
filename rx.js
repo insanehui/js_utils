@@ -2,17 +2,18 @@ import {findDOMNode} from 'react-dom'
 import Rx from 'rxjs/Rx'
 import './rx/mouseDxy.js'
 
-// 构造dom元素的drag事件
-export const RxDrag$ = el=>{
+/*
+ * 拖动流，可防"脱手"
+ */
+export const drag = (el, parent)=>{
   el = findDOMNode(el)
-  const moves = Rx.Observable.fromEvent(el, 'mousemove').mouseDxy()
-  const ups = Rx.Observable.fromEvent(el, 'mouseup')
+  parent = parent || el.parentNode || el
+
+  const moves = Rx.Observable.fromEvent(parent, 'mousemove').mouseDxy()
+  const ups = Rx.Observable.fromEvent(parent, 'mouseup')
   const downs = Rx.Observable.fromEvent(el, 'mousedown')
   const drags = moves.windowToggle(downs, ()=>ups)
-  return drags
+  return drags.concatAll()
 }
 
-export const RxDrag = el=>{
-  return RxDrag$(el).concatAll()
-}
 
