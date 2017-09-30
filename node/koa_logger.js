@@ -52,3 +52,8 @@ export async function logger(ctx, next) {
   }
 }
 
+// 用于在其他中间件环境中包装日志函数，令其他中间件里的日志也能打印出会话信息
+export function wrapper(ctx, log){
+  const x = ctx.state.logger
+  return x ? x(log) : log
+}
