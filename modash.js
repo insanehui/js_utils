@@ -414,16 +414,15 @@ export function partial_order(pairs){ // 根据关系对，得到偏序的一个
 
     for (const pair of pairs) {
       if ( item === pair[1] ) { // 找到其中一个依赖
-        res = partial_one(pair[0], pairs) // 将res置为当前依赖的广义依赖序
+        partial_one(pair[0], pairs) 
       } 
     }
 
-    return [...res, item]
+    res = [...res, item]
   }
 
-
   for (const pair of pairs) {
-    res = partial_one(pair[1], pairs)
+    partial_one(pair[1], pairs)
     // console.log('---->', pair, JSON.stringify(res))
   }
 
