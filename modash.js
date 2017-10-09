@@ -392,28 +392,33 @@ export function numberfirst(v){ // 优先转为数字
 
 export function partial_order(pairs){ // 根据关系对，得到偏序的一个顺序
   /*
-   * 思路：
-   * 递归地去找一个东西的依赖
+   * 顺序规则约定：pairs里的顺序与最终输出的排序一致。即如果pairs为[[a, b], [b, c]]，则输出为[a, b, c]
+   *
+   * > 术语：
+   * 依赖：如果[a, b]出现在pairs中，则称a为b的依赖
+   * 依赖序：对于一个a，求得一序列s（形如[x1, .., xn, a]），其中[x1, ..., xn]为a所有依赖的集合，并且按偏序排列，这时称s为a的一个依赖序
+   *  注：给定一个a，其依赖序不一定唯一
    */
-
   let res = [] // 最终的结果
 
-  function partial_one(item, pairs) { // 这是个递归函数, 目标导出一个序列
-    // console.log("item: ", item, "res: ", res)
+  /*
+   * [依赖序加入] 指以下函数做的事情，即，将一个a的依赖序，加入到已有的res序列中去
+   */
+
+  // 递归
+  function partial_one(item, pairs) { 
 
     if ( _.includes(res, item) ) { // 说明它已经输出过了，直接返回
       return res
     } 
 
-    // 递归地do其依赖
     for (const pair of pairs) {
-      if ( item === pair[1] ) { // 找到一个依赖
-        res = partial_one(pair[0], pairs)
+      if ( item === pair[1] ) { // 找到其中一个依赖
+        res = partial_one(pair[0], pairs) // 将res置为当前依赖的广义依赖序
       } 
     }
 
     return [...res, item]
-
   }
 
 
