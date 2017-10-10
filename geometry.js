@@ -86,19 +86,20 @@ export function links2tree(links){
     return map[key]
   }
 
-  const bubble_pool = {} // 通过类似"冒泡"的方法找出根
+  const keys = {} // 用来找到"头"
+  for (const [from, to] of links) {
+    keys[from] = keys[to] = 1
+  }
 
   for(const key in links) {
     const [from, to] = links[key]
     get(to).children.push(get(from)) // 搭建树结构
-
-    // 冒泡
-    delete bubble_pool[from]
-    bubble_pool[to] = 1
+    delete keys[from]
   }
 
-  let root = _.keys(bubble_pool)
+  let root = _.keys(keys)
   if ( root.length !== 1 ) {
+    console.log('roots', root)
     let err = 'links does not form a tree'
     throw err
   } 
