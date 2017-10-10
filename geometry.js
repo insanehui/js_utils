@@ -1,5 +1,6 @@
 /*
  * 一些几何相关的库
+ * 包括拓扑几何的一些算法，也暂时放到这里
  */
 import _ from 'lodash'
 
@@ -62,3 +63,46 @@ export const point_in_rect = (point, rect) => { // 判断一个点是否在矩�
   return false
 
 }
+
+// 将边数据结构转成树数据结构
+export function links2tree(links){
+  /*
+   * 最终返回的树结构为
+   * {
+   *  key: 全局唯一
+   *  children : [
+   *    {
+   *      key:
+   *    },
+   *  ]
+   * }
+   */
+  let map = {}
+
+  function get(key) {
+    if ( !map[key] ) {
+      map[key] = {key, children:[]}
+    } 
+    return map[key]
+  }
+
+  const bubble_pool = {} // 通过类似"冒泡"的方法找出根
+
+  for(const key in links) {
+    const [from, to] = links[key]
+    get(to).children.push(get(from)) // 搭建树结构
+
+    // 冒泡
+    delete bubble_pool[from]
+    bubble_pool[to] = 1
+  }
+
+  let root = _.keys(bubble_pool)
+  if ( root.length !== 1 ) {
+    let err = 'links does not form a tree'
+    throw err
+  } 
+
+  return get(root[0])
+}
+
