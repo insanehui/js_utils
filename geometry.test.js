@@ -5,42 +5,77 @@ describe('links2tree', () => {
     const para = [
     [
       [
-        "a",
-        "b"
+        "bp12",
+        "bp"
       ],
       [
-        "c",
-        "b"
+        "bp3",
+        "bp"
       ],
       [
-        "b",
-        "e"
+        "bp4",
+        "bp"
       ],
       [
-        "d",
-        "e"
+        "bp1",
+        "bp"
+      ],
+      [
+        "bp2",
+        "bp1"
+      ],
+      [
+        "bp45",
+        "bp4"
+      ],
+      [
+        "bp123",
+        "bp3"
+      ],
+      [
+        "bp1234",
+        "bp45"
       ]
     ]
   ]
     const hope = {
-    "key": "e",
+    "key": "bp",
     "children": [
       {
-        "key": "b",
+        "key": "bp12",
+        "children": []
+      },
+      {
+        "key": "bp3",
         "children": [
           {
-            "key": "a",
-            "children": []
-          },
-          {
-            "key": "c",
+            "key": "bp123",
             "children": []
           }
         ]
       },
       {
-        "key": "d",
-        "children": []
+        "key": "bp4",
+        "children": [
+          {
+            "key": "bp45",
+            "children": [
+              {
+                "key": "bp1234",
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "bp1",
+        "children": [
+          {
+            "key": "bp2",
+            "children": []
+          }
+        ]
       }
     ]
   }
