@@ -102,7 +102,7 @@ export function group(o, [...by], {...opt}){
   return ret
 }
 
-// 从一个集合中取任意一个元素
+// 从一个集合中取任意一个元素，也可以当onlyone使用
 export const anyone = c => {
   let ret
   for(const key in c) {
@@ -525,5 +525,17 @@ export const estop = (a1, name, d) => {
 export const decorative = fn => (t, n, d) => {
   const {value} = d
   d.value = fn(value)
+}
+
+// 构造一个函数，第一次调用返回true，之后都返回false
+export const firstor = ()=>{
+  let ret = 1
+  return ()=>{
+    if ( ret ) {
+      ret = 0
+      return true
+    } 
+    return false
+  }
 }
 
