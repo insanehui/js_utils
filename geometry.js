@@ -3,6 +3,7 @@
  * 包括拓扑几何的一些算法，也暂时放到这里
  */
 import _ from 'lodash'
+import {firstor} from './modash.js'
 
 const _bound_rect = points => { 
   /*
@@ -105,5 +106,70 @@ export function links2tree(links){
   } 
 
   return get(root[0])
+}
+
+// 根据树结构以及一些配置（待定），自动计算出每个结点的坐标（纯算法）
+export function tree_layout(tree) {
+  /*
+   * tree的格式为：
+   * {
+   *  key: 全局唯一
+   *  children : []
+   * }
+   */
+
+  // 先深克隆一份
+  tree = _.cloneDeep(tree)
+
+  /*
+   * 这里先考虑每个节点本身是没有大小的（对于节点本身有形状大小的场景似乎可以转化为没有大小的情况）
+   * 最终会注入的布局数据如下：
+   * width, height: 整个外包矩形的尺寸
+   * lx, ly: 头节点在外包矩形里的坐标
+   * dx, dy: 其作为子节点，在外层里的编移
+   */
+
+  // 先定义一些布局常量
+  const DX = 120, DY = 160 // x和y的间隔
+
+  function relative_layout(head) { // 递归求相对坐标
+    const {children} = head
+
+    if ( !children.length ) { // 如果没有子节点，直接以最简单的形式返回
+      head.width = head.height = 0
+      head.lx = head.ly = 0
+      return
+    } 
+
+    // 对于有子节点的情况，先递归布局子节点
+    for (const child of children) {
+      relative_layout(child)
+    }
+
+    // 这时子节点都已有了一部分坐标数据
+    let cw = 0, ch = 0  // 用来统计孩子部分的尺寸
+    const first = firstor()
+    for (const child of children) {
+      const {width, height} = child
+
+      child.dy = DY // 每个孩子的dy固定为全局的DY
+
+      const step = first() ? 0 : DX
+      cw += step
+      child.dx = cw
+
+      cw += width
+      ch = Math.max(ch, height)
+    }
+
+    // 得到自己的坐标信息
+    head.width = cw
+    head.height = ch + DY
+    head.lx = cw / 2
+    head.ly = 0
+  }
+
+  relative_layout(tree)
+  return tree
 }
 
