@@ -123,17 +123,21 @@ export function tree_layout(tree) {
 
   /*
    * 这里先考虑每个节点本身是没有大小的（对于节点本身有形状大小的场景似乎可以转化为没有大小的情况）
-   * 最终会注入的布局数据如下：
-   * width, height: 整个外包矩形的尺寸
-   * lx, ly: 头节点在外包矩形里的坐标
-   * dx, dy: 其作为子节点，在外层里的编移
    */
 
   // 先定义一些布局常量
   const DX = 120, DY = 160 // x和y的间隔
 
   function relative_layout(head) { // 递归求相对坐标
+    /*
+     * 最终会注入的布局数据如下：
+     * width, height: 整个外包矩形的尺寸
+     * lx, ly: 头节点在外包矩形里的坐标
+     * dx, dy: 其作为子节点，在外层里的编移
+     */
+
     const {children} = head
+    head.dx = head.dy = 0 // dx, dy的初始化
 
     if ( !children.length ) { // 如果没有子节点，直接以最简单的形式返回
       head.width = head.height = 0
@@ -168,8 +172,27 @@ export function tree_layout(tree) {
     head.lx = cw / 2
     head.ly = 0
   }
-
   relative_layout(tree)
+
+  function global_layout(head, ctx = {dx:0, dy:0}) { // 在相对坐标已知的基础上，递归求得绝对坐标
+    /*
+     * 最终会注入gx, gy
+     */
+    const {dx:cdx, dy:cdy} = ctx
+    const {children, lx, ly} = head
+    let {dx, dy} = head
+    dx += cdx
+    dy += cdy
+    head.gx = lx + dx
+    head.gy = ly + dy
+
+    // 递归处理子节点
+    for (const child of children) {
+      global_layout(child, {dx, dy})
+    }
+  }
+  global_layout(tree)
+
   return tree
 }
 
