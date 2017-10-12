@@ -26,6 +26,27 @@ export const query = fetch_fn => async(...para) => {
   return fetch_fn(url, _.omit(opt, 'query'), ...rest)
 }
 
+
+// 采用application/json的方式来post
+export const post_json = fetch_fn => async(url, opt = {}, ...para) => {
+  /*
+   * 通过 opt:{json_body} 来指定一个post的参数
+   */
+  opt = _.cloneDeep(opt) // 深拷贝一份
+  const {json_body} = opt
+  if ( _.isObject(json_body) ) {
+    _.merge(opt, {
+      method : 'POST',
+      headers:{
+      'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+      'Content-Type': 'application/json; charset=utf-8'
+    }})
+
+    opt.body = JSON.stringify(json_body)
+  } 
+  return fetch_fn(url, opt, ...para)
+}
+
 // 支持urlencoded形式的post body
 export const post_urlenc = fetch_fn => async (...para) => { 
   /*
