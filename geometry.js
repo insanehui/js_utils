@@ -196,3 +196,20 @@ export function tree_layout(tree) {
   return tree
 }
 
+// 先序遍历树结构的算法
+export function pre_traverse(tree, fn){
+  /*
+   * fn(child)
+   */
+
+  function traverse(head) { // 递归函数
+    const {children} = head
+    fn(head)
+    for (const child of children) {
+      traverse(child)
+    }
+  }
+
+  traverse(tree)
+}
+
