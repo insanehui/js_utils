@@ -2,7 +2,7 @@
  * guitar pro5的格式解析库
  */
 
-const versions = [
+const versions = [ // 支持的版本
   'FICHIER GUITAR PRO v5.00',
   'FICHIER GUITAR PRO v5.10'
 ];
@@ -11,11 +11,35 @@ const QUARTER_TIME = 960;
 const QUARTER = 4;
 
 export const parse = buf => { // 解析主函数
-  let version;
+  /*
+   * buf为Buffer类型
+   */
+  let version; // 存放版本的一个字符串，形如：FICHIER GUITAR PRO v5.10
   let versionIndex;
+
+  const readString = (size, len) => { // 读size长的数据，并截出长为len的字符串
+    /*
+     * size指的是存放字符串区域的长度，len为字符串本身的长度
+     */
+    if (typeof len == 'undefined') len = size;
+    const bytes = buf.slice(0, size > 0 ? size : len);
+    buf = buf.slice(bytes.length);
+    return bytes.toString('utf8', 0, len >= 0 && len <= bytes.length ? len : size);
+  };
+
+  const readUnsignedByte = () => { // 读一个字节的unsigned int
+    const num = buf[0] & 0xff;
+    buf = buf.slice(1);
+    return num;
+  };
+
+  const readStringByte = (size) => {
+    return readString(size, readUnsignedByte());
+  };
 
   const readVersion = () => {
     version = readStringByte(30);
+    console.log('version', version)
   };
 
   const readColor = () => {
@@ -37,37 +61,16 @@ export const parse = buf => { // 解析主函数
     return false;
   };
 
-  const readUnsignedByte = () => {
-    const num = buf[0] & 0xff;
-    buf = buf.slice(1);
-    return num;
-  };
-
-  const readByte = () => {
+  const readByte = () => { // 读一个字节
     const byte = buf[0];
     buf = buf.slice(1);
     return byte;
   };
 
-  const readInt = () => {
+  const readInt = () => { // 读一个int，占4个字节. 这里注意了字节序的问题
     const bytes = buf.slice(0, 4);
     buf = buf.slice(4);
     return ((bytes[3] & 0xff) << 24) | ((bytes[2] & 0xff) << 16) | ((bytes[1] & 0xff) << 8) | (bytes[0] & 0xff);
-  };
-
-  const readString = (size, len) => {
-    if (typeof len == 'undefined') len = size;
-    const bytes = buf.slice(0, size > 0
-      ? size
-      : len);
-    buf = buf.slice(bytes.length);
-    return bytes.toString('utf8', 0, len >= 0 && len <= bytes.length
-      ? len
-      : size);
-  };
-
-  const readStringByte = (size) => {
-    return readString(size, readUnsignedByte());
   };
 
   const readStringByteSizeOfInteger = () => {
@@ -130,11 +133,10 @@ export const parse = buf => { // 解析主函数
     return channels;
   };
 
-  readVersion();
-
+  // 读取版本
+  readVersion(); 
   if (!isSupportedVersion(version)) throw new Error('unsupported version');
-
-  const [, major, minor] = /v(\d+)\.(\d+)/.exec(version);
+  const [, major, minor] = /v(\d+)\.(\d+)/.exec(version); // 解析出major和minor版本
 
   const title = readStringByteSizeOfInteger();
   const subtitle = readStringByteSizeOfInteger();
