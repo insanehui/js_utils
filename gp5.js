@@ -172,15 +172,19 @@ export const parse = buf => { // 解析主函数
 
   skip(42);
 
-  console.log('after', buf)
   const measures = readInt();
   const trackCount = readInt();
 
   const measureHeaders = [];
-  let timeSignature = { numerator: 4, denominator: {
-    value: QUARTER,
-    division: { enters: 1, times: 1 }
-  }};
+  let timeSignature = { 
+    numerator: 4, 
+    denominator: {
+      value: QUARTER,
+      division: { 
+        enters: 1, times: 1 
+      }
+    }
+  };
   for (let i = 0; i < measures; i++) {
     if (i > 0) skip(1);
     let flags = readUnsignedByte();
@@ -269,6 +273,7 @@ export const parse = buf => { // 解析主函数
     readInt();
     readChannel(track);
     readInt();
+
     track.offset = readInt();
     track.color = readColor();
     track.measures = [];
@@ -291,6 +296,7 @@ export const parse = buf => { // 解析主函数
       voice.empty = (beatType & 0x02) === 0;
     }
     const duration = readDuration(flags);
+
     const effect = {};
     if ((flags & 0x02) !== 0) readChord(track.strings.length, beat);
     if ((flags & 0x04) !== 0) readText(beat);
@@ -576,7 +582,8 @@ export const parse = buf => { // 解析主函数
 
   const readDuration = (flags) => {
     const duration = {};
-    duration.value = (Math.pow(2, (readByte() + 4)) / 4);
+    const v = readByte()
+    duration.value = (Math.pow(2, (v + 4)) / 4);
     duration.dotted = (flags & 0x01) !== 0;
     duration.division = {};
     if ((flags & 0x20) !== 0) {
@@ -647,6 +654,7 @@ export const parse = buf => { // 解析主函数
   }
 
   const readMeasure = (measure, track, tempo) => {
+    // 总共两个声部
     for (let voice = 0; voice < 2; voice++) {
       let start = measure.start;
       let beats = readInt();
@@ -696,9 +704,11 @@ export const parse = buf => { // 解析主函数
     let header = measureHeaders[i];
     header.start = start;
     for (let j = 0; j < trackCount; j++) {
+      // 小节的保存顺序是先竖排再横排（即先跨track）
       let track = tracks[j];
       let measure = { header: header, start: start, beats: [] };
       track.measures.push(measure);
+      console.log('buf', buf)
       readMeasure(measure, track, tempo);
       skip(1);
     }
