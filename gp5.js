@@ -17,11 +17,15 @@ export const parse = buf => { // 解析主函数
   let version; // 存放版本的一个字符串，形如：FICHIER GUITAR PRO v5.10
   let versionIndex;
 
+  const skip = (n) => { // 跳过一定长度
+    buf = buf.slice(n);
+  };
+
   const readString = (size, len) => { // 读size长的数据，并截出长为len的字符串
     /*
      * size指的是存放字符串区域的长度，len为字符串本身的长度
      */
-    if (typeof len == 'undefined') len = size;
+    if (typeof len === 'undefined') len = size;
     const bytes = buf.slice(0, size > 0 ? size : len);
     buf = buf.slice(bytes.length);
     return bytes.toString('utf8', 0, len >= 0 && len <= bytes.length ? len : size);
@@ -33,13 +37,12 @@ export const parse = buf => { // 解析主函数
     return num;
   };
 
-  const readStringByte = (size) => {
+  const readStringByte = (size) => { // 先读一个字节len，再读一段字符串
     return readString(size, readUnsignedByte());
   };
 
   const readVersion = () => {
     version = readStringByte(30);
-    console.log('version', version)
   };
 
   const readColor = () => {
@@ -74,15 +77,12 @@ export const parse = buf => { // 解析主函数
   };
 
   const readStringByteSizeOfInteger = () => {
-    return readStringByte(readInt() - 1);
+    const int = readInt() 
+    return readStringByte(int - 1);
   };
 
   const readStringInteger = () => {
     return readString(readInt());
-  };
-
-  const skip = (n) => {
-    buf = buf.slice(n);
   };
 
   const readKeySignature = () => {
@@ -91,12 +91,12 @@ export const parse = buf => { // 解析主函数
     return keySignature;
   };
 
-  const readLyrics = () => {
+  const readLyrics = () => { // 读歌词
     let lyric = {};
     lyric.from = readInt(); 
     lyric.lyric = readStringInteger();
     for (let i = 0; i < 4; i++) {
-      readInt();
+      readInt()
       readStringInteger();
     }
     return lyric;
@@ -123,7 +123,7 @@ export const parse = buf => { // 解析主函数
       channel.reverb = readByte();
       channel.phaser = readByte();
       channel.tremolo = readByte();
-      channel.bank = i == 9
+      channel.bank = i === 9
         ? 'default percussion bank'
         : 'default bank'
       if (channel.program < 0) channel.program = 0;
@@ -149,7 +149,7 @@ export const parse = buf => { // 解析主函数
   const instructions = readStringByteSizeOfInteger();
   const commentsLen = readInt();
   const comments = [];
-  for (let i = 0; i < comments; i++) {
+  for (let i = 0; i < commentsLen; i++) {
     comments.push(readStringByteSizeOfInteger());
   }
 
@@ -172,6 +172,7 @@ export const parse = buf => { // 解析主函数
 
   skip(42);
 
+  console.log('after', buf)
   const measures = readInt();
   const trackCount = readInt();
 
@@ -187,24 +188,24 @@ export const parse = buf => { // 解析主函数
     header.number = i+1;
     header.start = 0;
     header.tempo = 120;
-    header.repeatOpen = (flags & 0x04) != 0;
-    if ((flags & 0x01) != 0) timeSignature.numerator = readByte();
-    if ((flags & 0x02) != 0) timeSignature.denominator.value = readByte();
+    header.repeatOpen = (flags & 0x04) !== 0;
+    if ((flags & 0x01) !== 0) timeSignature.numerator = readByte();
+    if ((flags & 0x02) !== 0) timeSignature.denominator.value = readByte();
     header.timeSignature = JSON.parse(JSON.stringify(timeSignature));
-    if ((flags & 0x08) != 0) header.repeatClose = (readByte() & 0xff) - 1;
-    if ((flags & 0x20) != 0) {
+    if ((flags & 0x08) !== 0) header.repeatClose = (readByte() & 0xff) - 1;
+    if ((flags & 0x20) !== 0) {
       let marker = header.marker = {};
       marker.measure = header.number;
       marker.title = readStringByteSizeOfInteger();
       marker.color = readColor();
     }
-    if ((flags & 0x10) != 0) header.repeatAlternative = readUnsignedByte();
-    if ((flags & 0x40) != 0) {
+    if ((flags & 0x10) !== 0) header.repeatAlternative = readUnsignedByte();
+    if ((flags & 0x40) !== 0) {
       keySignature = readKeySignature();
       skip(1);
     }
-    if ((flags & 0x01) != 0 || (flags & 0x02) != 0) skip(4);
-    if ((flags & 0x10) == 0) skip(1);
+    if ((flags & 0x01) !== 0 || (flags & 0x02) !== 0) skip(4);
+    if ((flags & 0x10) === 0) skip(1);
     let tripletFeel = readByte();
     if (tripletFeel === 1) header.tripletFeel = 'eigth';
     else if (tripletFeel === 2) header.tripletFeel = 'sixteents';
@@ -222,7 +223,7 @@ export const parse = buf => { // 解析主函数
       gmChannel1Param.key = 'gm channel 1';
       gmChannel1Param.value = String(gmChannel1);
       gmChannel2Param.key = 'gm channel 2';
-      gmChannel2Param.value = String(gmChannel1 != 9 ? gmChannel2 : gmChannel1);
+      gmChannel2Param.value = String(gmChannel1 !== 9 ? gmChannel2 : gmChannel1);
 
       const channel = JSON.parse(JSON.stringify(channels[gmChannel1]));
 
@@ -250,7 +251,7 @@ export const parse = buf => { // 解析主函数
     readUnsignedByte();
     if (number === 1 || versionIndex === 0) skip(1);
     track.number = number;
-    track.lyrics = number == lyricTrack
+    track.lyrics = number === lyricTrack
       ? lyric
       : {};
     track.name = readStringByte(40);
@@ -278,26 +279,26 @@ export const parse = buf => { // 解析主函数
     }
     tracks.push(track);
   }
-  skip(versionIndex == 0 ? 2 : 1);
+  skip(versionIndex === 0 ? 2 : 1);
 
   const readBeat = (start, measure, track, tempo, voiceIndex) => {
     const flags = readUnsignedByte();
 
     const beat = getBeat(measure, start);
     const voice = beat.voices[voiceIndex];
-    if ((flags & 0x40) != 0) {
+    if ((flags & 0x40) !== 0) {
       const beatType = readUnsignedByte();
       voice.empty = (beatType & 0x02) === 0;
     }
     const duration = readDuration(flags);
     const effect = {};
-    if ((flags & 0x02) != 0) readChord(track.strings.length, beat);
-    if ((flags & 0x04) != 0) readText(beat);
-    if ((flags & 0x08) != 0) readBeatEffects(beat, effect);
-    if ((flags & 0x10) != 0) readMixChange(tempo);
+    if ((flags & 0x02) !== 0) readChord(track.strings.length, beat);
+    if ((flags & 0x04) !== 0) readText(beat);
+    if ((flags & 0x08) !== 0) readBeatEffects(beat, effect);
+    if ((flags & 0x10) !== 0) readMixChange(tempo);
     const stringFlags = readUnsignedByte();
     for (let i = 6; i>= 0; i--) {
-      if ((stringFlags & (1 << i)) != 0 && (6 - i) < track.strings.length) {
+      if ((stringFlags & (1 << i)) !== 0 && (6 - i) < track.strings.length) {
         let string = JSON.parse(JSON.stringify(track.strings[6 - i]));
         let note = readNote(string, track, JSON.parse(JSON.stringify(effect)));
         voice.notes.push(note);
@@ -308,7 +309,7 @@ export const parse = buf => { // 解析主函数
     skip(1);
 
     const read = readByte();
-    if ((read & 0x02) != 0) skip(1);
+    if ((read & 0x02) !== 0) skip(1);
 
     return (voice.notes.length ? duration : 0);
   };
@@ -318,18 +319,18 @@ export const parse = buf => { // 解析主函数
     const note = {};
     note.string = string.number;
     note.effect = effect;
-    note.effect.accentuatedNote = (flags & 0x40) != 0;
-    note.effect.heavyAccentuatedNote = (flags & 0x02) != 0;
-    note.effect.ghostNote = (flags & 0x04) != 0;
-    if ((flags & 0x20) != 0) {
+    note.effect.accentuatedNote = (flags & 0x40) !== 0;
+    note.effect.heavyAccentuatedNote = (flags & 0x02) !== 0;
+    note.effect.ghostNote = (flags & 0x04) !== 0;
+    if ((flags & 0x20) !== 0) {
       const noteType = readUnsignedByte();
       note.tiedNote = noteType === 0x02;
       note.effect.deadNote = noteType === 0x03;
     }
-    if ((flags & 0x10) != 0) {
+    if ((flags & 0x10) !== 0) {
       note.velocity = 'TGVelocities.MIN_VELOCITY' + ('TGVElocities.VELOCITY_INCREMENT' * readByte()) - 'TGVelocities.VELOCITY_INCREMENT'; // TODO
     }
-    if ((flags & 0x20) != 0) {
+    if ((flags & 0x20) !== 0) {
       const fret = readByte();
       const value = note.tiedNote
         ? getTiedNoteValue(string.number, track)
@@ -338,30 +339,30 @@ export const parse = buf => { // 解析主函数
         ? value
         : 0;
     }
-    if ((flags & 0x80) != 0) skip(2);
-    if ((flags & 0x01) != 0) skip(8);
+    if ((flags & 0x80) !== 0) skip(2);
+    if ((flags & 0x01) !== 0) skip(8);
     skip(1);
-    if ((flags & 0x08) != 0) readNoteEffects(note.effect);
+    if ((flags & 0x08) !== 0) readNoteEffects(note.effect);
     return note;
   };
 
   const readNoteEffects = noteEffect => {
     const flags1 = readUnsignedByte();
     const flags2 = readUnsignedByte();
-    if ((flags1 & 0x01) != 0) readBend(noteEffect);
-    if ((flags1 & 0x10) != 0) readGrace(noteEffect);
-    if ((flags2 & 0x04) != 0) readTremoloPicking(noteEffect);
-    if ((flags2 & 0x08) != 0) {
+    if ((flags1 & 0x01) !== 0) readBend(noteEffect);
+    if ((flags1 & 0x10) !== 0) readGrace(noteEffect);
+    if ((flags2 & 0x04) !== 0) readTremoloPicking(noteEffect);
+    if ((flags2 & 0x08) !== 0) {
       noteEffect.slide = true;
       readByte();
     }
-    if ((flags2 & 0x10) != 0) readArtificialHarmonic(noteEffect);
-    if ((flags2 & 0x20) != 0) readTrill(noteEffect);
-    noteEffect.hammer = (flags1 & 0x02) != 0;
-    noteEffect.letRing = (flags1 & 0x08) != 0;
-    noteEffect.vibrato = (flags2 & 0x40) != 0;
-    noteEffect.palmMute = (flags2 & 0x02) != 0;
-    noteEffect.staccato = (flags2 & 0x01) != 0;
+    if ((flags2 & 0x10) !== 0) readArtificialHarmonic(noteEffect);
+    if ((flags2 & 0x20) !== 0) readTrill(noteEffect);
+    noteEffect.hammer = (flags1 & 0x02) !== 0;
+    noteEffect.letRing = (flags1 & 0x08) !== 0;
+    noteEffect.vibrato = (flags2 & 0x40) !== 0;
+    noteEffect.palmMute = (flags2 & 0x02) !== 0;
+    noteEffect.staccato = (flags2 & 0x01) !== 0;
   };
 
   const readTrill = effect => {
@@ -428,8 +429,8 @@ export const parse = buf => { // 解析主函数
     grace.fret = fret;
     grace.dynamic = ('TGVelocities.MIN_VELOCITY' + ('TGVelocities.VELOCITY_INCREMENT' * dynamic)) - 'TGVelocities.VELOCITY_INCREMENT';
     grace.duration = duration;
-    grace.dead = (flags & 0x01) != 0;
-    grace.onBeat = (flags & 0x02) != 0;
+    grace.dead = (flags & 0x01) !== 0;
+    grace.onBeat = (flags & 0x02) !== 0;
     if (transition === 0) grace.transition = 'none';
     else if (transition === 1) grace.transition = 'slide';
     else if (transition === 2) grace.transition = 'bend';
@@ -524,16 +525,16 @@ export const parse = buf => { // 解析主函数
   const readBeatEffects = (beat, noteEffect) => {
     const flags1 = readUnsignedByte();
     const flags2 = readUnsignedByte();
-    noteEffect.fadeIn = (flags1 & 0x10) != 0;
-    noteEffect.vibrato = (flags1 & 0x02) != 0;
-    if ((flags1 & 0x20) != 0) {
+    noteEffect.fadeIn = (flags1 & 0x10) !== 0;
+    noteEffect.vibrato = (flags1 & 0x02) !== 0;
+    if ((flags1 & 0x20) !== 0) {
       const effect = readUnsignedByte();
       noteEffect.tapping = effect === 1;
       noteEffect.slapping = effect === 2;
       noteEffect.popping = effect === 3;
     }
-    if ((flags2 & 0x04) != 0) readTremoloBar(noteEffect);
-    if ((flags1 & 0x40) != 0) {
+    if ((flags2 & 0x04) !== 0) readTremoloBar(noteEffect);
+    if ((flags1 & 0x40) !== 0) {
       const strokeUp = readByte();
       const strokeDown = readByte();
       // TODO
@@ -545,7 +546,7 @@ export const parse = buf => { // 解析主函数
         beat.stroke.value = 'stroke_down';
       }
     }
-    if ((flags2 & 0x02) != 0) readByte();
+    if ((flags2 & 0x02) !== 0) readByte();
   };
 
   const readText = beat => {
@@ -576,9 +577,9 @@ export const parse = buf => { // 解析主函数
   const readDuration = (flags) => {
     const duration = {};
     duration.value = (Math.pow(2, (readByte() + 4)) / 4);
-    duration.dotted = (flags & 0x01) != 0;
+    duration.dotted = (flags & 0x01) !== 0;
     duration.division = {};
-    if ((flags & 0x20) != 0) {
+    if ((flags & 0x20) !== 0) {
       const divisionType = readInt();
       switch (divisionType) {
         case 3:
