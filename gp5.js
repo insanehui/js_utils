@@ -291,7 +291,7 @@ export const parse = buf => { // 解析主函数
 
     const beat = getBeat(measure, start);
     const voice = beat.voices[voiceIndex];
-    if ((flags & 0x40) !== 0) {
+    if ((flags & 0x40) !== 0) { // 为空voice
       const beatType = readUnsignedByte();
       voice.empty = (beatType & 0x02) === 0;
     }
@@ -302,7 +302,9 @@ export const parse = buf => { // 解析主函数
     if ((flags & 0x04) !== 0) readText(beat);
     if ((flags & 0x08) !== 0) readBeatEffects(beat, effect);
     if ((flags & 0x10) !== 0) readMixChange(tempo);
-    const stringFlags = readUnsignedByte();
+
+    const stringFlags = readUnsignedByte(); // 表示哪几根弦上有音符，最左边的位为最低弦 
+
     for (let i = 6; i>= 0; i--) {
       if ((stringFlags & (1 << i)) !== 0 && (6 - i) < track.strings.length) {
         let string = JSON.parse(JSON.stringify(track.strings[6 - i]));
@@ -314,28 +316,29 @@ export const parse = buf => { // 解析主函数
 
     skip(1);
 
-    const read = readByte();
+    const read = readByte(); // 通常情况下都是0
     if ((read & 0x02) !== 0) skip(1);
-
     return (voice.notes.length ? duration : 0);
   };
 
   const readNote = (string, track, effect) => {
-    const flags = readUnsignedByte();
+    const flags = readUnsignedByte(); // 最普通为0x20(32)
     const note = {};
     note.string = string.number;
     note.effect = effect;
     note.effect.accentuatedNote = (flags & 0x40) !== 0;
     note.effect.heavyAccentuatedNote = (flags & 0x02) !== 0;
     note.effect.ghostNote = (flags & 0x04) !== 0;
-    if ((flags & 0x20) !== 0) {
-      const noteType = readUnsignedByte();
+
+    if ((flags & 0x20) !== 0) { // 0x20为最常见的普通音符的情况
+      const noteType = readUnsignedByte(); // 普通音符为01
       note.tiedNote = noteType === 0x02;
       note.effect.deadNote = noteType === 0x03;
     }
     if ((flags & 0x10) !== 0) {
       note.velocity = 'TGVelocities.MIN_VELOCITY' + ('TGVElocities.VELOCITY_INCREMENT' * readByte()) - 'TGVelocities.VELOCITY_INCREMENT'; // TODO
     }
+
     if ((flags & 0x20) !== 0) {
       const fret = readByte();
       const value = note.tiedNote
@@ -345,6 +348,7 @@ export const parse = buf => { // 解析主函数
         ? value
         : 0;
     }
+
     if ((flags & 0x80) !== 0) skip(2);
     if ((flags & 0x01) !== 0) skip(8);
     skip(1);
@@ -582,7 +586,7 @@ export const parse = buf => { // 解析主函数
 
   const readDuration = (flags) => {
     const duration = {};
-    const v = readByte()
+    const v = readByte() // 0代表4分音符，1为8分音符，类推
     duration.value = (Math.pow(2, (v + 4)) / 4);
     duration.dotted = (flags & 0x01) !== 0;
     duration.division = {};
@@ -708,7 +712,6 @@ export const parse = buf => { // 解析主函数
       let track = tracks[j];
       let measure = { header: header, start: start, beats: [] };
       track.measures.push(measure);
-      console.log('buf', buf)
       readMeasure(measure, track, tempo);
       skip(1);
     }
