@@ -5,12 +5,11 @@ import './rx/mouseDxy.js'
 /*
  * 拖动流，可防"脱手"
  */
-export const drag = (el, parent)=>{
+export const drag = el=>{
   el = findDOMNode(el)
-  parent = parent || el.parentNode || el
 
-  const moves = Rx.Observable.fromEvent(parent, 'mousemove').mouseDxy()
-  const ups = Rx.Observable.fromEvent(parent, 'mouseup')
+  const moves = Rx.Observable.fromEvent(window, 'mousemove').mouseDxy()
+  const ups = Rx.Observable.fromEvent(window, 'mouseup')
   const downs = Rx.Observable.fromEvent(el, 'mousedown')
   const drags = moves.windowToggle(downs, ()=>ups)
   return drags.concatAll()
