@@ -3,6 +3,7 @@
  */
 import React, { PureComponent } from 'react'
 import {drag} from '../rx.js'
+import {abs} from '../cssobj.js'
 
 export default class Resizable extends PureComponent {
 
@@ -43,26 +44,70 @@ export default class Resizable extends PureComponent {
 
     const {handle} = this
 
-    const Left = <div style={{
-      left: -7, top: 0, cursor: 'ew-resize',
+    const vbar = { // 竖直bar
+      top: 0, cursor: 'ew-resize',
       width: 14,
       height: '100%',
-      position: 'absolute',
-    }} ref={handle.bind(null, 'left')} />
+      ...abs,
+    }
 
-    const LeftTop = <div style={{
-      left: -5, top: -5, 
-      cursor: 'nwse-resize',
+    const hbar = { // 水平bar
+      left: 0, 
+      cursor: 'ns-resize',
+      width: '100%',
+      height: 14,
+      ...abs,
+    }
+
+    const corner = { // 角handle
       width: 12,
       height: 12,
       borderRadius : 4,
-      position: 'absolute',
-    }} ref={handle.bind(null, 'left_top')} />
+      ...abs,
+    }
+
+    const Left = <div style={{
+      left: -7, ...vbar,
+    }} ref={handle.bind(null, 'left')} />
+
+    const Right = <div style={{
+      right: -7, ...vbar,
+    }} ref={handle.bind(null, 'right')} />
+
+    const Top = <div style={{
+      top: -7, ...hbar,
+    }} ref={handle.bind(null, 'top')} />
+
+    const Bottom = <div style={{
+      bottom : -7, ...hbar,
+    }} ref={handle.bind(null, 'bottom')} />
+
+    const TopLeft = <div style={{
+      left: -5, top: -5, cursor: 'nwse-resize', ...corner,
+    }} ref={handle.bind(null, 'top_left')} />
+
+    const TopRight = <div style={{
+      top: -5, right: -5, cursor: 'nesw-resize', ...corner,
+    }} ref={handle.bind(null, 'top_right')} />
+
+    const BottomLeft = <div style={{
+      bottom: -5, left: -5, cursor: 'nesw-resize', ...corner,
+    }} ref={handle.bind(null, 'bottom_left')} />
+
+    const BottomRight = <div style={{
+      bottom: -5, right: -5, cursor: 'nwse-resize', ...corner,
+    }} ref={handle.bind(null, 'bottom_right')} />
 
     return <div {...forward}>
       {children}
       {!!(direction&0x40) && Left}
-      {!!(direction&0x80) && LeftTop}
+      {!!(direction&0x04) && Right}
+      {!!(direction&0x01) && Top}
+      {!!(direction&0x10) && Bottom}
+      {!!(direction&0x80) && TopLeft}
+      {!!(direction&0x02) && TopRight}
+      {!!(direction&0x20) && BottomLeft}
+      {!!(direction&0x08) && BottomRight}
     </div>
   }
 }
