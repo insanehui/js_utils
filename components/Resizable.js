@@ -2,6 +2,7 @@
  * 可以resize的组件
  */
 import React, { PureComponent } from 'react'
+import _ from 'lodash'
 import {drag} from '../rx.js'
 import {abs} from '../cssobj.js'
 
@@ -11,18 +12,37 @@ export default class Resizable extends PureComponent {
     onResize : ()=>{},
   }
 
-  off = [] // 用来unsubscribe rx的事件
+  events = {} // 存放要绑定事件的元素
+
+  off = {} // 存放unsubscribe的对象
 
   handle = (to, el) => {
-    const {onResize} = this.props
-    this.off.push(drag(el).map(d=>({
-      to,
-      ...d,
-    })).subscribe(onResize))
+    if ( el ) {
+      this.events[to] = el
+    } 
   }
 
-  componentWillUnmount(){
-    this.off.map(f => f.unsubscribe())
+  bind_events() {
+    const {onResize} = this.props
+    const {off, events} = this
+    console.log('events', events)
+    _.each(events, (el, to) => {
+      off[to] && off[to].unsubscribe()
+      off[to] = drag(el).map(d=>({
+        to, ...d,
+      })).subscribe(onResize)
+    })
+  }
+
+  componentDidMount(){
+    this.bind_events()
+  } 
+
+  componentDidUpdate(pp, ps, pc){
+    const {onResize, direction} = this.props
+    if ( onResize !== pp.onResize || direction !== pp.direction) {
+      this.bind_events()
+    } 
   }
 
   render() {
