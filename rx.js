@@ -6,6 +6,11 @@ import './rx/mouseDxy.js'
  * 拖动流，可防"脱手"
  */
 export const drag = el=>{
+
+  if ( !el ) {
+    return Rx.Observable.never() // 增加健壮性
+  } 
+
   el = findDOMNode(el)
 
   const moves = Rx.Observable.fromEvent(window, 'mousemove').mouseDxy()
