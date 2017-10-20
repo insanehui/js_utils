@@ -25,7 +25,6 @@ export default class Resizable extends PureComponent {
   bind_events() {
     const {onResize} = this.props
     const {off, events} = this
-    console.log('events', events)
     _.each(events, (el, to) => {
       off[to] && off[to].unsubscribe()
       off[to] = drag(el).map(d=>({
