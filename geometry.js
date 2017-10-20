@@ -109,7 +109,7 @@ export function links2tree(links){
 }
 
 // 根据树结构以及一些配置（待定），自动计算出每个结点的坐标（纯算法）
-export function tree_layout(tree) {
+export function tree_layout(tree, opt = {}) {
   /*
    * tree的格式为：
    * {
@@ -121,12 +121,13 @@ export function tree_layout(tree) {
   // 先深克隆一份
   tree = _.cloneDeep(tree)
 
+  opt = _.defaults(opt, {x_gap : 120, y_gap : 160})
+  const {x_gap, y_gap} = opt
+
   /*
    * 这里先考虑每个节点本身是没有大小的（对于节点本身有形状大小的场景似乎可以转化为没有大小的情况）
    */
 
-  // 先定义一些布局常量
-  const DX = 120, DY = 160 // x和y的间隔
 
   function relative_layout(head) { // 递归求相对坐标
     /*
@@ -157,9 +158,9 @@ export function tree_layout(tree) {
     for (const child of children) {
       const {width, height} = child
 
-      child.dy = DY // 每个孩子的dy固定为全局的DY
+      child.dy = y_gap // 每个孩子的dy固定为全局的DY
 
-      const step = first() ? 0 : DX
+      const step = first() ? 0 : x_gap
       cw += step
       child.dx = cw
 
@@ -177,7 +178,7 @@ export function tree_layout(tree) {
 
     // 得到自己的坐标信息
     head.width = cw
-    head.height = ch + DY
+    head.height = ch + y_gap
     // head.lx = cw / 2 // 这是取盒子中点的方法
     // 更好的是取子节点头部的中点
     head.lx = padding_left + heads_width/2
