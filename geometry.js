@@ -153,6 +153,7 @@ export function tree_layout(tree) {
     // 这时子节点都已有了一部分坐标数据
     let cw = 0, ch = 0  // 用来统计孩子部分的尺寸
     const first = firstor()
+
     for (const child of children) {
       const {width, height} = child
 
@@ -166,10 +167,20 @@ export function tree_layout(tree) {
       ch = Math.max(ch, height)
     }
 
+    // 要根据这两个值来计算head的坐标
+    const first_child = _.first(children)
+    const last_child = _.last(children)
+    const padding_left = first_child.lx
+    const padding_right = last_child.width - last_child.lx
+    const heads_width = cw - padding_left - padding_right
+
+
     // 得到自己的坐标信息
     head.width = cw
     head.height = ch + DY
-    head.lx = cw / 2
+    // head.lx = cw / 2 // 这是取盒子中点的方法
+    // 更好的是取子节点头部的中点
+    head.lx = padding_left + heads_width/2
     head.ly = 0
   }
   relative_layout(tree)
