@@ -1,7 +1,7 @@
 // 提供一些常用的React组件编写的工具
 import _ from 'lodash'
 import React, { PureComponent } from 'react'
-import R from 'ramda'
+import {either} from 'ramda'
 
 export function merge_props(p0, p1){ // 两个props合并，主要是针对style再合并一层
 
@@ -71,7 +71,7 @@ export const addStyle = (st = {}) => (Cmp = 'div') => { // => fn(Cmp0) => Cmp1�
   return styled
 }
 
-const isCmp =  R.either(_.isFunction, _.isString) // 判断一个参数是否代表一个组件
+const isCmp =  either(_.isFunction, _.isString) // 判断一个参数是否代表一个组件
 
 /*
  * 这是一个神奇的函数，暂时将其称这为"基因"

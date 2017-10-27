@@ -3,5 +3,5 @@
  */
 import qs from 'query-string'
 
-const para = qs.parse(location.search)
+const para = qs.parse(window.location.search)
 export {para}
