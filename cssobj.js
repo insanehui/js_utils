@@ -5,7 +5,7 @@ import jss from "jss";
 import preset from 'jss-preset-default'
 import _ from 'lodash'
 
-import {is_ie} from './browser.js'
+import {is_ms} from './browser.js'
 
 jss.setup(preset())
 
@@ -166,7 +166,7 @@ export const pre = {
 
 export function grid_bg(color = hsl(0,0,75), size = 12){ // 网格背景
   return {
-    backgroundImage: is_ie() ? 
+    backgroundImage: is_ms() ? 
       `-ms-linear-gradient(top, transparent ${size-1}px, ${color} ${size}px), -ms-linear-gradient(left, transparent ${size-1}px, ${color} ${size}px)` 
       : `-webkit-linear-gradient(top, transparent ${size-1}px, ${color} ${size}px), -webkit-linear-gradient(left, transparent ${size-1}px, ${color} ${size}px)`,
     backgroundSize: `${size}px ${size}px`,
