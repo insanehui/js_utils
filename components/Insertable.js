@@ -19,6 +19,7 @@ export class TopInsertable extends PureComponent {
 
   render() {
     const {children, 
+      onDrop,
       ...forward} = this.props
     const {hover} = this.state 
 
@@ -33,7 +34,8 @@ export class TopInsertable extends PureComponent {
         e.preventDefault()
       },
       onDrop : e=>{
-        console.log('top insertable drop')
+        onDrop && onDrop(e)
+        this.setState({ hover : false })
       }, 
     }
 
