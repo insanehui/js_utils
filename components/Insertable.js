@@ -51,8 +51,8 @@ export class TopInsertable extends PureComponent {
 
     /*
      * 为什么Sensor和Holder共用一个元素呢？
-     * 因为尝试过共用一个元素，会出现不能正常接受onDragLeave的事件
-     * 导致不能正常工作
+     * 因为它们两者不处在相同的dom树位置，哪怕是共用元素，在dom这一层会不断地创建和销毁元素
+     * 导致不能正常接受onDragLeave的事件
      */
     const Holder = <div key={1} style={{
       height : 10,
