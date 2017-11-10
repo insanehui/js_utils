@@ -8,7 +8,6 @@ import {abs, rel} from '../cssobj.js'
 const hbar = { // 水平bar
   left: 0, 
   width: '100%',
-  height: 14,
   ...abs,
   zIndex : 1, // 通过提高zindex来令其能感知事件
 }
@@ -39,7 +38,9 @@ export class TopInsertable extends PureComponent {
     }
 
     const Sensor = <div style={{
-      top : -7, ...hbar,
+      top : (hover ? -17 : -7), 
+      ...hbar,
+      height : 14,
     }} {...events}/>
 
     // 注：主元素的position只能先写死为relative
