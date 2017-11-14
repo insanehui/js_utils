@@ -6,6 +6,10 @@ import _ from 'lodash'
 const argv = require('yargs').argv // 这种动态的node模块，还是使用require更简洁
 const path = require('path')
 
+/*
+ * 使用方法：const {xx, xxx} = args({..这里是缺省的配置...})
+ * 或者是 args(cfg_file_name, defaults)
+ */
 export function args(a1, a2){
 
   let defaults, config_file_name
