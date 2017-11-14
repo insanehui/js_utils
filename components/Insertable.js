@@ -24,7 +24,7 @@ export class TopInsertable extends PureComponent {
 
   render() {
     const {children, 
-      onDrop,
+      onInsert,
       ...forward} = this.props
     const {hover} = this.state 
 
@@ -39,7 +39,7 @@ export class TopInsertable extends PureComponent {
         e.preventDefault()
       },
       onDrop : e=>{
-        onDrop && onDrop(e)
+        onInsert && onInsert(e)
         this.setState({ hover : false })
       }, 
     }
@@ -48,7 +48,6 @@ export class TopInsertable extends PureComponent {
       top : (hover ? -17 : -7), 
       ...hbar,
       height : 14,
-      background : 'transparent',
     }} {...events}/>
 
     // 注：主元素的position只能先写死为relative
