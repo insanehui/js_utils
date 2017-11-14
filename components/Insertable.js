@@ -39,6 +39,7 @@ export class TopInsertable extends PureComponent {
         e.preventDefault()
       },
       onDrop : e=>{
+        e.stopPropagation()
         onInsert && onInsert(e)
         this.setState({ hover : false })
       }, 
