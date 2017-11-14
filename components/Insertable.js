@@ -17,6 +17,11 @@ export class TopInsertable extends PureComponent {
     hover : false,
   }
 
+  refMain = el=>{ // 用来取到Main的width，以克隆给Holder使用
+    const {width} = el.getBoundingClientRect()
+    this.width = width
+  }
+
   render() {
     const {children, 
       onDrop,
@@ -43,10 +48,11 @@ export class TopInsertable extends PureComponent {
       top : (hover ? -17 : -7), 
       ...hbar,
       height : 14,
+      background : 'transparent',
     }} {...events}/>
 
     // 注：主元素的position只能先写死为relative
-    const Main =  <div {...merge(rel, forward)} key={0}>
+    const Main =  <div {...merge(rel, forward)} key={0} ref={this.refMain}>
       {children}
       {Sensor}
     </div>
@@ -59,6 +65,7 @@ export class TopInsertable extends PureComponent {
     const Holder = <div key={1} style={{
       height : 10,
       backgroundColor : 'gray',
+      width : this.width
     }}/>
 
     if ( !hover ) {
@@ -66,7 +73,8 @@ export class TopInsertable extends PureComponent {
     } 
     else {
       return [
-        Holder, Main, 
+        Holder, 
+        Main, 
       ]
     }
   }
