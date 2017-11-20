@@ -12,6 +12,10 @@ css({
       margin:0,
     },  
 
+    iframe : {
+      border : 'none',
+    },
+
     ':focus' : {
       outline: 'none',
     },
