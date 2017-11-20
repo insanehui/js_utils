@@ -430,24 +430,29 @@ export function partial_order(pairs){ // 根据关系对，得到偏序的一个
 }
 
 // 根据关系对，判断a能否到达b
-export function partial_reachable(a, b, pairs) { // 递归
-  for (const pair of pairs) {
-    // 找到以a为起点的地方
-    if ( a !== pair[0] ) { 
-      continue
-    } 
+export function partial_reachable(from, to, pairs) { // 递归
 
-    const next = pair[1]
-    if ( next === b ) { // 找到终点
-      return true // 返回结果
-    } 
+  function loop(a, b) {
+    for (const pair of pairs) {
+      // 找到以a为起点的地方
+      if ( a !== pair[0] ) { 
+        continue
+      } 
 
-    // 否则看看next能否到达
-    if ( partial_reachable(next, b, pairs) ) {
-      return true
-    } 
+      const next = pair[1]
+      if ( next === b ) { // 找到终点
+        return true // 返回结果
+      } 
+
+      // 否则看看next能否到达
+      if ( loop(next, b) ) {
+        return true
+      } 
+    }
+    return false
   }
-  return false
+
+  return loop(from, to)
 }
 
 // 根据关系对，比较两个元素
