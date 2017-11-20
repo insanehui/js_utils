@@ -404,9 +404,8 @@ export function partial_order(pairs){ // 根据关系对，得到偏序的一个
   /*
    * [依赖序加入] 指以下函数做的事情，即，将一个a的依赖序，加入到已有的res序列中去
    */
-
   // 递归
-  function partial_one(item, pairs) { 
+  function partial_one(item) { 
 
     if ( _.includes(res, item) ) { // 说明它已经输出过了，直接返回
       return res
@@ -414,7 +413,7 @@ export function partial_order(pairs){ // 根据关系对，得到偏序的一个
 
     for (const pair of pairs) {
       if ( item === pair[1] ) { // 找到其中一个依赖
-        partial_one(pair[0], pairs) 
+        partial_one(pair[0]) 
       } 
     }
 
@@ -422,7 +421,7 @@ export function partial_order(pairs){ // 根据关系对，得到偏序的一个
   }
 
   for (const pair of pairs) {
-    partial_one(pair[1], pairs)
+    partial_one(pair[1])
     // console.log('---->', pair, JSON.stringify(res))
   }
 
