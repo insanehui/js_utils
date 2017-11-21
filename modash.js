@@ -432,7 +432,7 @@ export function partial_order(pairs){ // 根据关系对，得到偏序的一个
 // 根据关系对，判断a能否到达b
 export function partial_reachable(from, to, pairs) { // 递归
 
-  function loop(a, b) {
+  function loop(a, b) { 
     for (const pair of pairs) {
       // 找到以a为起点的地方
       if ( a !== pair[0] ) { 
@@ -445,7 +445,7 @@ export function partial_reachable(from, to, pairs) { // 递归
       } 
 
       // 否则看看next能否到达
-      if ( loop(next, b) ) {
+      if ( loop(next, b) ) { 
         return true
       } 
     }
