@@ -392,6 +392,8 @@ export function numberfirst(v){ // 优先转为数字
 
 export function partial_order(pairs){ // 根据关系对，得到偏序的一个顺序
   /*
+   * 如果pairs不是一个偏序，将抛异常
+   *
    * 顺序规则约定：pairs里的顺序与最终输出的排序一致。即如果pairs为[[a, b], [b, c]]，则输出为[a, b, c]
    *
    * > 术语：
@@ -413,7 +415,7 @@ export function partial_order(pairs){ // 根据关系对，得到偏序的一个
   // 递归
   function partial_one(item) { 
     if ( _.includes(stack, item) ) { // 说明遇到了环路
-      throw new Error('loop found in partial')
+      throw new Error('loop found in partial') //注：这个错误信息会被单元测试依赖，注意不要随便改
     } 
     stack.push(item)
 
