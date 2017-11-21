@@ -433,6 +433,84 @@ describe('partial_reachable', () => {
     const fact = partial_reachable(...para)
     expect(fact).toEqual(hope)
   })
+
+  /*
+   * 以下为有环路的情况
+   * 图为 <url:./reachable.pptx>
+   */
+
+  it('loop1', () => {
+    const para = [
+      "a",
+      "e",
+      [
+        [
+          "a",
+          "b"
+        ],
+        [
+          "b",
+          "c"
+        ],
+        [
+          "c",
+          "a"
+        ],
+        [
+          "b",
+          "d"
+        ],
+        [
+          "d",
+          "e"
+        ],
+        [
+          "e",
+          "c"
+        ]
+      ]
+    ]
+    const hope = true
+    const fact = partial_reachable(...para)
+    expect(fact).toEqual(hope)
+  })
+
+  it('loop2', () => {
+    const para = [
+      "a",
+      "f",
+      [
+        [
+          "a",
+          "b"
+        ],
+        [
+          "b",
+          "c"
+        ],
+        [
+          "c",
+          "a"
+        ],
+        [
+          "b",
+          "d"
+        ],
+        [
+          "d",
+          "e"
+        ],
+        [
+          "e",
+          "c"
+        ]
+      ]
+    ]
+    const hope = false
+    const fact = partial_reachable(...para)
+    expect(fact).toEqual(hope)
+  })
+
 })
 
 test('wash', () => {

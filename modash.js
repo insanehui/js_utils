@@ -432,6 +432,8 @@ export function partial_order(pairs){ // 根据关系对，得到偏序的一个
 // 根据关系对，判断a能否到达b
 export function partial_reachable(from, to, pairs) { // 递归
 
+  const marks = new Set([from]) // 用来记录已经到过哪里，避免环路
+
   function loop(a, b) { 
     for (const pair of pairs) {
       // 找到以a为起点的地方
@@ -443,11 +445,15 @@ export function partial_reachable(from, to, pairs) { // 递归
       if ( next === b ) { // 找到终点
         return true // 返回结果
       } 
-
-      // 否则看看next能否到达
-      if ( loop(next, b) ) { 
-        return true
-      } 
+      else if ( marks.has(next) ) { // 如果已经在有了，说明有环路，不再进入环路
+        // console.log('found loop')
+        continue
+      } else {
+        marks.add(next) // 加到路标里
+        if ( loop(next, b) ) { // 否则看看next能否到达
+          return true
+        } 
+      }
     }
     return false
   }
