@@ -401,23 +401,31 @@ export function partial_order(pairs){ // 根据关系对，得到偏序的一个
    */
   let res = [] // 最终的结果
 
+
+  /*
+   * 手动记录一个递归栈，用于跟踪环路
+   */
+  const stack = []
+
   /*
    * [依赖序加入] 指以下函数做的事情，即，将一个a的依赖序，加入到已有的res序列中去
    */
   // 递归
   function partial_one(item) { 
-
-    if ( _.includes(res, item) ) { // 说明它已经输出过了，直接返回
-      return res
+    if ( _.includes(stack, item) ) { // 说明遇到了环路
+      throw new Error('loop found in partial')
     } 
+    stack.push(item)
 
-    for (const pair of pairs) {
-      if ( item === pair[1] ) { // 找到其中一个依赖
-        partial_one(pair[0]) 
-      } 
-    }
-
-    res = [...res, item]
+    if ( !_.includes(res, item) ) { // 如果item已经被处理过了，直接忽略
+      for (const pair of pairs) {
+        if ( item === pair[1] ) { // 找到其中一个依赖
+          partial_one(pair[0]) 
+        } 
+      }
+      res = [...res, item]
+    } 
+    stack.pop()
   }
 
   for (const pair of pairs) {
