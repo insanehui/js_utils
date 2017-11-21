@@ -3,7 +3,7 @@ import {str_display_cut, str_ellipsis, group,
   traverse, 
   traverse_all, 
   partial_order,
-  partial_reachable,
+  graph_reachable,
   wash, 
 } from './modash.js'
 import _ from 'lodash'
@@ -390,8 +390,8 @@ test('partial_order', () => {
   }
 })
 
-describe('partial_reachable', () => {
-  // <url:./partial_reachable.png>
+describe('graph_reachable', () => {
+  // <url:./graph_reachable.png>
   const pairs = [
     ['f', 'a'],
     ['a', 'c'],
@@ -410,7 +410,7 @@ describe('partial_reachable', () => {
       pairs,
     ]
     const hope = false
-    const fact = partial_reachable(...para)
+    const fact = graph_reachable(...para)
     expect(fact).toEqual(hope)
   })
   it('longway true', () => {
@@ -420,7 +420,7 @@ describe('partial_reachable', () => {
       pairs,
     ]
     const hope = true
-    const fact = partial_reachable(...para)
+    const fact = graph_reachable(...para)
     expect(fact).toEqual(hope)
   })
   it('vertical false', () => {
@@ -430,7 +430,7 @@ describe('partial_reachable', () => {
       pairs,
     ]
     const hope = false
-    const fact = partial_reachable(...para)
+    const fact = graph_reachable(...para)
     expect(fact).toEqual(hope)
   })
 
@@ -471,7 +471,7 @@ describe('partial_reachable', () => {
       ]
     ]
     const hope = true
-    const fact = partial_reachable(...para)
+    const fact = graph_reachable(...para)
     expect(fact).toEqual(hope)
   })
 
@@ -507,7 +507,7 @@ describe('partial_reachable', () => {
       ]
     ]
     const hope = false
-    const fact = partial_reachable(...para)
+    const fact = graph_reachable(...para)
     expect(fact).toEqual(hope)
   })
 

@@ -430,12 +430,15 @@ export function partial_order(pairs){ // 根据关系对，得到偏序的一个
 }
 
 // 根据关系对，判断a能否到达b
-export function partial_reachable(from, to, pairs) { // 递归
-
+export function graph_reachable(from, to, links) { // 递归
+  /*
+   * links结构同partial_order里的pairs
+   * 由于该函数针对的是更广义的图，并不局限于偏序关系，因此换一个参数名字
+   */
   const marks = new Set([from]) // 用来记录已经到过哪里，避免环路
 
   function loop(a, b) { 
-    for (const pair of pairs) {
+    for (const pair of links) {
       // 找到以a为起点的地方
       if ( a !== pair[0] ) { 
         continue
@@ -471,12 +474,12 @@ export function partial_compare(a, b, pairs){
   } 
 
   // 判断能否 a->b
-  if ( partial_reachable(a, b, pairs) ) {
+  if ( graph_reachable(a, b, pairs) ) {
     return -1
   } 
 
   // 再判断能否 b->a
-  if ( partial_reachable(b, a, pairs) ) {
+  if ( graph_reachable(b, a, pairs) ) {
     return 1
   } 
 
