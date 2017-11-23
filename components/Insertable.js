@@ -21,6 +21,7 @@ export class TopInsertable extends PureComponent {
   render() {
     const {children, 
       onInsert,
+      zIndexSensor = 1,
       ...forward} = this.props
     const {hover} = this.state 
 
@@ -46,7 +47,7 @@ export class TopInsertable extends PureComponent {
       left: 0, 
       width: '100%',
       ...abs,
-      zIndex : 1, // 通过提高zindex来令其能感知事件
+      zIndex : zIndexSensor, // 通过提高zindex来令其能感知事件
       height : 14,
     }} {...events}/>
 
