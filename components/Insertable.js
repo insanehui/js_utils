@@ -5,13 +5,6 @@ import React, { PureComponent, } from 'react'
 import {merge_props_with_def_style as merge} from './utils.js'
 import {abs, rel} from '../cssobj.js'
 
-const hbar = { // 水平bar
-  left: 0, 
-  width: '100%',
-  ...abs,
-  zIndex : 1, // 通过提高zindex来令其能感知事件
-}
-
 export class TopInsertable extends PureComponent {
   state = {
     hover : false,
@@ -50,7 +43,10 @@ export class TopInsertable extends PureComponent {
 
     const Sensor = <div style={{
       top : (hover ? -17 : -7), 
-      ...hbar,
+      left: 0, 
+      width: '100%',
+      ...abs,
+      zIndex : 1, // 通过提高zindex来令其能感知事件
       height : 14,
     }} {...events}/>
 
@@ -68,7 +64,8 @@ export class TopInsertable extends PureComponent {
     const Holder = <div key={1} style={{
       height : 10,
       backgroundColor : 'gray',
-      width : this.width
+      width : this.width,
+      flexShrink : 0, // 防止在flex布局中，在出现滚动条的情况下，holder会被挤掉
     }}/>
 
     if ( !hover ) {
