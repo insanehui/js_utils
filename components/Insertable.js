@@ -18,6 +18,9 @@ export class TopInsertable extends PureComponent {
   }
 
   refMain = el=>{ // 用来取到Main的width，以克隆给Holder使用
+    if ( !el ) {
+      return
+    } 
     const {width} = el.getBoundingClientRect()
     this.width = width
   }
