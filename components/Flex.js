@@ -25,4 +25,5 @@ const S = (x=>{
 
 export const Flex = addStyle(S.flex)('div')
 export const H = addStyle(S.h)('div')
-export const V = addStyle(S.v)('div')
+export const v = addStyle(S.v)
+export const V = v('div')
