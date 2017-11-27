@@ -90,12 +90,12 @@ export function styler(para = {}, name1) {
   const style = para
 
   return (next = 'div', name2) =>{
+    const name = process.env.NODE_ENV === 'development' ? (name2 || name1) : null 
     if ( isCmp(next) ) { // 如果next是一个组件，则返回一个新组件
-
       const Cmp = next // 赋给一个大写的变量，这是React jsx的一个潜规则
 
       class Styler extends PureComponent {
-        static displayName = process.env.NODE_ENV === 'development' ? (name2 || name1) : null // 只在测试环境显示displayName
+        static displayName = name// 只在测试环境显示displayName
 
         render() {
           const p = this.props 
@@ -106,7 +106,7 @@ export function styler(para = {}, name1) {
     } 
 
     const sum = {...style, ...next} // 合并样式
-    return styler(sum, name2 || name1)
+    return styler(sum, name)
   }
 }
 
