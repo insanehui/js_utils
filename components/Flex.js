@@ -1,5 +1,5 @@
 // Flex布局相关的组件
-import {addStyle} from './utils.js'
+import {styler} from './utils.js'
 
 const S = (x=>{
 
@@ -23,7 +23,7 @@ const S = (x=>{
 
 })()
 
-export const Flex = addStyle(S.flex)('div')
-export const H = addStyle(S.h)('div')
-export const v = addStyle(S.v)
+export const Flex = styler(S.flex, 'Flex')('div')
+export const H = styler(S.h, 'H')('div')
+export const v = styler(S.v, 'V')
 export const V = v('div')
