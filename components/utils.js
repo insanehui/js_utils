@@ -106,6 +106,10 @@ export function styler(para = {} ) {
 }
 
 export const rename = _.curry((Cmp, name)=>{ // 将组件改名
+  /*
+   * 但是这样又会多出一阶层次，所以感觉该函数的实用性不高
+   * 实际中如果有命名的需求，可以直接给displayName属性赋值，不通过高阶组件的形式
+   */
   class New extends PureComponent {
     static displayName = name
     render() {
