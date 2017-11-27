@@ -94,10 +94,9 @@ export function styler(para = {}, name1) {
 
       const Cmp = next // 赋给一个大写的变量，这是React jsx的一个潜规则
 
-      const name = process.env.NODE_ENV === 'development' ? (name2 || name1) : null 
-
       class Styler extends PureComponent {
-        static displayName = name// 只在测试环境显示displayName
+        static displayName = process.env.NODE_ENV === 'development' ? (name2 || name1) : null // 只在测试环境显示displayName
+
         render() {
           const p = this.props 
           return <Cmp {...merge_props_with_def_style(style, p)} />
