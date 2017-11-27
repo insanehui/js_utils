@@ -74,10 +74,13 @@ export const addStyle = (st = {}) => (Cmp = 'div') => { // => fn(Cmp0) => Cmp1�
 const isCmp =  either(_.isFunction, _.isString) // 判断一个参数是否代表一个组件
 
 /*
- * 这是一个神奇的函数，暂时将其称这为"基因"
- * TODO: 后续要仿照其写法写一个props版的"proper"（在有需求的时候）
+ * 给组件加样式的函数（较新）
+ * 注: 是否有必要搞一个props版？
  */
-export function styler(para = {} ) { 
+export function styler(para = {}, name1) { 
+  /*
+   * name是一个可选的名字
+   */
 
   if (isCmp(para)) { // 如果参数已经是一个组件，则直接返回
     return para
@@ -86,12 +89,13 @@ export function styler(para = {} ) {
   // 否则，储存基因（即样式）
   const style = para
 
-  return (next = 'div') =>{
+  return (next = 'div', name2) =>{
     if ( isCmp(next) ) { // 如果next是一个组件，则返回一个新组件
 
       const Cmp = next // 赋给一个大写的变量，这是React jsx的一个潜规则
 
       class Styler extends PureComponent {
+        static displayName = name2 || name1
         render() {
           const p = this.props 
           return <Cmp {...merge_props_with_def_style(style, p)} />
@@ -101,7 +105,7 @@ export function styler(para = {} ) {
     } 
 
     const sum = {...style, ...next} // 合并样式
-    return styler(sum)
+    return styler(sum, name2 || name1)
   }
 }
 
