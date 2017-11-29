@@ -7,7 +7,7 @@ import _ from 'lodash'
 import KeyCode from '../keycode.js'
 import {pre, border, inblock, rel, abs, sz} from '../cssobj.js'
 
-const { bool, string, func  } = React.PropTypes
+// const { bool, string, func  } = React.PropTypes
 
 class Editable extends PureComponent {
   constructor(p) {
@@ -24,12 +24,12 @@ class Editable extends PureComponent {
     this.state = {...p}
   }
 
-  static propTypes = {
-    is_editing : bool, 
-    multiline : bool,
-    value : string, 
-    onDone : func, // (string)
-  }
+  // static propTypes = {
+  //   is_editing : bool, 
+  //   multiline : bool,
+  //   value : string, 
+  //   onDone : func, // (string)
+  // }
 
   static defaultProps = {
     is_editing: false,

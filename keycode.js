@@ -1,8 +1,11 @@
 // 键盘码
 
+export const ENTER = 13
+export const ESC = 27
+
 export default {
-    ENTER : 13,
-    ESC: 27,
+    ENTER,
+    ESC,
     S: 83, // 字母是按顺序的
     V: 86,
     F12: 123,
