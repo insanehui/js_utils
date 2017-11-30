@@ -36,3 +36,21 @@ export const VBox = vbox('div', 'VBox')
 
 export const HBox = hbox('div', 'HBox')
 
+export const BoxHeader = styler({
+  display : 'flex',
+  alignItems : 'center',
+  color : 'white',
+  height : '25px',
+  lineHeight : '25px',
+  padding : '0 3px',
+  backgroundColor : '#b0b0b3',
+  fontSize : 12,
+  fontWeight : 600,
+}, 'BoxHeader')()
+
+export const BoxBody = styler({
+  flex : 1,
+  overflow : 'auto',
+}, 'BoxBody')()
+
+
