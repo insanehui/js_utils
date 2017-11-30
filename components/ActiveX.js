@@ -1,5 +1,6 @@
 /*
  * 2017年11月30日：最新的active。目标是能完全取代ActiveStyle.js和Active.js
+ * 用法参见 <url:./ActiveX_test.js>
  */
 
 import React, { PureComponent } from 'react'
@@ -23,7 +24,6 @@ const factory = Para => {
       hovered : false,
       active : false,
     }
-
 
     render() {
       const p = this.props 
@@ -120,7 +120,7 @@ const factory = Para => {
   return Active
 }
 
-export const active = factory
+export const active = (cmp='div') => factory(cmp) // 在factory的基础上，增加一个缺省参数值
 export const Active = factory()
-export const activeStyle = style => (cmp='div') =>  _.flow(active, addStyle(style))(cmp)
+export const activeStyle = style => _.flow(active, addStyle(style))
 
