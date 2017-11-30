@@ -118,7 +118,10 @@ export default class Resizable extends PureComponent {
       bottom: -5, right: -5, cursor: 'nwse-resize', ...corner,
     }} ref={handle.bind(null, 'bottom_right')} />
 
-    return <div {...merge({position:'relative'}, forward)}>
+      return <div {...merge({
+        position:'relative', 
+        userSelect:'none', // 避免误拖动、选中一些文本导致一些奇怪的行为
+      }, forward)}>
       {children}
       {!!(direction&0x40) && Left}
       {!!(direction&0x04) && Right}
