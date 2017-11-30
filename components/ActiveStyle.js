@@ -1,5 +1,6 @@
 /*
- * 建议使用设计更良好的 Active.js
+ * 后来又写了一个Active.js，以为比本文中设计得更好，但后来发现似乎产生了过度设计
+ * 因为通常仅仅是为了实现active的style时，Active并不比ActiveStyle好用
  * 目前支持:hover，:focus, :active
  */ 
 
