@@ -5,6 +5,7 @@ import React, { PureComponent } from 'react'
 import _ from 'lodash'
 import {drag} from '../rx.js'
 import {abs} from '../cssobj.js'
+import {merge_props_with_def_style as merge} from './utils.js'
 
 export default class Resizable extends PureComponent {
 
@@ -117,7 +118,7 @@ export default class Resizable extends PureComponent {
       bottom: -5, right: -5, cursor: 'nwse-resize', ...corner,
     }} ref={handle.bind(null, 'bottom_right')} />
 
-    return <div {...forward}>
+    return <div {...merge({position:'relative'}, forward)}>
       {children}
       {!!(direction&0x40) && Left}
       {!!(direction&0x04) && Right}
