@@ -57,18 +57,14 @@ export const BoxBody = styler({
   overflow : 'auto',
 }, 'BoxBody')()
 
-export const btn = cmp => { // button化：提供一些按钮形式的交互
-
-  const comp = _.flow(active, addStyle({
-    ...ptr,
-    ...inblock,
-    padding: 4,
-    '&:hover' : {
-      ...transY(1),
-    }
-  }))
-
-  return comp(cmp)
-}
+// button化：提供一些按钮形式的交互
+export const btn = _.flow(active, addStyle({
+  ...ptr,
+  ...inblock,
+  padding: 4,
+  '&:hover' : {
+    ...transY(1),
+  }
+}))
 
 export const Btn = btn('div') // 提供一个button的包装，主要使用场景是装图标
