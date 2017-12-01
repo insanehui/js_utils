@@ -1,12 +1,9 @@
 /*
  * 在ctg的项目中提炼出来的常用主题样式
  */
-import _ from 'lodash'
 import {styler} from './utils.js'
 import {hsl, ptr, inblock, transY} from '../cssobj.js'
-import {active} from './ActiveStyle.js'
-import {addStyle, } from './utils.js'
-
+import {activeStyle} from './ActiveX.js'
 
 const box_gap = 10 // 盒子的间隔
 
@@ -58,13 +55,13 @@ export const BoxBody = styler({
 }, 'BoxBody')()
 
 // button化：提供一些按钮形式的交互
-export const btn = _.flow(active, addStyle({
+export const btn = activeStyle({
   ...ptr,
   ...inblock,
   padding: 4,
   '&:hover' : {
     ...transY(1),
   }
-}))
+})
 
 export const Btn = btn('div') // 提供一个button的包装，主要使用场景是装图标
