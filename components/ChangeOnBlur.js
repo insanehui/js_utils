@@ -22,8 +22,11 @@ export const onblur = Edit => {
 
     onBlur = e=>{
       const {onChange, onBlur} = this.props
+      const {value} = this.props 
       onBlur && onBlur(e)
-      onChange && onChange(e)
+      if ( e.target.value !== value ) {
+        onChange && onChange(e)
+      } 
     }
 
     componentWillReceiveProps(np) {
