@@ -1,6 +1,7 @@
 // fetch api的一些小封装
 import form_encode from 'form-urlencoded'
 import _ from 'lodash'
+import {wash} from './modash.js'
 
 // 直接取 res.json()
 export const json = fetch_fn => async (...para) => {
@@ -32,7 +33,7 @@ export const post_json = fetch_fn => async(url, opt = {}, ...para) => {
   /*
    * 通过 opt:{json_body} 来指定一个post的参数
    */
-  opt = _.cloneDeep(opt) // 深拷贝一份
+  opt = wash(opt) // 深拷贝一份
   const {json_body} = opt
   if ( _.isObject(json_body) ) {
     _.merge(opt, {
