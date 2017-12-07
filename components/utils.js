@@ -3,6 +3,9 @@ import _ from 'lodash'
 import React, { PureComponent } from 'react'
 import {either} from 'ramda'
 
+import {isDev} from '../web/webpack_node_env.js'
+import {displayName} from './displayName.js'
+
 export function merge_props(p0, p1){ // 两个props合并，主要是针对style再合并一层
 
   const style = (x=>{
@@ -90,12 +93,13 @@ export function styler(para = {}, name1) {
   const style = para
 
   return (next = 'div', name2) =>{
-    const name = process.env.NODE_ENV === 'development' ? (name2 || name1) : null 
+    const name = name2 || name1
+
     if ( isCmp(next) ) { // 如果next是一个组件，则返回一个新组件
       const Cmp = next // 赋给一个大写的变量，这是React jsx的一个潜规则
 
       class Styler extends PureComponent {
-        static displayName = name// 只在测试环境显示displayName
+        static displayName = isDev ? (name || `styler(${displayName(Cmp)})`) : null // 只在测试环境显示displayName
 
         render() {
           const p = this.props 
