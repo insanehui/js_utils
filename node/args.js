@@ -13,6 +13,10 @@ const path = require('path')
 export function args(a1, a2){
 
   let defaults, config_file_name
+  if ( !a1 ) {
+    return argv // 直接返回yargs解析的结果
+  } 
+
   if ( _.isObject(a1) ) {
     defaults = a1
   } 
