@@ -1,5 +1,6 @@
 /*
  * 能自动伸缩的textarea
+ * 坑：由于设计上的原因，不能通过className来设置其样式，后续想办法解决
  */
 
 import React, { PureComponent } from 'react'
