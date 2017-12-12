@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import {render, findDOMNode} from 'react-dom'
+import {findDOMNode} from 'react-dom'
 import _ from 'lodash'
 
 /*
@@ -16,8 +16,7 @@ export default class Sticker extends PureComponent {
 
   componentDidMount(){
     this.mounted = true
-    // this.sensor()
-    this.adjust()
+    this.sensor()
   }
 
   componentWillUnmount(){
@@ -40,18 +39,18 @@ export default class Sticker extends PureComponent {
     /*
      * 算出要往"上"挪的距离，不能为负
      */
-    const dy = Math.max(0, myPos.top - prevPos.bottom)
+    const dy = myPos.top - prevPos.bottom
     bottom += dy
+    bottom = Math.max(0, bottom)
 
     /*
      * 算出要往"左"挪的距离，同样也不能为负
      */
-    const dx = Math.max(0, myPos.left - prevPos.left)
+    const dx = myPos.left - prevPos.left
     right += dx
+    right = Math.max(0, right)
 
     this.setState({ bottom, right })
-
-    // console.log('vdiff', dy)
   }
 
   sensor = ()=>{ // 部署一个sensor监听画布的尺寸信息，以计算出工具栏应放置的位置
@@ -59,7 +58,7 @@ export default class Sticker extends PureComponent {
       if ( !this.mounted ) {
         return
       } 
-
+      this.adjust()
       this.sensor()
     })
   }
