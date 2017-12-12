@@ -40,10 +40,6 @@ export default class Toggle extends PureComponent {
 
     B = React.cloneElement(B, {
       onClick : e=>e.stopPropagation(),
-      style : {
-        position : 'relative',
-        ...B.props.style,
-      }
     })
 
     return <Tag {...forward}>

@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 /*
  * 根据参考物的位置来决定自己的位置，并且通过定时的机制来自动跟随
- * 暂时固定为将前一个兄弟作为参照物
+ * 暂时固定为将同级的兄长作为参照物
  */
 export default class Sticker extends PureComponent {
 
@@ -25,9 +25,13 @@ export default class Sticker extends PureComponent {
 
   adjust = ()=>{
     let {right, bottom} = this.state 
+    const {by = 1} = this.props
 
     const me = findDOMNode(this)
-    const prev = me.previousSibling
+    let prev = me
+    for(let i = 0; i<by; i++){
+      prev = prev.previousSibling
+    }
 
     /*
      * 暂时只考虑右边和下方是否越界
@@ -64,7 +68,9 @@ export default class Sticker extends PureComponent {
   }
 
   render() {
-    const {style, ...forward} = this.props
+    const {style, 
+      by, // 是一个数字，表示向前找第by个兄弟作为参照物，缺省为1，见adjust函数
+      ...forward} = this.props
     const {right, bottom} = this.state 
 
     const props = {
