@@ -25,7 +25,7 @@ export default class Sticker extends PureComponent {
 
   adjust = ()=>{
     let {right, bottom} = this.state 
-    const {by = 1} = this.props
+    const {by = 1, dy = 0} = this.props
 
     const me = findDOMNode(this)
     let prev = me
@@ -43,15 +43,13 @@ export default class Sticker extends PureComponent {
     /*
      * 算出要往"上"挪的距离，不能为负
      */
-    const dy = myPos.top - prevPos.bottom
-    bottom += dy
+    bottom += myPos.top - prevPos.bottom - dy
     bottom = Math.max(0, bottom)
 
     /*
      * 算出要往"左"挪的距离，同样也不能为负
      */
-    const dx = myPos.left - prevPos.left
-    right += dx
+    right += myPos.left - prevPos.left
     right = Math.max(0, right)
 
     this.setState({ bottom, right })
@@ -70,6 +68,10 @@ export default class Sticker extends PureComponent {
   render() {
     const {style, 
       by, // 是一个数字，表示向前找第by个兄弟作为参照物，缺省为1，见adjust函数
+      /*
+       * 默认情况下Sticker会紧贴着其参照物，可以通过设置dy来控制偏移间隔
+       */
+      dy,
       ...forward} = this.props
     const {right, bottom} = this.state 
 
