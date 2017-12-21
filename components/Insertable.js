@@ -23,8 +23,9 @@ function insertable(direction = 'top') {
       if ( !el ) {
         return
       } 
-      const {width} = el.getBoundingClientRect()
+      const {width, height} = el.getBoundingClientRect()
       this.width = width
+      this.height = height
     }
 
     render() {
@@ -82,21 +83,40 @@ function insertable(direction = 'top') {
        * 因为它们两者不处在相同的dom树位置，哪怕是共用元素，在dom这一层会不断地创建和销毁元素
        * 导致不能正常接受onDragLeave的事件
        */
-      const Holder = (<div key={1} style={{
-        height : 10,
-        backgroundColor : 'gray',
-        width : this.width,
-        flexShrink : 0, // 防止在flex布局中，在出现滚动条的情况下，holder会被挤掉
-      }}/>)
+      const holder = {
+        key : 1,
+        style : {
+          flexShrink : 0, // 防止在flex布局中，在出现滚动条的情况下，holder会被挤掉
+          backgroundColor : 'gray',
+          ...({
+            top : {
+              height : 10,
+              width : this.width,
+            },
+            right : {
+              width : 10,
+              height : this.height,
+            },
+          })[direction],
+        }
+      }
+
+      const Holder = (<div {...holder}/>)
 
       if ( !hover ) {
         return Main
       } 
       else {
-        return [
-          Holder, 
-          Main, 
-        ]
+        return {
+          top : [
+            Holder, 
+            Main, 
+          ],
+          right : [
+            Main, 
+            Holder, 
+          ]
+        }[direction]
       }
     }
   }
