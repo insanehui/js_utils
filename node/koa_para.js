@@ -6,7 +6,8 @@
 import koaBody from 'koa-body'
 const _log = require('debug')('utils:koa_para')
 
-const koa_body = koaBody()
+// multipart设为true以支持文件上传
+const koa_body = koaBody({ multipart: true })
 
 export async function para(ctx, next) {
 
