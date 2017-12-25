@@ -3,6 +3,7 @@
  */
 
 import React, { PureComponent } from 'react'
+import _ from 'lodash'
 
 function Cover({z, ...p}) {
   return <div {...p} style={{
@@ -26,13 +27,18 @@ export default class Toggle extends PureComponent {
   }
 
   render() {
-    const {children, tag:Tag = 'div', z=1, ...forward} = this.props
+    const {children, as:Tag = 'div', z=1, 
+      on:event = 'click',
+      ...forward} = this.props
+
     const {on} = this.state 
+
+    const by = 'on' + _.capitalize(event)
 
     let [A,B] = React.Children.toArray(children) 
 
     A = React.cloneElement(A, {
-      onClick : e=> this.setState({ on : !on }),
+      [by] : e=> this.setState({ on : !on }),
       style : {
         userSelect : 'none',
         ...A.props.style,
@@ -40,17 +46,21 @@ export default class Toggle extends PureComponent {
     })
 
     B = React.cloneElement(B, {
-      onClick : e=>e.stopPropagation(),
       style : {
         zIndex : z+1,
         ...B.props.style,
       }
     })
 
+    const cover = {
+      z,
+      [by] : e=>this.setState({ on : false }),
+    }
+
     return <Tag {...forward}>
       {A}
       {on && B}
-      {on && <Cover z={z} onClick={e=>this.setState({ on : false })}/>}
+      {on && <Cover {...cover}/>}
     </Tag>
   }
 }
