@@ -17,7 +17,11 @@ class Textarea extends PureComponent {
   intervalUpdate = ()=>{
     window.requestAnimationFrame(()=>{
       // 由于是uncontrolled的控件，直接从dom中取出value来更新shadow
-      const value = this.textarea.value
+      const {textarea} = this
+      if ( !textarea ) {
+        return
+      } 
+      const {value} = textarea
       this.update_shadow(value)
 
       // 如果没有被切换成为controlled的话，继续定时地检查刷新
