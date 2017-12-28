@@ -1,5 +1,6 @@
 /*
- * 能自动伸缩的textarea
+ * 能自动伸缩的textarea, 支持controlled和uncontrolled的模式
+ * uncontrolled直接使用定时刷新机制来调整尺寸
  * 坑：由于设计上的原因，不能通过className来设置其样式，后续想办法解决
  */
 
@@ -13,8 +14,21 @@ class Textarea extends PureComponent {
 
   state = {} // state用来存储动态的style
 
-  update_shadow = np =>{ // 根据主输入框value的变化，更新shadow
-    let {value} = np
+  intervalUpdate = ()=>{
+    window.requestAnimationFrame(()=>{
+      // 由于是uncontrolled的控件，直接从dom中取出value来更新shadow
+      const value = this.textarea.value
+      this.update_shadow(value)
+
+      // 如果没有被切换成为controlled的话，继续定时地检查刷新
+      if ( _.isUndefined(this.props.value)  ) {
+        this.intervalUpdate()
+      } 
+    })
+  }
+
+  update_shadow = value =>{ // 根据主输入框value的变化，更新shadow
+
     const {style} = this.props
     const {shadow, textarea} = this
 
@@ -69,9 +83,16 @@ class Textarea extends PureComponent {
     const shadow = document.createElement('div')
     document.body.appendChild(shadow)
     this.shadow = shadow
+    const {value} = this.props
 
-    // 更新
-    this.update_shadow(this.props)
+    // 更新shadow
+    if ( _.isUndefined(value) ) { // uncontrolled
+      this.intervalUpdate()
+    } 
+    else { // controlled
+      this.update_shadow(this.props.value)
+    }
+
   }
 
   componentWillUnmount(){
@@ -82,7 +103,7 @@ class Textarea extends PureComponent {
     if ( np.value === this.props.value ) {
       return
     } 
-    this.update_shadow(np)
+    this.update_shadow(np.value)
   }
 
   ref = el=>{ this.textarea = el }
