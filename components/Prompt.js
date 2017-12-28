@@ -33,7 +33,7 @@ class Prompt extends PureComponent {
   render() {
     const {isOpen} = this.state
     const {onDone, value, Edit} = this.props
-    const {cancel, ok} = this
+    const {cancel} = this
     const modal = {
       isOpen,
       appElement : document.body,
