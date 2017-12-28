@@ -32,9 +32,10 @@ class Prompt extends PureComponent {
 
   render() {
     const {isOpen} = this.state
-    const {onDone, value, Edit} = this.props
+    const {onDone, value, Edit, modalProps} = this.props
     const {cancel} = this
     const modal = {
+      ...modalProps,
       isOpen,
       appElement : document.body,
       onRequestClose : cancel,
@@ -54,15 +55,16 @@ class Prompt extends PureComponent {
   }
 }
 
-function prompt_cb(resolve, reject, value, Edit) {
-  const dialog = {
+function prompt_cb(resolve, reject, value, Edit, modalProps) {
+  const props = {
     isOpen : true,
     value,
     onDone : resolve,
     Edit,
+    modalProps,
   }
 
-  render(<Prompt {...dialog}/>, dialog_div)
+  render(<Prompt {...props}/>, dialog_div)
 }
 
 export const prompt = promisify(prompt_cb)
