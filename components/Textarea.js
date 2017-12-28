@@ -87,6 +87,10 @@ class Textarea extends PureComponent {
 
   ref = el=>{ this.textarea = el }
 
+  get value(){
+    return _.get(this, ['textarea', 'value'])
+  }
+
   focus = ()=>{ // focus方法
     let {textarea} = this
     textarea && textarea.focus()
