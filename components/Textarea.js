@@ -23,10 +23,11 @@ class Textarea extends PureComponent {
       const {value} = textarea
       this.update_shadow(value)
 
+      this.intervalUpdate()
       // 如果没有被切换成为controlled的话，继续定时地检查刷新
-      if ( _.isUndefined(this.props.value)  ) {
-        this.intervalUpdate()
-      } 
+      // if ( _.isUndefined(this.props.value)  ) {
+      //   this.intervalUpdate()
+      // } 
     })
   }
 
@@ -81,28 +82,30 @@ class Textarea extends PureComponent {
     const shadow = document.createElement('div')
     document.body.appendChild(shadow)
     this.shadow = shadow
-    const {value} = this.props
 
+    // 为了简单起见，统一使用定时器来控制吧
+    this.intervalUpdate()
+
+    // const {value} = this.props
     // 更新shadow
-    if ( _.isUndefined(value) ) { // uncontrolled
-      this.intervalUpdate()
-    } 
-    else { // controlled
-      this.update_shadow(this.props.value)
-    }
-
+    // if ( _.isUndefined(value) ) { // uncontrolled
+    //   this.intervalUpdate()
+    // } 
+    // else { // controlled
+    //   this.update_shadow(this.props.value)
+    // }
   }
 
   componentWillUnmount(){
     document.body.removeChild(this.shadow)
   }
 
-  componentWillReceiveProps(np){
-    if ( np.value === this.props.value ) {
-      return
-    } 
-    this.update_shadow(np.value)
-  }
+  // componentWillReceiveProps(np){
+  //   if ( np.value === this.props.value ) {
+  //     return
+  //   } 
+  //   this.update_shadow(np.value)
+  // }
 
   ref = el=>{ this.textarea = el }
 
