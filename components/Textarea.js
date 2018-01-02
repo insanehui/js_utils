@@ -1,7 +1,6 @@
 /*
  * 能自动伸缩的textarea, 支持controlled和uncontrolled的模式
  * uncontrolled直接使用定时刷新机制来调整尺寸
- * 坑：由于设计上的原因，不能通过className来设置其样式，后续想办法解决
  */
 
 import React, { PureComponent } from 'react'
@@ -43,16 +42,11 @@ class Textarea extends PureComponent {
       'borderTopStyle', 'borderLeftStyle', 'borderRightStyle', 'borderBottomStyle',
       'borderTopColor', 'borderLeftColor', 'borderRightColor', 'borderBottomColor',
       'paddingTop', 'paddingLeft', 'paddingRight', 'paddingBottom',
+      'width',
       /*
        * 不需要取 'minWidth', 'maxWidth' ，因为这些属性只支持绝对值，如果传calc这样的表达式，将不能正常工作
        */
     ]
-
-    /*
-     * 如果外面指定了width，则表示width可以是一个表达式（如calc），因此需要取得其真正值
-     * 如果外面没有指定width，则表示textarea的width需要通过参考获得，因此不能在开始就将width定死
-     */
-    if ( _.has(style, 'width') ) { keys.push('width') } 
 
     const text_style = _.pick(window.getComputedStyle(textarea), keys)
 
@@ -78,8 +72,8 @@ class Textarea extends PureComponent {
     shadow.innerHTML = value
     const shadow_style = window.getComputedStyle(shadow)
     // console.log("computed", shadow_style)
-    const {height, width} = shadow_style
-    this.setState({ height, width })
+    const {height} = shadow_style
+    this.setState({ height})
   }
 
   componentDidMount(){
