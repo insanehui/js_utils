@@ -1,12 +1,22 @@
 import React, { PureComponent } from 'react'
-import {findDOMNode} from 'react-dom'
+import {findDOMNode, createPortal} from 'react-dom'
 import _ from 'lodash'
 
 /*
  * 根据参考物的位置来决定自己的位置，并且通过定时的机制来自动跟随
  * 暂时固定为将同级的兄长作为参照物
+ *
+ * 为什么要用到portal？因为如果不用portal的话某些情况下无法摆脱zindex的限制，使得sticker在显示时无法盖住其后面的一些元素
  */
 export default class Sticker extends PureComponent {
+
+  constructor(p) {
+    super(p)
+
+    const el = document.createElement('div')
+    document.body.appendChild(el)
+    this.el = el
+  }
 
   state = {
     // 初始先放到最"右下角"
@@ -15,12 +25,12 @@ export default class Sticker extends PureComponent {
   }
 
   componentDidMount(){
-    this.mounted = true
     this.sensor()
   }
 
   componentWillUnmount(){
-    this.mounted = false
+    document.body.removeChild(this.el)
+    this.el = null
   }
 
   adjust = ()=>{
@@ -37,7 +47,7 @@ export default class Sticker extends PureComponent {
      * 暂时只考虑右边和下方是否越界
      */
 
-    const myPos = _.pick(me.getBoundingClientRect(), 'left', 'bottom', 'top', 'right')
+    const myPos = _.pick(this.el.children[0].getBoundingClientRect(), 'left', 'bottom', 'top', 'right')
     const prevPos = _.pick(prev.getBoundingClientRect(), 'left', 'bottom', 'top', 'right')
 
     /*
@@ -57,7 +67,7 @@ export default class Sticker extends PureComponent {
 
   sensor = ()=>{ // 部署一个sensor监听画布的尺寸信息，以计算出工具栏应放置的位置
     window.requestAnimationFrame(()=>{
-      if ( !this.mounted ) {
+      if ( !this.el ) {
         return
       } 
       this.adjust()
@@ -83,7 +93,10 @@ export default class Sticker extends PureComponent {
         ...style,
       },
     }
-    return <div {...props} />
+
+    return <div>
+      {createPortal(<div {...props} />, this.el)}
+    </div>
   }
 }
 
