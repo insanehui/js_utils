@@ -1,7 +1,16 @@
 // React
 /*
  * 一个用来调整数值的算法，仅对整数使用
- */
+ * 示例:
+  function check(i) {
+    return i-8
+  }
+
+  (async ()=>{
+    const r = await adjust(check, 99999)
+    console.log('value', r)
+  })()
+*/
 export async function adjust(judge, v = 0, opt = 'floor'){
   /*
    * opt 还可以取值 ceil
@@ -51,14 +60,3 @@ export async function adjust(judge, v = 0, opt = 'floor'){
   }
 }
 
-/*
- * 示例:
-  function check(i) {
-    return i-8
-  }
-
-  (async ()=>{
-    const r = await adjust(check, 99999)
-    console.log('value', r)
-  })()
-*/
