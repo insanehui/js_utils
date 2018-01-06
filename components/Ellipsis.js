@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react'
 import {findDOMNode} from 'react-dom'
 
-import {str_ellipsis} from '../modash.js'
+import {str_ellipsis, ptimeout} from '../modash.js'
 import '../css_preset.js'
 import {adjust} from '../adjust.js'
 
@@ -19,12 +19,14 @@ export default class Ellipsis extends PureComponent {
   }
 
   async componentDidMount(){
-    this.ellipsis()
-    window.setInterval(this.ellipsis, 500)
+    this.me = findDOMNode(this)
+    await this.ellipsis()
   }
 
-  ellipsis = ()=>{
-    adjust(this.check, {returnCheck:true})
+  ellipsis = async ()=>{
+    await adjust(this.check, {returnCheck:true})
+    await ptimeout(1000)
+    return this.ellipsis()
   }
 
   refContent = el=>{
@@ -35,19 +37,23 @@ export default class Ellipsis extends PureComponent {
     let text = this.props.children
     text = str_ellipsis(text, l)
 
+    if ( !this.me ) {
+      return 0
+    } 
+
     return new Promise(ok=>{
       this.setState({ text, l }, ()=>{
-        const me = findDOMNode(this)
-        if ( !me ) {
-          ok(0)
-        } 
-        ok(this.content.scrollHeight - me.clientHeight)
+        ok(this.content.scrollHeight - this.me.clientHeight)
       })
     })
   }
 
   componentWillReceiveProps(np) {
     this.setState({ text : np.children })
+  }
+
+  componentWillUnmount(){
+    this.me = null
   }
 
   render() {
