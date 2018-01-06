@@ -11,15 +11,17 @@
     console.log('value', r)
   })()
 */
-export async function adjust(judge, v = 0, opt = 'floor'){
+export async function adjust(check, {returnCheck = false, v = 0}){
   /*
-   * opt 还可以取值 ceil
-   * const n = await judge(v) n可以为0或者正数、负数，表示偏差
+   * todo: round 还可以取值 ceil
+   * returnCheck选项意思是，在返回之前，再check一次v（Ellipsis组件就依赖了该选项）
+   * const n = await check(v) n可以为0或者正数、负数，表示偏差
    */
   let res
+
   let state = 'unkown' , a = null, b = null, delta = 1
   while(1) {
-    res = await judge(v) // 求一次值
+    res = await check(v) // 求一次值
 
     if ( state === 'unkown' ) { // 初始状态
       if ( res === 0 ) {
@@ -38,7 +40,10 @@ export async function adjust(judge, v = 0, opt = 'floor'){
     if ( state === 'below' ) {
       if ( b !== null ) { // 如果已经有范围，则取一半
         v = ~~((a + b)/2)
-        if ( v === a ) { return v } 
+        if ( v === a ) { 
+          returnCheck && await check(v)
+          return v 
+        } 
       } 
       else {
         delta *= 2
@@ -49,7 +54,10 @@ export async function adjust(judge, v = 0, opt = 'floor'){
     else if ( state === 'above' ) {
       if ( a !== null ) {
         v = ~~((a + b)/2)
-        if ( v === a ) { return v } 
+        if ( v === a ) { 
+          returnCheck && await check(v)
+          return v 
+        } 
       } 
       else {
         delta *= 2
