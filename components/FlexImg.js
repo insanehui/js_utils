@@ -6,18 +6,21 @@ import injectSheet from 'react-jss'
 
 @injectSheet({
   cmain : {
+    backgroundSize : 'cover',
+    backgroundRepeat : 'no-repeat',
+    backgroundPosition : 'center center',
   }
 })
 export default class FlexImg extends PureComponent {
   render() {
-    const {src, style, ...rest} = this.props
+    const {src, style, className, 
+      classes : {cmain},
+      ...rest} = this.props
 
     const props = {
+      className : `${cmain} ${className}`,
       style : {
         backgroundImage : `url(${src})`,
-        backgroundSize : 'cover',
-        backgroundRepeat : 'no-repeat',
-        backgroundPosition : 'center center',
         ...style,
       },
       ...rest,
