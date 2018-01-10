@@ -1,6 +1,7 @@
 // React 
 import React, { PureComponent } from 'react'
 import {findDOMNode} from 'react-dom'
+import _ from 'lodash'
 
 import {str_ellipsis, 
   // ptimeout
@@ -29,13 +30,16 @@ export default class Ellipsis extends PureComponent {
     await this.ellipsis()
   }
 
-  ellipsis = async ()=>{
+  ellipsis = _.debounce(async ()=>{
+    /*
+     * 这里的debounce非常精髓！不加这一个的话，对于需要频繁调整ui尺寸的界面，会卡死
+     */
     await adjust(this.check, {returnCheck:true})
 
     // 由于被浏览器一直警告性能的问题，先不用定时器了
     // await ptimeout(1000)
     // return this.ellipsis()
-  }
+  }, 500)
 
   refContent = el=>{
     this.content = el
