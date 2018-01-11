@@ -17,17 +17,17 @@ const expireMgr = createExpire(i=>{
 
 const seq = [1,2,3,4]
 
-for (const i of seq) {
-  expireMgr.create(i)
-}
-
 class Test extends PureComponent {
 
   render() {
     return <div>
       {_.map(seq, v => {
-        return <button key={v} onClick={()=>{
-          console.log(expireMgr.get(v).key)
+        return <button key={v} onClick={async ()=>{
+          /*
+           * 首次点击会激活计时，如果5秒内不再点击的话，就会出现弹框
+           */
+          const {key} = await expireMgr.give(v)
+          console.log(key)
         }}>{v}</button>
       })}
     </div>

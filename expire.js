@@ -29,23 +29,37 @@ export function createExpire(ct, ms) {
       remove(key)
     }, ms)
   }
+  const get = key => {
+    const obj = data[key]
+    if ( obj ) {
+      touch(key)
+    } 
+    return obj
+  }
+
+  const create = async (...para)=>{
+    const obj = await ct(...para)
+    const {key} = obj
+    data[key] = obj
+    touch(key)
+    return obj
+  }
 
   // 返回一个有一系列方法的对象
   return {
-    create : async (...para)=>{
-      const obj = await ct(...para)
-      const {key} = obj
-      data[key] = obj
-      touch(key)
+    create,
+
+    // 如果不存在会构造一个，只适用于只需要key即可构造的场景
+    give : async key=>{
+      if ( key in data ) {
+        return get(key)
+      } 
+      else {
+        return await create(key)
+      }
     },
 
-    get(key){
-      const obj = data[key]
-      if ( obj ) {
-        touch(key)
-      } 
-      return obj
-    },
+    get,
 
     remove,
   }
