@@ -32,8 +32,8 @@ export function createExpire(ct, ms) {
 
   // 返回一个有一系列方法的对象
   return {
-    create : (...para)=>{
-      const obj = ct(...para)
+    create : async (...para)=>{
+      const obj = await ct(...para)
       const {key} = obj
       data[key] = obj
       touch(key)
