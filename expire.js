@@ -2,6 +2,8 @@
  * 一个过期会expire的对象管家
  * 异步
  */
+import _ from 'lodash'
+
 export function createExpire(ct, ms) {
   /*
    * ct是一个类似的工厂函数（直接调用构造，不同构造函数需要new）
@@ -45,22 +47,21 @@ export function createExpire(ct, ms) {
     return obj
   }
 
-  // 返回一个有一系列方法的对象
-  return {
-    create,
-
-    // 如果不存在会构造一个，只适用于只需要key即可构造的场景
-    give : async key=>{
-      if ( key in data ) {
-        return get(key)
-      } 
-      else {
-        return await create(key)
-      }
-    },
-
-    get,
-
-    remove,
+  let func = async key=>{
+    if ( key in data ) {
+      return get(key)
+    } 
+    else {
+      return await create(key)
+    }
   }
+
+  _.assign(func, {
+    create,
+    get,
+    remove,
+  })
+
+  // 一个函数，并且附带一些方法
+  return func
 }

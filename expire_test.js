@@ -13,7 +13,7 @@ const expireMgr = createExpire(i=>{
       alert(i)
     }
   }
-}, 5000)
+}, 2000)
 
 const seq = [1,2,3,4]
 
@@ -26,7 +26,7 @@ class Test extends PureComponent {
           /*
            * 首次点击会激活计时，如果5秒内不再点击的话，就会出现弹框
            */
-          const {key} = await expireMgr.give(v)
+          const {key} = await expireMgr(v)
           console.log(key)
         }}>{v}</button>
       })}
