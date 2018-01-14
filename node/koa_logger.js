@@ -40,15 +40,20 @@ export async function logger(ctx, next) {
     ctx.body = err + '' 
   }
 
-  const ok = ctx.status === 200
+  if ( ctx.respond ) {
+    const ok = ctx.status === 200
 
-  log(`>>>>>>>>>>>>> ${(ctx.status + '')[ok ? 'green' : 'red']} >>>>>>>>>>>>>`)
+    log(`>>>>>>>>>>>>> ${(ctx.status + '')[ok ? 'green' : 'red']} >>>>>>>>>>>>>`)
 
-  if ( ok ) {
-    debug(ctx.body)
-  } else {
-    // 前面预留两个空格主要是为了跟debug打的日志对齐
-    console.error(`  ${`${'ERROR'} ${ctx.body}`.white.bgRed} ${id}`) 
+    if ( ok ) {
+      debug(ctx.body)
+    } else {
+      // 前面预留两个空格主要是为了跟debug打的日志对齐
+      console.error(`  ${`${'ERROR'} ${ctx.body}`.white.bgRed} ${id}`) 
+    }
+  } 
+  else {
+    log('>>>> request handled outside koa >>>>>>'.cyan)
   }
 }
 
