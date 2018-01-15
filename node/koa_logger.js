@@ -44,13 +44,13 @@ export async function logger(ctx, next) {
     return
   }
 
-  if ( ctx.respond ) {
-    log(`>>>>>>>>>>>>> ${(ctx.status + '')[ok ? 'green' : 'red']} >>>>>>>>>>>>>`)
-    debug(ctx.body)
+  if ( ctx.respond === false ) {
+    log(`>>>>>>>>>>>>> request handled outside koa >>>>>>>>>>>>>`.cyan)
+    return
   } 
-  else {
-    log('>>>> request handled outside koa >>>>>>'.cyan)
-  }
+
+  log(`>>>>>>>>>>>>> ${(ctx.status + '')[ctx.status === 200 ? 'green' : 'red']} >>>>>>>>>>>>>`)
+  debug(ctx.body)
 }
 
 // 用于在其他中间件环境中包装日志函数，令其他中间件里的日志也能打印出会话信息
