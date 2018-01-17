@@ -11,7 +11,7 @@ import injectSheet from 'react-jss'
     backgroundRepeat : 'no-repeat',
   }
 })
-export default class FlexImg extends PureComponent {
+export default class BImg extends PureComponent {
   render() {
     const {src, style, className, 
       /*
