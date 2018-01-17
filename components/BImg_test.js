@@ -25,7 +25,7 @@ class Test extends PureComponent {
     const {classes:{cimg, cdiv}} = this.props
     return <div>
       <div className={cdiv}> <Img className={cimg} src='http://localhost:8085/news/b1.png' /> </div>
-      <div className={cdiv}> <Img className={cimg} noflex src='http://localhost:8085/news/b1.png' /> </div>
+      <div className={cdiv}> <Img className={cimg} cover src='http://localhost:8085/news/b1.png' /> </div>
     </div>
   }
 }
