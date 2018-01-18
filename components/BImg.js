@@ -13,12 +13,13 @@ import injectSheet from 'react-jss'
 })
 export default class BImg extends PureComponent {
   render() {
-    const {src, style, className, 
+    const {src, style, className = '', 
       /*
        * 当cover为true时，会保持原图的比例裁剪并覆盖
        */
       cover,
       contain,
+      x = 'center', y = 'center',
       classes : {cmain},
       ...rest} = this.props
 
@@ -26,13 +27,11 @@ export default class BImg extends PureComponent {
     if ( cover ) {
       background = {
         backgroundSize : 'cover',
-        backgroundPosition : 'center center',
       }
     } 
     else if ( contain ) {
       background = {
         backgroundSize : 'contain',
-        backgroundPosition : 'center center',
       }
     } 
     else { // 默认情况
@@ -45,6 +44,7 @@ export default class BImg extends PureComponent {
       className : `${cmain} ${className}`,
       style : {
         backgroundImage : `url(${src})`,
+        backgroundPosition : `${x} ${y}`,
         ...background,
         ...style,
       },
