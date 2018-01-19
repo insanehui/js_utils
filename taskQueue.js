@@ -5,7 +5,7 @@ const EventEmitter = require('events')
 
 export default function createTaskQueue(){
   /*
-   * queue里的元素为无参函数，执行之后得到一个promise。所以其实就是一个async函数
+   * queue里的元素为无参函数，执行之后得到一个promise。或者就是一个async函数
    */
   let queue = []
   const event = 'task'
