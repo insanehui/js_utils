@@ -37,6 +37,13 @@ const inject_method = method_lib => fn => s => {
   }
 }
 
+/*
+ * 示例
+ * {
+ *  @method({method1, method2})
+ *  s(){}
+ * }
+ */
 export const method = method_lib => decorative(inject_method(method_lib))
 
 /*
