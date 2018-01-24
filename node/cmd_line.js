@@ -5,7 +5,7 @@ import 'colors'
 
 export function need(condition, msg, retcode = 0){
   if ( !condition ) {
-    console.log(msg.red)
+    console.log(`ERROR! ${msg}`.red)
     process.exit(retcode)
   } 
 }
