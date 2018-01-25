@@ -55,6 +55,9 @@ export default class Form extends PureComponent {
 
   // 判断一个react element是不是一个原生的text类型的控件
   isText({props, type}) {
+    if ( props.formtype === 'text' ) {
+      return true
+    } 
     if ( type === 'input' ) {
       const itype = _.get(props, 'type', 'text')
       const types = new Set(['text', 'password'])
@@ -103,9 +106,9 @@ export default class Form extends PureComponent {
   }
 
   render() {
-    const {children} = this.props
+    const {children, ...rest} = this.props
     const {parse} = this
-    return <form>
+    return <form {...rest}>
       {parse(children)}
     </form>
   }
