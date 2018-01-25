@@ -106,7 +106,10 @@ export default class Form extends PureComponent {
   }
 
   render() {
-    const {children, ...rest} = this.props
+    const {children,
+      value, onChange, // filter
+      ...rest
+    } = this.props
     const {parse} = this
     return <form {...rest}>
       {parse(children)}
