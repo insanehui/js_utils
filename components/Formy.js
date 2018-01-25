@@ -34,7 +34,12 @@ export default class Form extends PureComponent {
     children =  toArray(children)
     return children.map(child => {
       const {props} = child
-      const {name} = props
+
+      if ( !props ) { // 递归进入到一个字符串结点时，是没有props的
+        return child
+      } 
+
+      const {name, children:sub} = props
 
       if ( name && _.isString(name) ) { // 如果有name，就当其为控件，为其注入一些行为
         if ( isText(child) ) {
@@ -72,7 +77,10 @@ export default class Form extends PureComponent {
         }
       } 
       else {
-        return child
+        /*
+         * 这里用了递归！
+         */
+        return cloneElement(child, {}, this.wrap(sub))
       }
     })
   }

@@ -19,7 +19,9 @@ class Test extends PureComponent {
     }}>
       <Form value={this.state} onChange={v=>{this.setState(v)}}>
         <input name='aa' />
-        <input name='bb' />
+        <div>
+          <input name='bb' />
+        </div>
         <input type='checkbox' name='cc'/>
         <div> fuck </div>
         <div> shit </div>
