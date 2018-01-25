@@ -6,23 +6,6 @@ import React, { PureComponent, Children, cloneElement } from 'react'
 import _ from 'lodash'
 const {toArray} = Children
 
-// 判断一个react element是不是一个原生的text类型的控件
-function isText({props, type}) {
-  if ( type === 'input' ) {
-    const itype = _.get(props, 'type', 'text')
-    const types = new Set(['text', 'password'])
-    if ( types.has(itype) ) {
-      return true
-    } 
-  } 
-  return false
-}
-
-// 判断一个react element是不是一个原生的checkbox
-function isCheckbox({props, type}) {
-  return type === 'input' && _.get(props, 'type') === 'checkbox'
-}
-
 /*
  * TODO: 还要考虑实现uncontrolled
  */
@@ -70,9 +53,34 @@ export default class Form extends PureComponent {
     })
   }
 
-  wrap = children =>{
-    const {wrapText, wrapNormal, wrapCheckbox} = this
+  // 判断一个react element是不是一个原生的text类型的控件
+  isText({props, type}) {
+    if ( type === 'input' ) {
+      const itype = _.get(props, 'type', 'text')
+      const types = new Set(['text', 'password'])
+      if ( types.has(itype) ) {
+        return true
+      } 
+    } 
+    return false
+  }
 
+  // 判断一个react element是不是一个原生的checkbox
+  isCheckbox({props, type}) {
+    return type === 'input' && _.get(props, 'type') === 'checkbox'
+  }
+
+  switchy = (child, table, def)=>{ // 用来减少一堆的if else的一个小函数
+    for (const key of table) {
+      if ( this[`is${key}`](child) ) {
+        return this[`wrap${key}`](child)
+      } 
+    }
+    return this[`wrap${def}`](child)
+  }
+
+  wrap = children =>{
+    const {switchy} = this
     children =  toArray(children)
     return children.map(child => {
       const {props} = child
@@ -80,19 +88,10 @@ export default class Form extends PureComponent {
       if ( !props ) { // 递归进入到一个字符串结点时，是没有props的
         return child
       } 
-
       const {name, children:sub} = props
 
       if ( name && _.isString(name) ) { // 如果有name，就当其为控件，为其注入一些行为
-        if ( isText(child) ) {
-          return wrapText(child)
-        } 
-        else if ( isCheckbox(child) ) {
-          return wrapCheckbox(child)
-        } 
-        else { // 则是通用直接导出value类型的控件（通常是自定义控件）
-          return wrapNormal(child)
-        }
+        return switchy(child, ['Text', 'Checkbox'], 'Normal')
       } 
       else {
         /*
