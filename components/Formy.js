@@ -79,8 +79,8 @@ export default class Form extends PureComponent {
     return this[`wrap${def}`](child)
   }
 
-  wrap = children =>{
-    const {switchy} = this
+  parse = children =>{
+    const {switchy, parse} = this
     children =  toArray(children)
     return children.map(child => {
       const {props} = child
@@ -97,16 +97,16 @@ export default class Form extends PureComponent {
         /*
          * 这里用了递归！
          */
-        return cloneElement(child, {}, this.wrap(sub))
+        return cloneElement(child, {}, parse(sub))
       }
     })
   }
 
   render() {
     const {children} = this.props
-    const {wrap} = this
+    const {parse} = this
     return <form>
-      {wrap(children)}
+      {parse(children)}
     </form>
   }
 }
