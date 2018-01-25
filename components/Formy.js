@@ -28,8 +28,50 @@ function isCheckbox({props, type}) {
  */
 export default class Form extends PureComponent {
 
-  wrap = children =>{
+  wrapText = el=>{
     const {value, onChange} = this.props
+    const {props:{name}} = el
+    return cloneElement(el, {
+      value : _.get(value, [name]),
+      onChange : e=>{
+        onChange({
+          ...value,
+          [name] : e.target.value,
+        })
+      }
+    })
+  }
+
+  wrapCheckbox = el=>{
+    const {value, onChange} = this.props
+    const {props:{name}} = el
+    return cloneElement(el, {
+      checked : !!_.get(value, [name]),
+      onChange : e=>{
+        onChange({
+          ...value,
+          [name] : e.target.checked,
+        })
+      }
+    })
+  }
+
+  wrapNormal = el=>{
+    const {value, onChange} = this.props
+    const {props:{name}} = el
+    return cloneElement(el, {
+      value : _.get(value, [name]),
+      onChange : v=>{
+        onChange({
+          ...value,
+          [name] : v,
+        })
+      }
+    })
+  }
+
+  wrap = children =>{
+    const {wrapText, wrapNormal, wrapCheckbox} = this
 
     children =  toArray(children)
     return children.map(child => {
@@ -43,37 +85,13 @@ export default class Form extends PureComponent {
 
       if ( name && _.isString(name) ) { // 如果有name，就当其为控件，为其注入一些行为
         if ( isText(child) ) {
-          return cloneElement(child, {
-            value : _.get(value, [name]),
-            onChange : e=>{
-              onChange({
-                ...value,
-                [name] : e.target.value,
-              })
-            }
-          })
+          return wrapText(child)
         } 
         else if ( isCheckbox(child) ) {
-          return cloneElement(child, {
-            checked : !!_.get(value, [name]),
-            onChange : e=>{
-              onChange({
-                ...value,
-                [name] : e.target.checked,
-              })
-            }
-          })
+          return wrapCheckbox(child)
         } 
         else { // 则是通用直接导出value类型的控件（通常是自定义控件）
-          return cloneElement(child, {
-            value : _.get(value, [name]),
-            onChange : v=>{
-              onChange({
-                ...value,
-                [name] : v,
-              })
-            }
-          })
+          return wrapNormal(child)
         }
       } 
       else {
