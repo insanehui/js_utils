@@ -111,8 +111,8 @@ export default class Form extends PureComponent {
       ...rest
     } = this.props
     const {parse} = this
-    return <form {...rest}>
+    return <div {...rest}>
       {parse(children)}
-    </form>
+    </div>
   }
 }

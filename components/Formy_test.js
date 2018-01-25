@@ -10,7 +10,10 @@ class Test extends PureComponent {
   state = {
     aa : 'haha',
     bb : 'heihei',
-    cc : true,
+    sub : {
+      cc : true,
+      ee : 'ohoh',
+    },
   }
 
   render() {
@@ -23,9 +26,13 @@ class Test extends PureComponent {
         <div>
           <input name='bb' />
           {/* 试一下自定义的组件 */}
-          <Check on='haha' off='heihei' name='dd' />
+          <Check name='dd' on='haha' off='heihei' />
         </div>
-        <input type='checkbox' name='cc'/>
+        {/* 支持嵌套 */}
+        <Form name='sub'>
+          <input type='checkbox' name='cc'/>
+          <input name='ee' />
+        </Form>
         <div> fuck </div>
         <div> shit </div>
         <div> cow </div>
