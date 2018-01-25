@@ -3,6 +3,7 @@ import React, { PureComponent, } from 'react'
 import {render} from 'react-dom'
 
 import Form from './utils/components/Formy.js'
+import Check from './utils/components/CheckboxSelect.js'
 
 class Test extends PureComponent {
 
@@ -21,6 +22,8 @@ class Test extends PureComponent {
         <input name='aa' />
         <div>
           <input name='bb' />
+          {/* 试一下自定义的组件 */}
+          <Check on='haha' off='heihei' name='dd' />
         </div>
         <input type='checkbox' name='cc'/>
         <div> fuck </div>
