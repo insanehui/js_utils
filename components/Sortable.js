@@ -40,12 +40,14 @@ export default class Sortable extends PureComponent {
     const props = {
       key : getKey(item, i),
       index : i,
+
       value : item,
       onChange : v=>{
         let newValue = [...value]
         newValue[i] = v
         onChange(newValue)
       },
+      sortIndex : i, // 由于key和index会被过滤掉，因此再另外注入一个sortIndex
     }
     return <Sub {...props}/>
   }
