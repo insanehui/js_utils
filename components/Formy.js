@@ -9,7 +9,7 @@ const {toArray} = Children
 /*
  * TODO: 还要考虑实现uncontrolled
  */
-export default class Form extends PureComponent {
+export default class Formy extends PureComponent {
 
   wrapText = el=>{
     const {value, onChange} = this.props
