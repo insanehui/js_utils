@@ -3,7 +3,7 @@
  * 省下了一系列hoc包装的过程
  * ps: react的controlled component的思想将'控件'的含义诠释到了极致！
  */
-import React, { PureComponent } from 'react'
+import React, { PureComponent, } from 'react'
 import _ from 'lodash'
 
 import {
@@ -16,11 +16,25 @@ export default class Sortable extends PureComponent {
     as : 'div', // 父容器的类型
   }
 
+  children = ()=>{
+    const {children} = this.props
+    if ( !_.isArray(children) ) {
+      return [children]
+    } 
+    return children
+  }
+
   constructor(p) {
     super(p)
-    const {as, children} = this.props
+    const {as} = this.props
+    const {children} = this
     this.Main = SortableContainer(as)
-    this.Sub = SortableElement(children)
+    for (const child of children()) {
+      if ( _.isFunction(child) ) {
+        this.Sub = SortableElement(child) // 只能有一个child是funtion
+        break;
+      } 
+    }
   }
 
   getKey = (item, i)=>{
@@ -53,10 +67,10 @@ export default class Sortable extends PureComponent {
   }
 
   render() {
-    const {Main, Item} = this // sortable容器
+    const {Main, Item, children} = this // sortable容器
     const {
-      value, onChange, 
-      as, children, itemKey, // filter
+      value, onChange, children:__, 
+      as, itemKey, // filter
       ...rest,
     } = this.props
 
@@ -68,7 +82,12 @@ export default class Sortable extends PureComponent {
     }
 
     return <Main {...props}>
-      {_.map(value, Item)}
+      {children().map(child => {
+        if ( _.isFunction(child) ) {
+          return _.map(value, Item)
+        } 
+        return child
+      })}
     </Main>
   }
 }
