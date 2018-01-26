@@ -18,10 +18,9 @@ class Test extends PureComponent {
       height : 600,
     }}>
       <Sortable value={value} onChange={v=>this.setState({ value:v })}>
-        {v=>(<div>
-          {v}
-        </div>)
-        }
+        {item=>(<div>
+          {item.value}
+        </div>)}
       </Sortable>
     </div>
   }
