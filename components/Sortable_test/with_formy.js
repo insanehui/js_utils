@@ -12,19 +12,19 @@ class Test extends PureComponent {
   state = {
     value : [
       {
-        name : 'haha',
+        name : 'apple',
         age : 9,
       },
       {
-        name : 'heihei',
+        name : 'banana',
         age : 6,
       },
       {
-        name : 'hehe',
+        name : 'cherry',
         age : 88,
       },
       {
-        name : 'hoho',
+        name : 'durian',
         age : 73,
       },
     ]
@@ -32,18 +32,20 @@ class Test extends PureComponent {
 
   render() {
     const {value} = this.state 
-    return <Sortable value={value} onChange={v=>this.setState({ value:v })}>
-      {item=>{ 
-        return <div>
-          <div style={{backgroundColor:'cyan'}} >
-            项目
-          </div>
-          <Formy {...item}>
-          <input name='name' />
-          <input name='age' type='number'/>
-        </Formy>
-      </div> }}
-    </Sortable>
+    return <div style={{width: 600}} >
+        <Sortable value={value} onChange={v=>this.setState({ value:v })}>
+        {item=>{ 
+          return <div>
+            <div style={{backgroundColor:'cyan'}} >
+              项目
+            </div>
+            <Formy {...item}>
+            <input name='name' />
+            <input name='age' type='number'/>
+          </Formy>
+        </div> }}
+      </Sortable>
+    </div>
   }
 }
 

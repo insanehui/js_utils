@@ -60,8 +60,8 @@ export default class Form extends PureComponent {
     } 
     if ( type === 'input' ) {
       const itype = _.get(props, 'type', 'text')
-      const types = new Set(['text', 'password'])
-      if ( types.has(itype) ) {
+      const exclude = new Set(['checkbox', 'button', 'reset', 'submit'])
+      if ( !exclude.has(itype) ) {
         return true
       } 
     } 
