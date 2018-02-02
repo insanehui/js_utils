@@ -34,12 +34,12 @@ class Test extends PureComponent {
     const {value} = this.state 
     return <div style={{width: 600}} >
         <Sortable value={value} onChange={v=>this.setState({ value:v })}>
-        {item=>{ 
+        {({value, onChange})=>{ 
           return <div>
             <div style={{backgroundColor:'cyan'}} >
               项目
             </div>
-            <Formy {...item}>
+            <Formy {...{value, onChange}}>
             <input name='name' />
             <input name='age' type='number'/>
           </Formy>

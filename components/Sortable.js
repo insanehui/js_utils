@@ -62,6 +62,16 @@ export default class Sortable extends PureComponent {
         newValue[i] = v
         onChange(newValue)
       },
+
+      /*
+       * 注入的删除操作。为什么不取名为onRemove是因为onChange是控件的约定命名，所以保留
+       * 而remove是自定义的属性。则不需要定义为onRemove
+       */
+      remove : ()=>{ 
+        let newValue = [...value]
+        newValue.splice(i)
+        onChange(newValue)
+      },
       sortIndex : i, // 由于key和index会被过滤掉，因此再另外注入一个sortIndex
     }
     return <Sub {...props}/>
