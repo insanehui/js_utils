@@ -69,7 +69,7 @@ export default class Sortable extends PureComponent {
        */
       remove : ()=>{ 
         let newValue = [...value]
-        newValue.splice(i)
+        newValue.splice(i, 1)
         onChange(newValue)
       },
       sortIndex : i, // 由于key和index会被过滤掉，因此再另外注入一个sortIndex
