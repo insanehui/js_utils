@@ -8,7 +8,7 @@ import _ from 'lodash'
 
 import {
   SortableContainer, SortableElement, arrayMove,
-  // SortableHandle,
+  SortableHandle,
 } from 'react-sortable-hoc';
 
 export default class Sortable extends PureComponent {
@@ -103,3 +103,4 @@ export default class Sortable extends PureComponent {
   }
 }
 
+export const Handle = SortableHandle('div')
