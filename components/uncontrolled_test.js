@@ -10,11 +10,11 @@ import {free} from './utils/components/uncontrolled.js'
 
 const FreeSort = free(Sortable)
 
+const initValue = [ 'a', 'b', 'c', 'd', ]
+
 class Test extends PureComponent {
   state = {
-    value : [
-      'a', 'b', 'c', 'd',
-    ]
+    value : initValue
   }
 
   render() {
@@ -22,11 +22,12 @@ class Test extends PureComponent {
     /*
      * free的神奇功效：原本是controlled控件的Sortable，被free了之后，就可以直接丢给它一个value
      * 它就可以生活自理了（自己管理状态）
-     * 外界可以随时通过实例的value属性取到值
+     * 外界通过实例暴露的value
      */
     return <div>
       <button onClick={e=>console.log('value', this.refs.sortable.value)}>查看</button>
-      <FreeSort value={value} ref='sortable'>
+      <button onClick={e=>this.refs.sortable.value=initValue}>重置</button>
+      <FreeSort value={value} ref='sortable' onChange={v=>console.log('changed', v)}>
         {({value})=><div> {value} </div>}
       </FreeSort>
     </div>

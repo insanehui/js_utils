@@ -17,9 +17,25 @@ export function free(Controlled){
 
     static displayName = `free(${displayName(Controlled)})`
 
-    componentWillReceiveProps(np) {
-      const {value} = np
-      this.setState({ value, })
+    static defaultProps = {
+      onChange : ()=>{},
+    }
+
+    /*
+     * 这里的实现模式可能存在争议：根据React的控件模式
+     * 对于uncontrolled的组件，是不能通过传入value改变其值，因为这样它就变成controlled了
+     * 基于这个设计原则，暂时将此处注释掉
+     */
+    // componentWillReceiveProps(np) {
+    //   const {value} = np
+    //   this.setState({ value, })
+    // }
+
+    /*
+     * 通过对外api来设置value，才是一个地道的uncontrolled组件
+     */
+    set value(val){
+      this.setState({ value:val })
     }
 
     get value(){
@@ -32,12 +48,9 @@ export function free(Controlled){
        * 因此这里限定：被free了的控件，不能再传入onChange
        */
       const {onChange, ...rest} = this.props
-      if ( onChange ) {
-        console.warn('freed component should not have onChange property')
-      } 
       const {value} = this.state 
 
-      return <Controlled {...{...rest, value, onChange:v=>this.setState({ value:v })}}/>
+      return <Controlled {...{...rest, value, onChange:v=>this.setState({ value:v }, ()=>onChange(v))}}/>
     }
   }
 
