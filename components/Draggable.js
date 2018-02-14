@@ -1,5 +1,6 @@
 /*
  * 用rx.js对拖动事件进行封装
+ * TODO: 后续可以站在控件的角度，进一步实现controlled或者是uncontrolled的draggable control
  */
 import { PureComponent } from 'react'
 import {drag} from '../rx.js'
