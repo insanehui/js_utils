@@ -13,8 +13,10 @@ export const drag = el=>{
 
   el = findDOMNode(el)
 
+  // 取window事件是为了防脱手
   const moves = Rx.Observable.fromEvent(window, 'mousemove').mouseDxy()
   const ups = Rx.Observable.fromEvent(window, 'mouseup')
+
   const downs = Rx.Observable.fromEvent(el, 'mousedown')
   const drags = moves.windowToggle(downs, ()=>ups)
   return drags.concatAll()
