@@ -14,7 +14,7 @@ const factory = Para => {
    * hoc 和 driver
    * 如果仅仅根据active状态响应不同的style时，hoc已经可以胜任（同ActiveStyle里的active、Active里的active_style）
    * 对于更复杂的场景，建议使用driver（不同于之前的设计，而是采用类似react-motion里的思想）
-   * driver模式时，会多外包一层dom结构
+   * driver模式时，会多外包一层dom结构. 因为如果不多包一层结构，无法handle事件
    */
 
   class Active extends PureComponent {
@@ -28,7 +28,7 @@ const factory = Para => {
     render() {
       const p = this.props 
 
-      const {tag:Tag = 'div', 
+      const {as:Tag = 'div', 
         children } = this.props // 用于driver模式
 
       const {hovered, focused, active} = this.state 
