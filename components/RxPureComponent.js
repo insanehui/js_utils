@@ -5,6 +5,8 @@ import { PureComponent } from 'react'
 import {findDOMNode} from 'react-dom'
 
 import Rx from 'rxjs/Rx'
+import '../rx/mouseDxy.js'
+import '../rx/stopPropagation.js'
 
 export default class RxPureComponent extends PureComponent {
   constructor(p) {
