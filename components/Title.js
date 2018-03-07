@@ -27,9 +27,11 @@ export default class Title extends RxPureComponent {
     const {mousemove, parent, mouseleave, mouseenter} = this
 
     this.off$ = mouseleave(parent)
-
     const enter$ = mouseenter(parent)
-    let on$ = mousemove(parent).debounceTime(500)
+    const move$ = mousemove(parent)
+    // move$.subscribe(()=>console.log('move'))
+
+    let on$ = move$.debounceTime(500)
     on$ = on$.windowToggle(enter$, ()=>this.off$).concatAll()
 
     this.on$ = on$
