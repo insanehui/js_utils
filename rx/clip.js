@@ -8,3 +8,7 @@ Rx.Observable.prototype.clip = function($1, $2) {
   return res$.concatAll()
 }
 
+Rx.Observable.prototype.clipr = function($1, $2) {
+  return this.clip($2.startWith(1), $1)
+}
+

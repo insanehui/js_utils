@@ -11,7 +11,7 @@ class Sub extends RxPureComponent {
   componentDidMount(){
     const {click, subscribe} = this
     const {button} = this.refs
-    subscribe(click(button), () => console.log('Clicked!'))
+    subscribe(click(button).startWith(1), () => console.log('Clicked!'))
   }
 
   render() {

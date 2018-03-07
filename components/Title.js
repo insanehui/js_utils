@@ -19,23 +19,29 @@ export default class Title extends RxPureComponent {
     this.setState({ on : false })
   }
 
-  setParent() {
-    this.parent = findDOMNode(this).parentNode
+  setEl() {
+    this.me = findDOMNode(this)
+    this.parent = this.me.parentNode
   }
 
   setStream(){
-    const {mousemove, parent, mouseleave, mouseenter} = this
+    const {mousemove, parent, mouseleave, mouseenter, me} = this
 
     const parentLeave$ = mouseleave(parent)
     const parentEnter$ = mouseenter(parent)
 
     let parentMove$ = mousemove(parent)
-    parentMove$ = parentMove$.debounceTime(500) // 限一下流
+    parentMove$ = parentMove$.debounceTime(350) // 限流
 
     parentMove$ = parentMove$.clip(parentEnter$, parentLeave$)
 
-    this.on$ = parentMove$
-    this.off$ = parentLeave$
+    const meEnter$ = mouseenter(me)
+    const meLeave$ = mouseleave(me)
+
+    const leave$ = parentLeave$.clipr(meEnter$, meLeave$)
+
+    this.on$ = parentMove$.clipr(meEnter$, meLeave$)
+    this.off$ = leave$
   }
 
   setEvent(){
@@ -45,16 +51,13 @@ export default class Title extends RxPureComponent {
   }
 
   componentDidMount(){
-    this.setParent()
+    this.setEl()
     this.setStream()
     this.setEvent()
   }
 
   render() {
     const {on} = this.state 
-    if ( !on ) {
-      return <noscript />
-    } 
 
     const {as:As = 'div', ...rest} = this.props
     let {style} = this.props
@@ -67,6 +70,7 @@ export default class Title extends RxPureComponent {
         position : 'fixed',
         left : x+1,
         top : y+1,
+        ...(!on && {display:'none'})
       }
     }
     return <As {...p}/>
