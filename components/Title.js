@@ -26,14 +26,16 @@ export default class Title extends RxPureComponent {
   setStream(){
     const {mousemove, parent, mouseleave, mouseenter} = this
 
-    this.off$ = mouseleave(parent)
-    const enter$ = mouseenter(parent)
-    const move$ = mousemove(parent)
+    const parentLeave$ = mouseleave(parent)
+    const parentEnter$ = mouseenter(parent)
 
-    let on$ = move$.debounceTime(500)
-    on$ = on$.clip(enter$, this.off$)
+    let parentMove$ = mousemove(parent)
+    parentMove$ = parentMove$.debounceTime(500) // 限一下流
 
-    this.on$ = on$
+    parentMove$ = parentMove$.clip(parentEnter$, parentLeave$)
+
+    this.on$ = parentMove$
+    this.off$ = parentLeave$
   }
 
   setEvent(){

@@ -17,7 +17,7 @@ class Test extends PureComponent {
     }}>
       <div>Title测试</div>
       <div style={{textAlign:'right'}} >
-        <a href='http://www.baidu.com' target='_blank'>详情</a>
+        <a href='http://www.baidu.com' target='_blank' rel='noopener noreferrer'>详情</a>
       </div>
     </Title>
     </div>
