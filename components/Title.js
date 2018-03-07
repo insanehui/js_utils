@@ -38,10 +38,8 @@ export default class Title extends RxPureComponent {
     const meEnter$ = mouseenter(me)
     const meLeave$ = mouseleave(me)
 
-    const leave$ = parentLeave$.clipr(meEnter$, meLeave$)
-
     this.on$ = parentMove$.clipr(meEnter$, meLeave$)
-    this.off$ = leave$
+    this.off$ = parentLeave$.clipr(meEnter$, meLeave$)
   }
 
   setEvent(){
