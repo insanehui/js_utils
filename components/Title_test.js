@@ -10,8 +10,15 @@ class Test extends PureComponent {
       height : 100,
       backgroundColor : 'aliceblue',
     }} >
-    <Title style={{ backgroundColor : 'white', padding:5, border : '1px solid rgb(118,118,118)', fontSize:8}}>
+    <Title style={{ 
+      // 模仿chrome title的样式
+      backgroundColor : 'white', padding:5, border : '1px solid rgb(118,118,118)', fontSize:8,
+      width : 100
+    }}>
       <div>Title测试</div>
+      <div style={{textAlign:'right'}} >
+        <a href='http://www.baidu.com' target='_blank'>详情</a>
+      </div>
     </Title>
     </div>
   }
