@@ -217,7 +217,8 @@ export function pre_traverse(tree, fn){
   function traverse(head) { // 递归函数
     const {children} = head
     fn(head)
-    for (const child of children) {
+    for(const key in children) {
+      const child = children[key]
       traverse(child)
     }
   }
