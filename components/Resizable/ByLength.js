@@ -53,6 +53,16 @@ export default class LengthResizable extends PureComponent {
     if ( to.includes('left') ) {
       width -= x
     } 
+    const min = _.get(this.props, 'style.minWidth')
+    if (_.isNumber(min) && min > width) {
+      width = min
+    } 
+
+    const max = _.get(this.props, 'style.maxWidth')
+    if (_.isNumber(max) && max < width) {
+      width = max
+    } 
+
     this.setState({ width })
   }
 
@@ -68,6 +78,15 @@ export default class LengthResizable extends PureComponent {
     if ( to.includes('top') ) {
       height -= y
     } 
+    const min = _.get(this.props, 'style.minHeight')
+    if (_.isNumber(min) && min > height) {
+      height = min
+    } 
+    const max = _.get(this.props, 'style.maxHeight')
+    if (_.isNumber(max) && max < height) {
+      height = max
+    } 
+
     this.setState({ height })
   }
 
