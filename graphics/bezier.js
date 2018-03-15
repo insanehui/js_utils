@@ -39,7 +39,7 @@ function Thomas4(r,a,b,c,d) {
   return p
 }
 
-export function computeControlPointsBigWThomas(K,W) {
+function computeControlPointsBigWThomas(K,W) {
   /*
    * 第一个参数为knot的坐标（某一轴上，比如x轴），第二个参数为knot间的距离
    * 因此K.length = W.length + 1
