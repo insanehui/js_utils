@@ -1,6 +1,16 @@
 /*
  * 计算平滑曲线的算法
  */
+import _ from 'lodash'
+import {autobind} from 'core-decorators'
+import {zip, converge, drop, dropLast, compose, map} from 'ramda'
+
+const distance = ([a, b])=>Math.sqrt(( a.x-b.x )**2 + (a.y-b.y)**2) // 求两点距离
+const distances = compose(
+  map(distance),
+  converge(zip, [drop(1), dropLast(1)]), 
+)
+
 function Thomas4(r,a,b,c,d) {
   var p,n,m
   n = r.length
@@ -68,7 +78,6 @@ export function computeControlPointsBigWThomas(K,W) {
     c[2*i]=0;
     d[2*i]=0; // note: d[2n-2] is already outside the matrix
     r[2*i] = (W[i-1]+W[i])*K[i];
-
   }
       
   /*right segment*/
@@ -84,12 +93,74 @@ export function computeControlPointsBigWThomas(K,W) {
   /*solves Ax=b with the Thomas algorithm (from Wikipedia)*/
   p = Thomas4(r,a,b,c,d)
 
-  /*re-arrange the array*/
+  // 将控制点分到两个数组存储
   for (let i=0;i<n;i++) {
     p1[i]=p[2*i];
     p2[i]=p[2*i+1];
   }
   
   return {p1:p1, p2:p2};
+}
+
+@autobind
+export class Bezier {
+  constructor(knots) {
+    this.knots = knots
+  }
+
+  get x(){
+    const {knots} = this
+    return _.map(knots, 'x')
+  }
+
+  get y(){
+    const {knots} = this
+    return _.map(knots, 'y')
+  }
+
+  get nKnot(){
+    return this.knots.length
+  }
+
+  get nPath(){
+    return this.nKnot - 1
+  }
+
+  get weights(){
+    const {knots} = this 
+    const res = distances(knots)
+    return res
+  }
+
+  controlPoints = key =>{ // 计算控制点的算法
+    const {knots} = this 
+    const coords = _.map(knots, key)
+    return computeControlPointsBigWThomas(coords, this.weights)
+  }
+
+  get points(){ // 导出方法
+    /*
+     * 返回一系列边的点数组，格式为[[p1, c1, c2, p2], ...]
+     */
+    const {controlPoints, nPath, x, y} = this
+
+    const cx = controlPoints('x')
+    const cy = controlPoints('y')
+    return _.map(_.range(nPath), i => {
+      return [
+        {x:x[i],y:y[i]},
+        {x:cx.p1[i], y:cy.p1[i]},
+        {x:cx.p2[i], y:cy.p2[i]},
+        {x:x[i+1], y:y[i+1]}
+      ]
+    })
+  }
+
+  get ds(){ // 导出path的d属性
+    /*
+     * 在points的基础上，直接生成path的d属性
+     */
+  }
+
 }
 
