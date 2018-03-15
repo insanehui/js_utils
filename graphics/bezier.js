@@ -160,6 +160,8 @@ export class Bezier {
     /*
      * 在points的基础上，直接生成path的d属性
      */
+    const {points} = this
+    return points.map(([a,b,c,d]) => `M ${a.x} ${a.y} C ${b.x} ${b.y} ${c.x} ${c.y} ${d.x} ${d.y}`)
   }
 
 }
