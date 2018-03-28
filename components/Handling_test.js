@@ -13,7 +13,7 @@ class Test extends PureComponent {
 
   render() {
     return <Handling as='button' onClick={this.onClick}>
-      {({onClick:pending})=> (pending ? '处理中...' : '点我')}
+      {s=> (s.clicking ? '处理中...' : '点我')}
     </Handling>
   }
 }

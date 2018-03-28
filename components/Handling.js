@@ -22,11 +22,12 @@ export default class Handling extends PureComponent {
     const {state} = this
 
     props = _.mapValues(props, (v, name)=>{
-      if ( state[name] ) { // 如果已经有状态，说明事件正在处理中，直接返回disable
-        return disable
-      } 
       if (/^on[A-z]/.test(name)) { // 否则如果是事件属性，hook一下
         const handler = v
+        name = _.camelCase(name.slice(2)) + 'ing'
+        if ( state[name] ) { // 如果已经有状态，说明事件正在处理中，直接返回disable
+          return disable
+        } 
         return async e=>{
           this.setState({ [name]:true })
           await handler(e)
