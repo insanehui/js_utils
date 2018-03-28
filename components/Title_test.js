@@ -5,7 +5,8 @@ import Title from './utils/components/Title.js'
 
 class Test extends PureComponent {
   render() {
-    return <div style={{
+    // 加一个draggable是为了测试拖动的时候，Title会不会消失
+    return <div draggable style={{
       width: 100,
       height : 100,
       backgroundColor : 'aliceblue',

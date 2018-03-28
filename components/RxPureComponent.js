@@ -13,7 +13,8 @@ export default class RxPureComponent extends PureComponent {
   constructor(p) {
     super(p)
     const events = [
-      'mousedown', 'click', 'mousemove', 'mouseout', 'mouseleave', 'mouseenter',
+      'mousedown', 'click', 'mousemove', 'mouseout', 'mouseleave', 'mouseenter', 
+      'dragstart', 'dragend',
     ]
     for (const event of events) {
       this[`${event}`] = node => this.event(node, event)

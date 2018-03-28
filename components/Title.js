@@ -25,10 +25,15 @@ export default class Title extends RxPureComponent {
   }
 
   setStream(){
-    const {mousemove, parent, mouseleave, mouseenter, me} = this
+    const {mousemove, parent, mouseleave, mouseenter, 
+      dragstart, dragend,
+      me} = this
 
     const parentLeave$ = mouseleave(parent)
     const parentEnter$ = mouseenter(parent)
+
+    const dragStart$ = dragstart(parent)
+    const dragEnd$ = dragend(parent)
 
     let parentMove$ = mousemove(parent)
     parentMove$ = parentMove$.debounceTime(350) // 限流
@@ -38,8 +43,8 @@ export default class Title extends RxPureComponent {
     const meEnter$ = mouseenter(me)
     const meLeave$ = mouseleave(me)
 
-    this.on$ = parentMove$.clipr(meEnter$, meLeave$)
-    this.off$ = parentLeave$.clipr(meEnter$, meLeave$)
+    this.on$ = parentMove$.clipr(meEnter$, meLeave$).clipr(dragStart$, dragEnd$) // 拖动的时候不显示Title
+    this.off$ = parentLeave$.clipr(meEnter$, meLeave$).merge(dragStart$)
   }
 
   setEvent(){
