@@ -1,11 +1,10 @@
 // github主题的控件
-/* eslint-disable react/jsx-pascal-case */
 // import React, { PureComponent } from 'react'
 import React from 'react'
 import _ from 'lodash'
 
 import {Input as InputBase} from './Form.js'
-import {_active, Active, } from './ActiveStyle.js'
+import {_active as Active1, Active, } from './ActiveStyle.js'
 import {merge_props_with_def_style as merge_st, merge_props, PS} from './utils.js'
 
 import {bg, hsl, inblock, css, sz, ptr, rel, } from '../cssobj.js'
@@ -136,9 +135,9 @@ export class Input extends PS {
         s.onChange && s.onChange(v)
       })
     }
-    return <_active {...merge_st(S.input, p1)} >
+    return <Active1 {...merge_st(S.input, p1)} >
       <InputBase ref='input' />
-    </_active>
+    </Active1>
   }
 
   select() {
@@ -205,9 +204,9 @@ export function Button(p){
     },
   }
 
-  return <_active {...merge_st(S.button, ps)}>
+  return <Active1 {...merge_st(S.button, ps)}>
     <button {...p1} />
-    </_active>
+    </Active1>
 }
 
 export function Button1(p){ // 蓝色的button
@@ -267,9 +266,9 @@ export function Button1(p){ // 蓝色的button
     },
   }
 
-  return <_active {...merge_st(style, ps)}>
+  return <Active1 {...merge_st(style, ps)}>
     <button {...p1} />
-    </_active>
+    </Active1>
 }
 
 export function Submit(p){ // 保留button缺省的submit行为
@@ -278,7 +277,7 @@ export function Submit(p){ // 保留button缺省的submit行为
   const ps = _.pick(p, 'style')
   const p1 = _.omit(p, 'style')
 
-  return <_active {...merge_st(S.button, ps)}>
+  return <Active1 {...merge_st(S.button, ps)}>
     <button {...p1} />
-    </_active>
+    </Active1>
 }
