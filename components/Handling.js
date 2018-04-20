@@ -18,7 +18,7 @@ export default class Handling extends PureComponent {
   }
 
   render() {
-    let {children:fn, as:As, ...props} = this.props
+    let {children:fn, as:As = 'div', ...props} = this.props
     const {state} = this
 
     props = _.mapValues(props, (v, name)=>{
