@@ -23,6 +23,9 @@ export default class Title extends RxPureComponent {
   }
 
   setEl() {
+    /*
+     * 因为this是一个数组（React里的fragment概念，对于fragment的情况，findDOMNode是取第一个元素的dom）
+     */
     this.outer = findDOMNode(this)
   }
 
@@ -71,7 +74,6 @@ export default class Title extends RxPureComponent {
     const {x, y} = this.state 
 
     const style = {
-      ...title.props.style, 
       position : 'fixed',
       left : x,
       top : y,
@@ -80,7 +82,11 @@ export default class Title extends RxPureComponent {
 
     return [
       cloneElement(children, {key:1}),
-      <Portal key={2}> { cloneElement(title, {ref:this.portal, style})}  </Portal>
+      <Portal key={2}>
+        <div style={style} ref={this.portal}>
+          {title}
+        </div>
+      </Portal>
     ]
   }
 }
