@@ -50,6 +50,7 @@ export default class Sticker extends PureComponent {
   }
 
   static defaultProps = {
+    // 是一个数字，表示向前找第by个兄弟作为参照物，缺省为1，见adjust函数
     by : 1,
     dx : 0,
     dy : 0,
@@ -103,10 +104,7 @@ export default class Sticker extends PureComponent {
 
   render() {
     const {style, 
-      by, // 是一个数字，表示向前找第by个兄弟作为参照物，缺省为1，见adjust函数
-      /*
-       * 默认情况下Sticker会紧贴着其参照物，可以通过设置dy来控制偏移间隔
-       */
+      by, 
       /*
        * sticker所在的方位，缺省在下方
        */
