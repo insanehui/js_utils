@@ -90,14 +90,15 @@ export default class Sticker extends PureComponent {
   }
 
   setOffset = offset =>{
-    let {right, bottom} = this.state 
     const {dx, dy} = this.props
+    const {hSide, vSide} = this
+    let {[hSide]:h, [vSide]:v} = this.state 
 
-    right += (offset.dx + dx)
-    right = Math.max(0, right)
-    bottom += (offset.dy + dy)
-    bottom = Math.max(0, bottom)
-    this.setState({ right, bottom })
+    h += (offset.dx + dx)
+    h = Math.max(0, h)
+    v += (offset.dy + dy)
+    v = Math.max(0, v)
+    this.setState({ [hSide]:h, [vSide]:v })
   }
 
   adjust = ()=>{
