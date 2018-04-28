@@ -28,6 +28,16 @@ export default class Sticker extends PureComponent {
     return pos[2]
   }
 
+  get hTarget(){
+    const {pos} = this.props
+    return pos[1]
+  }
+
+  get vTarget(){
+    const {pos} = this.props
+    return pos[3]
+  }
+
   get portal(){
     return this.el.children[0]
   }
@@ -43,27 +53,27 @@ export default class Sticker extends PureComponent {
     return ret
   }
 
-  /*
-   * 计算需要移的偏移量
-   */
+  // 计算需要移的偏移量
   get offset(){
-
-    /*
-     * 暂时只考虑右边和下方是否越界
-     */
-    const {portal, prev} = this
+    const {portal, prev, hSide, hTarget, vSide, vTarget} = this
     const myPos = _.pick(portal.getBoundingClientRect(), 'left', 'bottom', 'top', 'right')
     const prevPos = _.pick(prev.getBoundingClientRect(), 'left', 'bottom', 'top', 'right')
 
-    /*
-     * 算出要往"上"挪的距离
-     */
-    const dy = myPos.top - prevPos.bottom
+    let dy, dx
 
-    /*
-     * 算出要往"左"挪的距离
-     */
-    const dx = myPos.left - prevPos.left
+    if ( hSide === 'right' ) {
+      dx = myPos.left - prevPos[hTarget]
+    } 
+    else if(hSide === 'left') {
+      dx = prevPos[hTarget] - myPos.right 
+    }
+
+    if ( vSide === 'bottom' ) {
+      dy = myPos.top - prevPos[vTarget]
+    } 
+    else if ( vSide === 'top' ) {
+      dy = prevPos[vTarget] - myPos.bottom
+    } 
 
     return {dx, dy}
   }
