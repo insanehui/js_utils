@@ -44,9 +44,13 @@ export default class Sticker extends PureComponent {
   }
 
   state = {
-    // 初始先放到最"右下角"
+    /*
+     * 初始的位置参数。最终只会取其中两个参数来确定位置，取决于pos属性
+     */
     right : 0,
     bottom : 0,
+    left : 0,
+    top : 0,
   }
 
   static defaultProps = {
@@ -61,9 +65,9 @@ export default class Sticker extends PureComponent {
     as : 'div', // 表示sticker的占位元素
     style : null, // 给portal的容器注入的样式
     /*
-     * sticker所在的方位，缺省在下方
+     * sticker的位置参数. TODO: 后续详细解释其含义
      */
-    side : 'bottom',
+    pos : ['right', 'left', 'bottom', 'bottom'],
   }
 
   componentDidMount(){
@@ -102,6 +106,11 @@ export default class Sticker extends PureComponent {
     this.setOffset(offset)
   }
 
+  pickPosState = ()=>{
+    const {pos} = this.props
+    return _.pick(this.state, pos[0], pos[2])
+  }
+
   sensor = ()=>{ // 部署一个sensor监听画布的尺寸信息，以计算出工具栏应放置的位置
     window.requestAnimationFrame(()=>{
       if ( !this.el ) {
@@ -113,13 +122,12 @@ export default class Sticker extends PureComponent {
   }
 
   render() {
-    const {right, bottom} = this.state 
     const {children, as:As, style} = this.props
 
     const props = {
       style : {
         position : 'fixed',
-        right, bottom,
+        ...this.pickPosState(),
         ...style,
       },
     }
