@@ -54,6 +54,16 @@ export default class Sticker extends PureComponent {
     by : 1,
     dx : 0,
     dy : 0,
+    /*
+     * 这里有两个关键dom元素：一个是在原dom树上的占位元素。因为占了位置才方便确定参照物
+     * 另外就是portal的容器元素，为了代码上的便利，容器元素不直接取portal的根元素。而是再创建一个div
+     */
+    as : 'div', // 表示sticker的占位元素
+    style : null, // 给portal的容器注入的样式
+    /*
+     * sticker所在的方位，缺省在下方
+     */
+    side : 'bottom',
   }
 
   componentDidMount(){
@@ -103,22 +113,10 @@ export default class Sticker extends PureComponent {
   }
 
   render() {
-    const {style, 
-      by, 
-      /*
-       * sticker所在的方位，缺省在下方
-       */
-      side = 'bottom',
-      ...forward} = this.props
     const {right, bottom} = this.state 
+    const {children, as:As, style} = this.props
 
-    /*
-     * 注：这种通过forward的方式传属性的方式尽量还是不要采用了
-     * 而且style的合并也晦涩，增加逻辑负担
-     * TODO: 后续有时间将其改掉
-     */
     const props = {
-      ...forward,
       style : {
         position : 'fixed',
         right, bottom,
@@ -126,9 +124,9 @@ export default class Sticker extends PureComponent {
       },
     }
 
-    return <div>
-      {createPortal(<div {...props} />, this.el)}
-    </div>
+    return <As>
+      {createPortal(<div {...props}>{children}</div>, this.el)}
+    </As>
   }
 }
 
