@@ -119,9 +119,9 @@ export default class Sticker extends PureComponent {
     const {hSide, vSide, offset} = this
     let {[hSide]:h, [vSide]:v} = this.state 
 
-    h += (offset.dx + dx)
+    h += (offset.dx + dx*(hSide === 'left' ? 1 : -1))
     h = Math.max(0, h)
-    v += (offset.dy + dy)
+    v += (offset.dy + dy*(vSide === 'top' ? 1 : -1))
     v = Math.max(0, v)
     this.setState({ [hSide]:h, [vSide]:v })
   }
