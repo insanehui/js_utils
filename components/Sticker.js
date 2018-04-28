@@ -2,31 +2,6 @@ import React, { PureComponent } from 'react'
 import {findDOMNode, createPortal} from 'react-dom'
 import _ from 'lodash'
 
-
-/*
- * 通过自身的位置和参数物的位置计算出需要偏移的量: my - ref = {dx, dy}
- * my和ref是dom元素
- */
-function calcOffset(my, ref, pos) {
-  /*
-   * 暂时只考虑右边和下方是否越界
-   */
-  const myPos = _.pick(my.getBoundingClientRect(), 'left', 'bottom', 'top', 'right')
-  const prevPos = _.pick(ref.getBoundingClientRect(), 'left', 'bottom', 'top', 'right')
-
-  /*
-   * 算出要往"上"挪的距离
-   */
-  const dy = myPos.top - prevPos.bottom
-
-  /*
-   * 算出要往"左"挪的距离
-   */
-  const dx = myPos.left - prevPos.left
-
-  return {dx, dy}
-}
-
 /*
  * 根据参考物的位置来决定自己的位置，并且通过定时的机制来自动跟随
  * 暂时固定为将同级的兄长作为参照物
@@ -41,6 +16,56 @@ export default class Sticker extends PureComponent {
     const el = document.createElement('div')
     document.body.appendChild(el)
     this.el = el
+  }
+
+  get hSide(){
+    const {pos} = this.props
+    return pos[0]
+  }
+
+  get vSide(){
+    const {pos} = this.props
+    return pos[2]
+  }
+
+  get portal(){
+    return this.el.children[0]
+  }
+
+  get prev(){
+    const {by} = this.props
+
+    const me = findDOMNode(this)
+    let ret = me
+    for(let i = 0; i<by; i++){
+      ret = ret.previousSibling
+    }
+    return ret
+  }
+
+  /*
+   * 计算需要移的偏移量
+   */
+  get offset(){
+
+    /*
+     * 暂时只考虑右边和下方是否越界
+     */
+    const {portal, prev} = this
+    const myPos = _.pick(portal.getBoundingClientRect(), 'left', 'bottom', 'top', 'right')
+    const prevPos = _.pick(prev.getBoundingClientRect(), 'left', 'bottom', 'top', 'right')
+
+    /*
+     * 算出要往"上"挪的距离
+     */
+    const dy = myPos.top - prevPos.bottom
+
+    /*
+     * 算出要往"左"挪的距离
+     */
+    const dx = myPos.left - prevPos.left
+
+    return {dx, dy}
   }
 
   state = {
@@ -79,19 +104,9 @@ export default class Sticker extends PureComponent {
     this.el = null
   }
 
-  get hSide(){
-    const {pos} = this.props
-    return pos[0]
-  }
-
-  get vSide(){
-    const {pos} = this.props
-    return pos[2]
-  }
-
-  setOffset = offset =>{
+  adjust = () =>{
     const {dx, dy} = this.props
-    const {hSide, vSide} = this
+    const {hSide, vSide, offset} = this
     let {[hSide]:h, [vSide]:v} = this.state 
 
     h += (offset.dx + dx)
@@ -99,20 +114,6 @@ export default class Sticker extends PureComponent {
     v += (offset.dy + dy)
     v = Math.max(0, v)
     this.setState({ [hSide]:h, [vSide]:v })
-  }
-
-  adjust = ()=>{
-    const {by, pos} = this.props
-
-    const me = findDOMNode(this)
-    let prev = me
-    for(let i = 0; i<by; i++){
-      prev = prev.previousSibling
-    }
-
-    const offset = calcOffset(this.el.children[0], prev, pos)
-
-    this.setOffset(offset)
   }
 
   pickPosState = ()=>{
