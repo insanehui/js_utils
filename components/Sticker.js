@@ -7,7 +7,7 @@ import _ from 'lodash'
  * 通过自身的位置和参数物的位置计算出需要偏移的量: my - ref = {dx, dy}
  * my和ref是dom元素
  */
-function calcOffset(my, ref) {
+function calcOffset(my, ref, pos) {
   /*
    * 暂时只考虑右边和下方是否越界
    */
@@ -79,9 +79,20 @@ export default class Sticker extends PureComponent {
     this.el = null
   }
 
+  get hSide(){
+    const {pos} = this.props
+    return pos[0]
+  }
+
+  get vSide(){
+    const {pos} = this.props
+    return pos[2]
+  }
+
   setOffset = offset =>{
     let {right, bottom} = this.state 
     const {dx, dy} = this.props
+
     right += (offset.dx + dx)
     right = Math.max(0, right)
     bottom += (offset.dy + dy)
@@ -90,7 +101,7 @@ export default class Sticker extends PureComponent {
   }
 
   adjust = ()=>{
-    const {by} = this.props
+    const {by, pos} = this.props
 
     const me = findDOMNode(this)
     let prev = me
@@ -98,17 +109,13 @@ export default class Sticker extends PureComponent {
       prev = prev.previousSibling
     }
 
-    /*
-     * 暂时只考虑右边和下方是否越界
-     */
-    const offset = calcOffset(this.el.children[0], prev)
+    const offset = calcOffset(this.el.children[0], prev, pos)
 
     this.setOffset(offset)
   }
 
   pickPosState = ()=>{
-    const {pos} = this.props
-    return _.pick(this.state, pos[0], pos[2])
+    return _.pick(this.state, this.hSide, this.vSide)
   }
 
   sensor = ()=>{ // 部署一个sensor监听画布的尺寸信息，以计算出工具栏应放置的位置
