@@ -1,14 +1,13 @@
 /*
  * 将一小控件组合成大控件的组件
+ * 注：可以通过uncontrolled里的free函数实现uncontrolled需求
+ * TODO: 是否需要增加as参数
  */
 
 import React, { PureComponent, Children, cloneElement } from 'react'
 import _ from 'lodash'
 const {toArray} = Children
 
-/*
- * TODO: 还要考虑实现uncontrolled
- */
 export default class Formy extends PureComponent {
 
   wrapText = el=>{
