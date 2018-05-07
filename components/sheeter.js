@@ -13,7 +13,8 @@ export default style => (Cmp='div') => {
   class Sheeter extends PureComponent {
     render() {
       const {classes:{cmain}, className, ...rest} = this.props
-      return <Cmp className={`${cmain} ${className}`} {...rest} />
+      let cls = className ? ' '+className : ''
+      return <Cmp className={`${cmain}${cls}`} {...rest} />
     }
   }
   return Sheeter
