@@ -1,7 +1,7 @@
 // React 
 import React, { PureComponent,} from 'react'
 import {render} from 'react-dom'
-import Draggable from './utils/components/Draggable.js'
+import Draggable from './utils/components/Draggable/Basic.js'
 
 class Test extends PureComponent {
 
