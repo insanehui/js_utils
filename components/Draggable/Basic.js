@@ -15,3 +15,14 @@ export default class Draggable extends PureComponent {
     return this.props.children
   }
 }
+
+export const dragMe = Cmp => {
+  return class extends Cmp {
+    // constructor(p) {
+    //   super(p)
+    //   this.refMe = (name = 'refed') => el=>{
+    //     this[name] = el
+    //   }
+    // }
+  }
+}
