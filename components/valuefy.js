@@ -3,7 +3,7 @@
  * 要求为controlled形式
  */
 import React, { PureComponent } from 'react'
-import {displayName} from './displayName.js'
+import displayName from './displayName/get.js'
 
 export const valuefy = Control => {
   class Valuefied extends PureComponent{

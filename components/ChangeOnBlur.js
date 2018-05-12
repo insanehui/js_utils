@@ -5,7 +5,7 @@
 
 import React, { PureComponent } from 'react'
 import {isDev} from '../web/webpack_node_env.js'
-import {displayName} from './displayName.js'
+import displayName from '../components/displayName/get.js'
 
 export const onblur = Edit => {
 
