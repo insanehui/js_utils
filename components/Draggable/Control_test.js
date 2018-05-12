@@ -1,4 +1,3 @@
-// React 
 import React, { PureComponent,} from 'react'
 import {render} from 'react-dom'
 
