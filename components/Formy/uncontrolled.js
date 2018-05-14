@@ -4,7 +4,7 @@
  */
 
 import React, { PureComponent } from 'react'
-import displayName from './displayName/get.js'
+import displayName from '../displayName/get.js'
 
 export function free(Controlled){
 
