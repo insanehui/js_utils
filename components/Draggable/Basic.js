@@ -3,7 +3,9 @@
  * TODO: 后续可以站在控件的角度，进一步实现controlled或者是uncontrolled的draggable control
  */
 import { PureComponent } from 'react'
+import _ from 'lodash'
 import {drag} from '../../rx.js'
+import hocName from '../displayName/hoc.js'
 
 export default class Draggable extends PureComponent {
   componentDidMount(){
@@ -16,13 +18,23 @@ export default class Draggable extends PureComponent {
   }
 }
 
-export const dragMe = Cmp => {
-  return class extends Cmp {
-    // constructor(p) {
-    //   super(p)
-    //   this.refMe = (name = 'refed') => el=>{
-    //     this[name] = el
-    //   }
-    // }
+/*
+ * 提供一个dragMe装饰器来对接父组件的state
+ */
+export const dragMe = base => {
+  class Cmp extends base {
+    constructor(p) {
+      super(p)
+      this.onDragging = (xKey, yKey) => ({x,y})=>{
+        let fx = 1
+        let fy = 1
+        if ( _.isArray() ) {
+        } 
+      }
+    }
   }
+  Cmp.displayName = hocName(base, 'dragMe', 'dg')
+  return Cmp
 }
+
+Draggable.dragMe = dragMe
