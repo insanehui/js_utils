@@ -6,7 +6,7 @@ import React, { PureComponent} from 'react'
 import {render} from 'react-dom'
 import _ from 'lodash'
 
-import {localStoragify} from './utils/components/localStoragify.js'
+import {localStoragify} from './utils/components/localStoragify/index.js'
 import {valuefy} from './utils/components/valuefy.js'
 
 const Input = _.flow(valuefy, localStoragify()('local_storagify_controlled'))('input')
