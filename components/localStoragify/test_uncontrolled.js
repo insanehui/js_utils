@@ -8,7 +8,7 @@ import _ from 'lodash'
 
 import {localStoragify} from './utils/components/localStoragify/index.js'
 import {valuefy} from './utils/components/valuefy.js'
-import {free} from './utils/components/uncontrolled.js'
+import {free} from './utils/components/Formy/uncontrolled.js'
 
 const Input = _.flow(valuefy, localStoragify()('mydata'), free)('input')
 

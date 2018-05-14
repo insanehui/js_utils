@@ -6,7 +6,7 @@ import React, { PureComponent} from 'react'
 import {render} from 'react-dom'
 
 import Sortable from './utils/components/Sortable.js'
-import {free} from './utils/components/uncontrolled.js'
+import {free} from './utils/components/Formy/uncontrolled.js'
 
 const FreeSort = free(Sortable)
 
