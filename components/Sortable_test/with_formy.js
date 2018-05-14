@@ -6,7 +6,7 @@ import React, { PureComponent} from 'react'
 import {render} from 'react-dom'
 
 import Sortable from './utils/components/Sortable.js'
-import Formy from './utils/components/Formy.js'
+import Formy from './utils/components/Formy/Form.js'
 
 class Test extends PureComponent {
   state = {

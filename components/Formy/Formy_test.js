@@ -2,7 +2,7 @@
 import React, { PureComponent, } from 'react'
 import {render} from 'react-dom'
 
-import Form from './utils/components/Formy.js'
+import Form from './utils/components/Formy/Form.js'
 import Check from './utils/components/CheckboxSelect.js'
 
 class Test extends PureComponent {
