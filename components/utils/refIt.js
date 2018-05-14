@@ -12,5 +12,5 @@ export default base => {
       }
     }
   }
-  return refHelper
+  return RefHelper
 }
