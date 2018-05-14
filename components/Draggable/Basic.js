@@ -3,7 +3,7 @@
  * TODO: 后续可以站在控件的角度，进一步实现controlled或者是uncontrolled的draggable control
  */
 import { PureComponent } from 'react'
-import _ from 'lodash'
+// import _ from 'lodash'
 import {drag} from '../../rx.js'
 import hocName from '../displayName/hoc.js'
 
@@ -26,10 +26,10 @@ export const dragMe = base => {
     constructor(p) {
       super(p)
       this.onDragging = (xKey, yKey) => ({x,y})=>{
-        let fx = 1
-        let fy = 1
-        if ( _.isArray() ) {
-        } 
+        // let fx = 1
+        // let fy = 1
+        // if ( _.isArray() ) {
+        // } 
       }
     }
   }
