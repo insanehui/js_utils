@@ -4,12 +4,10 @@
  */
 import React, { PureComponent} from 'react'
 import {render} from 'react-dom'
-import _ from 'lodash'
 
 import {localStoragify} from './utils/components/localStoragify/index.js'
-import {valuefy} from './utils/components/Formy/valuefy.js'
-
-const Input = _.flow(valuefy, localStoragify()('local_storagify_controlled'))('input')
+import input from './utils/components/Formy/Input.js'
+const Input = localStoragify()('local_storagify_controlled')(input)
 
 class Test extends PureComponent {
   state = {

@@ -27,11 +27,15 @@ export const localStoragify = (encode = ident, decode = ident)=> key=> Control =
 
     componentDidMount(){
       // 取localStorage里的值，触发一次onChange
-      const {onChange} = this.props
-      // 只有当有值的时候，才触发
-      const v = localStorage[key]
-      if ( v !== undefined ) {
-        onChange(decode(v))
+      const {onChange, value} = this.props
+      /*
+       * 如果初始状态没有传value，并且storage有值
+       */
+      if ( value === undefined ) {
+        const v = localStorage[key]
+        if ( v !== undefined ) {
+          onChange(decode(v))
+        } 
       } 
       else {
         this.save()

@@ -7,16 +7,19 @@ import {render} from 'react-dom'
 import _ from 'lodash'
 
 import {localStoragify} from './utils/components/localStoragify/index.js'
-import {valuefy} from './utils/components/Formy/valuefy.js'
 import {free} from './utils/components/Formy/uncontrolled.js'
 
-const Input = _.flow(valuefy, localStoragify()('mydata'), free)('input')
+import input from './utils/components/Formy/Input.js'
+const Input = _.flow(localStoragify()('local_storagify_uncontrolled'), free)(input)
 
 class Test extends PureComponent {
   render() {
-    // 对于uncontrolled的形式，直接丢一个控件进来，它就可以自己与localStorage同步
+    /*
+     * 对于uncontrolled的形式，直接丢一个控件进来，它就可以自己与localStorage同步
+     * 注：uncontrolled传的value为初始value
+     */
     return <div>
-      <Input />
+      <Input value='' />
     </div>
   }
 }

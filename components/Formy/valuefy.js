@@ -1,4 +1,5 @@
 /*
+ * [deprecated] 使用adaptor代替
  * 将e.target.value的原生控件改为标准的value的形式
  * 要求为controlled形式
  */
