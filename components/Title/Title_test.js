@@ -1,7 +1,7 @@
 // React 
 import React, { PureComponent,} from 'react'
 import {render, } from 'react-dom'
-import Title from './utils/components/Title.js'
+import Title from './utils/components/Title/Title.js'
 
 class Test extends PureComponent {
   render() {

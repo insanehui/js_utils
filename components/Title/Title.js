@@ -2,7 +2,7 @@
 import React  from 'react'
 import {findDOMNode} from 'react-dom'
 
-import RxPureComponent from './RxPureComponent.js'
+import RxPureComponent from '../RxPureComponent.js'
 
 export default class Title extends RxPureComponent {
   state = {
