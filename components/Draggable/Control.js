@@ -3,6 +3,7 @@
  */
 import React, { PureComponent } from 'react'
 import {drag} from '../../rx.js'
+import {free} from '../Formy/uncontrolled.js'
 
 export default class DraggableControl extends PureComponent {
   static defaultProps = {
@@ -33,3 +34,5 @@ export default class DraggableControl extends PureComponent {
     }}} />
   }
 }
+
+export const Uncontrolled = free(DraggableControl)
