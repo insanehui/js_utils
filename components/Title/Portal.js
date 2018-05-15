@@ -75,8 +75,11 @@ export default class Title extends RxPureComponent {
 
     const style = {
       position : 'fixed',
-      left : x,
-      top : y,
+      /*
+       * +1为了不阻断鼠标点击事件
+       */
+      left : x+1,
+      top : y+1,
       ...(!on && {display:'none'})
     }
 
