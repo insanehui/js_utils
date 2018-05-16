@@ -17,43 +17,25 @@ function prompt_cb(resolve, reject, value, Edit, modalProps) {
   document.body.appendChild(dialog_div)
 
   class Prompt extends PureComponent {
-
-    constructor(p) {
-      super(p)
-      const {isOpen} = p
-      this.state = {isOpen}
-    }
-
-    componentWillReceiveProps(np) {
-      const {isOpen} = np
-      this.setState({isOpen})
-    }
-
     close = ()=>{
-      this.setState({ isOpen : false }, ()=>{
-        /*
-         * 手动unmount，就像小程序一样，用完即走
-         */
-        unmountComponentAtNode(dialog_div)
-        document.body.removeChild(dialog_div)
-      })
+      /*
+       * 手动unmount，就像小程序一样，用完即走
+       */
+      unmountComponentAtNode(dialog_div)
+      document.body.removeChild(dialog_div)
     }
 
     render() {
-      const {isOpen} = this.state
-      const {onDone, value, Edit, modalProps} = this.props
-      const {cancel} = this
       const modal = {
         ...modalProps,
-        isOpen,
+        isOpen:true,
         appElement : document.body,
-        onRequestClose : cancel,
       }
 
       const edit = {
         value,
         onChange : v=>{
-          onDone(v)
+          resolve(v)
           this.close()
         }
       }
@@ -64,15 +46,7 @@ function prompt_cb(resolve, reject, value, Edit, modalProps) {
     }
   }
 
-  const props = {
-    isOpen : true,
-    value,
-    onDone : resolve,
-    Edit,
-    modalProps,
-  }
-
-  render(<Prompt {...props}/>, dialog_div)
+  render(<Prompt />, dialog_div)
 }
 
 export const prompt = promisify(prompt_cb)
