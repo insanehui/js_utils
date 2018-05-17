@@ -20,17 +20,18 @@ function ucfirst(l1){
     }
 }
 
-export function pinyin(l1) { // 说明见测试用例
+export default function pinyin(l1, opt = {firstLetter:false}) { // 说明见测试用例
     var l2 = l1.length;
     var I1 = "";
     var reg = new RegExp('[a-zA-Z0-9\- ]');
+    const {firstLetter} = opt
     for (var i=0;i<l2;i++) {
         var val = l1.substr(i,1);
         var name = arraySearch(val,PinYin);
         if(reg.test(val)) {
             I1 += val;
         } else if (name!==false) {
-            I1 += name;
+            I1 += firstLetter ? name[0] : name;
         }
 
     }
