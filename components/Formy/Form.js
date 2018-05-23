@@ -1,7 +1,9 @@
 /*
  * 将一小控件组合成大控件的组件
  * 注：可以通过uncontrolled里的free函数实现uncontrolled需求
- * TODO: 是否需要增加as参数
+ * TODO: 
+ *  是否需要增加as参数
+ *  对于一个定义了name，但又不想被formy接管的child，可以增加一个参数来exclude（或者ignore）
  */
 
 import React, { PureComponent, Children, cloneElement } from 'react'
