@@ -1,7 +1,7 @@
 /*
  * 应用了adaptor的一些原生控件
+ * TODO: 到底要保留adapted还是Input等一个个散装？
  */
-import a, {advanced as x} from './adaptor.js'
+import a from './adaptor.js'
 
 export const Input = a(1, e=>e.target.value)('input')
-export const Inputx = x(1, e=>([e.target.value, e.target.validity.valid]))('input')
