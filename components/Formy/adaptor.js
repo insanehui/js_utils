@@ -9,7 +9,7 @@ import hoc from '../displayName/hoc.js'
  * 支持一些快捷调用，比如
  * adaptor(0, e=>e.target.value)('input')
  */
-export default (value, change = x=>x)=>Cmp=>{
+const maker = isAdvanced => (value, change = x=>x)=>Cmp=>{
   if ( !_.isFunction(value) ) {
     value = x=>x
   } 
@@ -26,12 +26,23 @@ export default (value, change = x=>x)=>Cmp=>{
   class Adaptor extends PureComponent {
     static displayName = hoc(Cmp, 'adaptor')
 
+    static defaultProps = {
+      value : undefined,
+      onChange : x=>x,
+    }
+
     render() {
       const {value, onChange, ...rest} = this.props
       return <Cmp {...{
         [valueProp] : valueFunc(value),
-        [changeProp] : e=>{
-          onChange && onChange(changeFunc(e))
+        [changeProp] : (...p)=>{
+          const res = changeFunc(...p)
+          if ( isAdvanced ) {
+            onChange(...res)
+          } 
+          else {
+            onChange(res)
+          }
         },
         ...rest,
       }}/>
@@ -40,3 +51,6 @@ export default (value, change = x=>x)=>Cmp=>{
 
   return Adaptor
 }
+
+export default maker()
+export const advanced = maker(true)
