@@ -3,4 +3,7 @@
  */
 import a from './adaptor.js'
 
-export const Input = a(1, e=>e.target.value)('input')
+/*
+ * 之所以用x||''，是为了防止出现从controlled到uncontrolled间切换的警告
+ */
+export const Input = a(x=>x||'', e=>e.target.value)('input')
