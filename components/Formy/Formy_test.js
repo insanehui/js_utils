@@ -25,6 +25,7 @@ class Test extends PureComponent {
         <input name='aa' />
         <div>
           <input name='bb' />
+          <input type='checkbox' name='ac'/>
           {/* 试一下自定义的组件 */}
           <Check name='dd' on='haha' off='heihei' />
         </div>
