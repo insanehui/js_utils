@@ -16,8 +16,7 @@ export default class Formy extends PureComponent {
 
   parse = children =>{
     const {parse} = this
-    children =  toArray(children)
-    return children.map(child => {
+    return toArray(children).map(child => {
       const {props} = child
 
       if ( !props ) { // 递归进入到一个字符串结点时，是没有props的
