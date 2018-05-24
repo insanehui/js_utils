@@ -6,7 +6,7 @@ import _ from 'lodash'
 
 export default ctx => child=>{ 
 
-  const map = {
+  const wrap = {
     wrapText : el=>{
       const {value, onChange} = ctx.props
       const {props:{name}} = el
@@ -48,7 +48,9 @@ export default ctx => child=>{
         }
       })
     },
+  }
 
+  const check = {
     // 判断一个react element是不是一个原生的checkbox
     isCheckbox({props, type}) {
       return type === 'input' && _.get(props, 'type') === 'checkbox'
@@ -71,9 +73,9 @@ export default ctx => child=>{
   }
 
   for (const key of ['Text','Checkbox']) {
-    if ( map[`is${key}`](child) ) {
-      return map[`wrap${key}`](child)
+    if ( check[`is${key}`](child) ) {
+      return wrap[`wrap${key}`](child)
     } 
   }
-  return map[`wrapNormal`](child)
+  return wrap[`wrapNormal`](child)
 }
