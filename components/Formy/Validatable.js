@@ -44,7 +44,7 @@ export const validatable = render => El => {
 
     checkValidity = (on = true)=>{
       const {valid} = this.ref.current.validity()
-      this.setState({ invalid : !valid })
+      this.setState({ invalid : on && !valid })
     }
 
     render() {
