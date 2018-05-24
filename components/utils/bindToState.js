@@ -23,7 +23,7 @@ export default (methodName='bindState') => base => {
 }
 
 // 散函数
-export const bindState = ctx => stateProp => ({
+export const bindState = ctx => (stateProp='value') => ({
   value : _.get(ctx.state, stateProp),
   onChange : v=>ctx.setState({ [stateProp] : v })
 })
