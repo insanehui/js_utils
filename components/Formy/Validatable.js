@@ -42,6 +42,9 @@ export const validatable = render => El => {
       invalid : false,
     }
 
+    /*
+     * on = true代表开启校验，否则为关闭校验
+     */
     checkValidity = (on = true)=>{
       const {valid} = this.ref.current.validity()
       this.setState({ invalid : on && !valid })
