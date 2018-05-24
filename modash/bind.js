@@ -6,4 +6,4 @@ import _ from 'lodash'
 /*
  * 由于是两个bind，因此要预传两个参数
  */
-export default _.bind(_.bind, _, null)
+export default _.bind(_.bind, null, _, null)
