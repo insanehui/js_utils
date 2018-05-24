@@ -11,7 +11,7 @@ import React, {
   createRef
 } from 'react'
 
-// hoc
+// hoc, 赋予validity()方法
 export const validatify = El => {
   class Validity extends PureComponent {
     /*
@@ -29,7 +29,7 @@ export const validatify = El => {
 }
 
 /*
- * 要求El为validatified
+ * 要求El为validatified, ，赋予checkValidity()方法
  */
 export const validatable = render => El => {
   class Validatable extends PureComponent {

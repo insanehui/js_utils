@@ -14,6 +14,20 @@ const {toArray} = Children
 
 export default class Formy extends PureComponent {
 
+  validity = ()=>{
+    /*
+     * 所有控件都包含在了this.refs里，遍历取它们的validity()
+     */
+    const valid =  _.every(_.map(this.refs, (item, key)=>{
+      if ( !_.isFunction(item.validity) ) {
+        return true
+      } 
+      const v =  _.get(item.validity(), 'valid')
+      return v
+    }))
+    return {valid}
+  }
+
   parse = children =>{
     const {parse} = this
     return toArray(children).map(child => {

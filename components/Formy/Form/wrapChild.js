@@ -11,6 +11,7 @@ export default ctx => child=>{
       const {value, onChange} = ctx.props
       const {props:{name}} = el
       return cloneElement(el, {
+        ref : name,
         value : _.get(value, [name]) || '', // 用来防止出现controlled<->uncontrolled的警告
         onChange : e=>{
           onChange({
@@ -25,6 +26,7 @@ export default ctx => child=>{
       const {value, onChange} = ctx.props
       const {props:{name}} = el
       return cloneElement(el, {
+        ref : name,
         checked : !!_.get(value, [name]),
         onChange : e=>{
           onChange({
@@ -39,6 +41,7 @@ export default ctx => child=>{
       const {value, onChange} = ctx.props
       const {props:{name}} = el
       return cloneElement(el, {
+        ref : name,
         value : _.get(value, [name]),
         onChange : v=>{
           onChange({
