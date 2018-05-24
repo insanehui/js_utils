@@ -1,7 +1,8 @@
 /*
  * 控件的转换器. 可用于把原生的input元素转成formy标准。甚至把一些非控件转成控件
+ * 使用了forwardRef
  */
-import React, {PureComponent} from 'react'
+import React, {forwardRef} from 'react'
 import _ from 'lodash'
 import hoc from '../displayName/hoc.js'
 
@@ -23,20 +24,19 @@ export default (value, change = x=>x)=>Cmp=>{
   const [valueFunc, valueProp] = value
   const [changeFunc, changeProp] = change
 
-  class Adaptor extends PureComponent {
-    static displayName = hoc(Cmp, 'adaptor')
-
-    render() {
-      const {value, onChange, ...rest} = this.props
-      return <Cmp {...{
-        [valueProp] : valueFunc(value),
-        [changeProp] : e=>{
-          onChange && onChange(changeFunc(e))
-        },
-        ...rest,
-      }}/>
-    }
+  function Adaptor(props, ref) {
+    const {value, onChange, ...rest} = props
+    return <Cmp {...{
+      [valueProp] : valueFunc(value),
+      [changeProp] : e=>{
+        onChange && onChange(changeFunc(e))
+      },
+      ref,
+      ...rest,
+    }}/>
   }
 
-  return Adaptor
+  Adaptor.displayName = hoc(Cmp, 'adaptor')
+
+  return forwardRef(Adaptor)
 }

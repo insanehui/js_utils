@@ -15,8 +15,11 @@ class Test extends PureComponent {
       width : 800,
       height : 600,
     }}>
-      <Input {...bind('value')}/>
+    <Input {...bind('value')} ref='input' />
       <Input {...bindState(this)('value2')}/>
+      <button onClick={()=>{
+        console.log(this.refs.input.value)
+      }}>点我</button>
     </div>
   }
 }
