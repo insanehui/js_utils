@@ -6,13 +6,22 @@
 import React, { PureComponent } from 'react'
 import displayName from '../displayName/get.js'
 
-export function free(Controlled){
+export function free(Controlled, refProps = ''){
+  /*
+   * refProps为逗号分隔的字符串
+   */
 
   class Uncontrolled extends PureComponent{
     constructor(p) {
       super(p)
       const {value} = this.props
       this.state = { value, }
+      /*
+       * 代理内部对象的一些方法
+       */
+      for (const prop of refProps.split(',')) {
+        this[prop] = (...p)=>this.refs.inner[prop](...p)
+      }
     }
 
     static displayName = `free(${displayName(Controlled)})`
@@ -50,7 +59,7 @@ export function free(Controlled){
       const {onChange, ...rest} = this.props
       const {value} = this.state 
 
-      return <Controlled {...{...rest, value, onChange:v=>this.setState({ value:v }, ()=>onChange(v))}}/>
+      return <Controlled {...{...rest, value, ref:'inner', onChange:v=>this.setState({ value:v }, ()=>onChange(v))}}/>
     }
   }
 
