@@ -11,7 +11,7 @@ export default ctx => child=>{
       const {value, onChange} = ctx.props
       const {props:{name}} = el
       return cloneElement(el, {
-        value : _.get(value, [name]),
+        value : _.get(value, [name]) || '', // 用来防止出现controlled<->uncontrolled的警告
         onChange : e=>{
           onChange({
             ...value,
