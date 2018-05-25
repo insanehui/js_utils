@@ -4,7 +4,7 @@
 import React, { PureComponent, } from 'react'
 import {render} from 'react-dom'
 
-import {Input} from './utils/components/Formy/Adapted.js'
+import {Input} from './utils/components/Formy/adaptor.js'
 import stateBind, {bindState} from './utils/components/utils/bindToState.js'
 
 @stateBind()

@@ -10,7 +10,7 @@ import hoc from '../displayName/hoc.js'
  * 支持一些快捷调用，比如
  * adaptor(0, e=>e.target.value)('input')
  */
-export default (value, change = x=>x)=>Cmp=>{
+const maker = (value, change = x=>x)=>Cmp=>{
   if ( !_.isFunction(value) ) {
     value = x=>x
   } 
@@ -40,3 +40,10 @@ export default (value, change = x=>x)=>Cmp=>{
 
   return forwardRef(Adaptor)
 }
+
+export default maker
+
+/*
+ * 之所以用x||''，是为了防止出现从controlled到uncontrolled间切换的警告
+ */
+export const Input = maker(x=>x||'', e=>e.target.value)('input')

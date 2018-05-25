@@ -5,8 +5,8 @@
  * > 具有validity()方法. 原生的input等元素需要本模块提供的装饰器包装
  */
 import React, { PureComponent } from 'react'
-import _ from 'lodash'
-import {Input as input} from '../Adapted.js'
+// import _ from 'lodash'
+import {Input as input} from '../adaptor.js'
 
 /*
  * 赋予validity()的hoc

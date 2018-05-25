@@ -1,5 +1,5 @@
 /*
- * [deprecated] 见 Adapted.js
+ * [deprecated] adaptor.js里已经实现
  * formy形式的input
  */
 import adaptor from './adaptor.js'
