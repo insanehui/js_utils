@@ -5,11 +5,12 @@
  * > 具有validity()方法. 原生的input等元素需要本模块提供的装饰器包装
  */
 import React, { PureComponent } from 'react'
+import {Input as input} from '../Adapted.js'
 
 /*
- * hoc, 赋予validity()方法 
+ * 赋予validity()的hoc
  */
-export default El => {
+const hoc = El => {
   class ValidityCheckable extends PureComponent {
     /*
      * 实例方法
@@ -24,4 +25,8 @@ export default El => {
   }
   return ValidityCheckable
 }
+
+export default hoc
+
+export const Input = hoc(input)
 
