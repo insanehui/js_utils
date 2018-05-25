@@ -3,11 +3,9 @@
  */
 import React, { PureComponent, Fragment as F} from 'react'
 import {compose} from 'ramda'
-import _ from 'lodash'
 
 import {render} from 'react-dom'
-import {free} from './utils/components/Formy/uncontrolled.js'
-import $ from './utils/modash/bind.js'
+import {validatable as free} from './utils/components/Formy/uncontrolled.js'
 import {Input as input} from './utils/components/Formy/validation/checker.js'
 import reactor from './utils/components/Formy/validation/reactor.js'
 
@@ -25,12 +23,12 @@ const V2 = reactor((C, props, ref, invalid,)=>{
 })
 
 // const wrap = $(compose, 
-//   $(free, _, 'checkValidity'),
+//  free,
 //   _,
 // )
 
 const wrap = r=>compose(
-  $(free, _, 'checkValidity'), 
+  free,
   r,
 )(input)
 

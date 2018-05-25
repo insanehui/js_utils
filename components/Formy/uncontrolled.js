@@ -4,7 +4,9 @@
  */
 
 import React, { PureComponent } from 'react'
+import _ from 'lodash'
 import displayName from '../displayName/get.js'
+import $ from '../../modash/bind.js'
 
 export function free(Controlled, refProps = ''){
   /*
@@ -65,3 +67,5 @@ export function free(Controlled, refProps = ''){
 
   return Uncontrolled
 }
+
+export const validatable = $(free, _, 'checkValidity,validity')
