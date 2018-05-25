@@ -4,18 +4,18 @@
  * > 该方法不返回值，只会引起组件的展示形态的变化，比如可用来展示一些校验的提示信息等
  */
 
-import React, { PureComponent, createRef } from 'react'
+import { PureComponent, createRef } from 'react'
 
 /*
  * 要求El为ValidityCheckable, 在此基础上赋予checkValidity()方法
  */
-export const validatable = render =>  
+export default render =>  
   /*
   * (El, props, ref, invalid)
   * ref参数用来forward用
   */ 
   El => {
-  class Validatable extends PureComponent {
+  class ValidationReactor extends PureComponent {
     constructor(p) {
       super(p)
       this.ref = createRef()
@@ -45,6 +45,6 @@ export const validatable = render =>
       return render(El, this.props, this.ref, invalid)
     }
   }
-  return Validatable
+  return ValidationReactor
 }
 
