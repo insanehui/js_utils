@@ -9,7 +9,7 @@
 import React, { PureComponent, Children, cloneElement } from 'react'
 import _ from 'lodash'
 import wrap from './Form/wrapChild.js'
-import {free as _free} from './uncontrolled.js'
+import {validatable} from './uncontrolled.js'
 
 const {toArray} = Children
 
@@ -66,4 +66,4 @@ export default class Formy extends PureComponent {
   }
 }
 
-export const free = _free(Formy)
+export const free = validatable(Formy)

@@ -5,8 +5,8 @@
  * > 具有validity()方法. 原生的input等元素需要本模块提供的装饰器包装
  */
 import React, { PureComponent } from 'react'
-// import _ from 'lodash'
-import {Input as input} from '../adaptor.js'
+import _ from 'lodash'
+import {Input as input, bridgeOnChange as $onChange} from '../adaptor.js'
 
 /*
  * 赋予validity()的hoc
@@ -19,9 +19,8 @@ const hoc = El => {
     validity = ()=>{
       return this.refs.el.validity
     }
-
     render(){
-      return <El {...this.props} ref='el' />
+      return <El {...this.props} ref='el' {...$onChange(this)} />
     }
   }
   return ValidityCheckable
@@ -34,22 +33,35 @@ export const Input = hoc(input)
 /*
  * 跟组件state绑定的一个工具函数
  */
-// export const bindState = ctx => opt => {
-//   const {validity} = opt
-//   let ret = {}
-//   if ( opt.value ) {
-//     // TODO
-//   } 
-//   if ( validity ) {
-//     const name = _.isString(validity) ? validity : 'validity',
-//     /*
-//      * TODO 允许用户传入一个onChange，并对其接管
-//      */
-//     ret = {
-//       onChange : ()=>{
-//         ctx.setState({[name] : })
-//       }
-//     }
-//   } 
-//   return ret
-// }
+export const bindState = ctx => opt => {
+  const {
+    validity, // 取整个validity对象
+    valid, // 只取validity.valid
+    /*
+     * TODO 允许用户传入一个onChange，并对其接管
+     */
+  } = opt
+  let ret = {}
+  if ( opt.value ) { // TODO
+  } 
+  if ( valid ) {
+    const name = _.isString(valid) ? valid : 'valid'
+    ret = {
+      onChange : (i, target)=>{
+        console.log('i', i, target)
+        const v = target.validity()
+        ctx.setState({[name] : v})
+      }
+    }
+  } 
+  else if ( validity ) {
+    const name = _.isString(validity) ? validity : 'validity'
+    ret = {
+      onChange : (i, target)=>{
+        const v = target.validity().valid
+        ctx.setState({[name] : v})
+      }
+    }
+  } 
+  return ret
+}

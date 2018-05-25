@@ -2,6 +2,7 @@
  * ValidityReactor: 
  * > 具有checkValidity(boolean, ...扩展参数)
  * > 该方法不返回值，只会引起组件的展示形态的变化，比如可用来展示一些校验的提示信息等
+ * TODO: 这里onChange之后，会丢失ctx，但要考虑是否有必要
  */
 
 import { PureComponent, createRef } from 'react'

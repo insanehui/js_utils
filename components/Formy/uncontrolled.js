@@ -58,7 +58,7 @@ export function free(Controlled, refProps = ''){
       const {value} = this.state 
 
       return <Controlled {...{...rest, value, ref:'inner', 
-        onChange:v=>this.setState({ value:v }, ()=>onChange(v))
+        onChange:v=>this.setState({ value:v }, ()=>onChange(v, this))
       }}
       />
     }

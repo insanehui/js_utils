@@ -17,7 +17,7 @@ export default ctx => child=>{
           onChange({
             ...value,
             [name] : e.target.value,
-          })
+          }, ctx)
         }
       })
     },
@@ -32,7 +32,7 @@ export default ctx => child=>{
           onChange({
             ...value,
             [name] : e.target.checked,
-          })
+          }, ctx)
         }
       })
     },
@@ -47,7 +47,7 @@ export default ctx => child=>{
           onChange({
             ...value,
             [name] : v,
-          })
+          }, ctx)
         }
       })
     },
