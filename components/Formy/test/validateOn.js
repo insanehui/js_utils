@@ -3,10 +3,10 @@ import React, { PureComponent} from 'react'
 import {compose} from 'ramda'
 
 import {render} from 'react-dom'
-import {Input as input} from './utils/components/Formy/validation/checker.js'
+import {Input} from './utils/components/Formy/validation/checker.js'
 import reactor from './utils/components/Formy/validation/reactor.js'
 import {validatable as free} from './utils/components/Formy/uncontrolled.js'
-import onBlur from './utils/components/Formy/validation/validateOnBlur.js'
+import {blur, change} from './utils/components/Formy/validation/validateOn.js'
 
 const V = reactor((El, props, ref, invalid,)=>{
   return <El {...props} ref={ref} style={{
@@ -14,16 +14,18 @@ const V = reactor((El, props, ref, invalid,)=>{
   }} />
 })
 
-const Input = compose(
-  onBlur, free, // 这两者是可以交换顺序的
-  V,
-)(input)
+const wrap = x=>compose(x, free, V)(Input)
+const InputBlur = wrap(blur)
+const InputChange = wrap(change)
 
 class Test extends PureComponent {
 
   render() {
     return <div>
-      <Input ref='input' pattern='aa' required placeholder='请输入"aa"' />
+      <InputBlur pattern='aa' required placeholder='请输入"aa", 失去焦点触发校验' />
+      <br />
+      <br />
+      <InputChange pattern='bb' required placeholder='请输入"bb", 实时校验' />
     </div>
   }
 }
