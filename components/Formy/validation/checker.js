@@ -4,6 +4,7 @@
  * > 为Formy标准的控件. 原生的input等元素需要adaptor包装
  * > 具有validity()方法. 原生的input等元素需要本模块提供的装饰器包装
  */
+import React, { PureComponent } from 'react'
 
 /*
  * hoc, 赋予validity()方法 
