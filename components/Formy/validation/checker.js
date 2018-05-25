@@ -48,8 +48,7 @@ export const bindState = ctx => opt => {
     const name = _.isString(valid) ? valid : 'valid'
     ret = {
       onChange : (i, target)=>{
-        console.log('i', i, target)
-        const v = target.validity()
+        const v = target.validity().valid
         ctx.setState({[name] : v})
       }
     }
@@ -58,7 +57,7 @@ export const bindState = ctx => opt => {
     const name = _.isString(validity) ? validity : 'validity'
     ret = {
       onChange : (i, target)=>{
-        const v = target.validity().valid
+        const v = target.validity()
         ctx.setState({[name] : v})
       }
     }
