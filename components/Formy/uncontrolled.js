@@ -54,14 +54,13 @@ export function free(Controlled, refProps = ''){
     }
 
     render(){
-      /*
-       * 根据React提倡的设计原则，随意地变换控件的control类型是不好的
-       * 因此这里限定：被free了的控件，不能再传入onChange
-       */
       const {onChange, ...rest} = this.props
       const {value} = this.state 
 
-      return <Controlled {...{...rest, value, ref:'inner', onChange:v=>this.setState({ value:v }, ()=>onChange(v))}}/>
+      return <Controlled {...{...rest, value, ref:'inner', 
+        onChange:v=>this.setState({ value:v }, ()=>onChange(v))
+      }}
+      />
     }
   }
 
