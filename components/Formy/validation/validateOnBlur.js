@@ -1,5 +1,5 @@
 /*
- * 在blur的时候进行validate
+ * 在blur的时候进行validate, 但似乎使用场景不多
  */
 
 import React, { PureComponent, forwardRef } from 'react'
