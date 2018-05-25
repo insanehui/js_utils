@@ -42,7 +42,9 @@ const maker =
     render() {
       const {[eventName]:handler, localRef} = this
       const {forwardedRef} = this.state 
-      return <Cmp {...{...this.props, [eventName]:handler}} ref={forwardedRef || localRef } />
+      const rest = _.omit(this.props, 'xRef')
+
+      return <Cmp {...{...rest, [eventName]:handler}} ref={forwardedRef || localRef } />
     }
   }
 

@@ -9,6 +9,7 @@
 import React, { PureComponent, Children, cloneElement } from 'react'
 import _ from 'lodash'
 import wrap from './Form/wrapChild.js'
+import {free as _free} from './uncontrolled.js'
 
 const {toArray} = Children
 
@@ -41,6 +42,9 @@ export default class Formy extends PureComponent {
       if ( name && _.isString(name) ) { // 如果有name，就当其为控件，为其注入一些行为
         return wrap(this)(child)
       } 
+      else if ( sub === undefined ) { // 不处理没有孩子的也没有name的元素
+        return child
+      } 
       else {
         /*
          * 这里用了递归！
@@ -61,3 +65,5 @@ export default class Formy extends PureComponent {
     </div>
   }
 }
+
+export const free = _free(Formy)
