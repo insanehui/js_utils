@@ -27,7 +27,9 @@ const reactor = render =>
     }
 
     state = {
-      invalid : false,
+      validity : {
+        valid:true,
+      },
     }
 
     /*
@@ -38,11 +40,14 @@ const reactor = render =>
     }
 
     /*
-     * on = true代表开启校验，否则为关闭校验
+     * v不传时，以validity的结果为准
+     * 否则以v的数据为准
      */
-    checkValidity = (on = true)=>{
-      const {valid} = this.validity()
-      this.setState({ invalid : on && !valid })
+    checkValidity = (v=null) =>{
+      if ( !v ) {
+        v = this.validity()
+      } 
+      this.setState({validity : v})
     }
 
     parseEl = tree => {
@@ -63,14 +68,14 @@ const reactor = render =>
     }
 
     render() {
-      const {invalid} = this.state 
+      const {validity} = this.state 
       /*
        * 这里制定一个使用约束：
        * render里不能对El进行hoc包装，因为render主要用于控制El外的行为，需要El作为参数仅仅是作为一个占位符
        * 如果需要包装El，则应当在reactor的外面就包装好
        */
       // return render(El, this.props, this.ref, invalid)
-      const el = render(El, invalid) // 得到render回来的react element
+      const el = render(El, validity) // 得到render回来的react element
       return this.parseEl(el)
       // 现对其进行遍历，找到El的位置，并注入props和ref
     }

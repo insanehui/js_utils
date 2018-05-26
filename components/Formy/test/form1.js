@@ -11,10 +11,10 @@ import {bindState as $} from './utils/components/Formy/validation/checker.js'
 import {change} from './utils/components/Formy/validation/validateOn.js'
 import {Input as reactor} from './utils/components/Formy/validation/reactor.js'
 
-const R = reactor((C, invalid)=>{
+const R = reactor((C, {valid})=>{
   return <F>
     <C />
-    {invalid && <span style={{color:'red'}} >请输入正确的值</span>}
+    {!valid && <span style={{color:'red'}} >请输入正确的值</span>}
   </F>
 })
 
