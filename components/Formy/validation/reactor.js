@@ -6,11 +6,12 @@
  */
 
 import { PureComponent, createRef } from 'react'
+import {Input as input} from './checker.js'
 
 /*
  * 要求El为ValidityCheckable, 在此基础上赋予checkValidity()方法
  */
-export default render =>  
+const reactor = render =>  
   /*
   * (El, props, ref, invalid)
   * ref参数用来forward用
@@ -48,4 +49,5 @@ export default render =>
   }
   return ValidationReactor
 }
-
+export default reactor
+export const Input = x=>reactor(x)(input)
