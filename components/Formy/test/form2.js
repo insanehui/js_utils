@@ -27,8 +27,8 @@ class Test extends PureComponent {
     const valid = _.get(this.state, 'valid')
 
     return <Form ref='form' {...$(this)({valid:1})} >
-      <Input type='password' name='password' required placeholder='输入密码' onChange={v=>{
-        console.log('v', v)
+      <Input type='password' name='password' required placeholder='输入密码' onChange={(v,x)=>{
+        console.log('v', v, x)
       }} />
       <br />
       <Input type='password' name='password2' required placeholder='确认密码' />

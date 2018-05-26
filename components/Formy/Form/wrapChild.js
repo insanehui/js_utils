@@ -34,11 +34,14 @@ export default ctx => child=>{
     return cloneElement(el, {
       ref : name,
       ...value,
-      onChange : e=>{
+      onChange : (x, self)=>{
+        console.log('self', self)
         topOnChange({
           ...topValue,
-          [name] : mapper.onChange(e),
+          [name] : mapper.onChange(x),
         }, ctx)
+        const onChange = _.get(el, 'props.onChange')
+        _.isFunction(onChange) && onChange(x, self)
       }
     })
   }
