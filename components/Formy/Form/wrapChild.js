@@ -6,51 +6,39 @@ import _ from 'lodash'
 
 export default ctx => child=>{ 
 
-  const wrap = {
-    wrapText : el=>{
-      const {value, onChange} = ctx.props
-      const {props:{name}} = el
-      return cloneElement(el, {
-        ref : name,
-        value : _.get(value, [name]) || '', // 用来防止出现controlled<->uncontrolled的警告
-        onChange : e=>{
-          onChange({
-            ...value,
-            [name] : e.target.value,
-          }, ctx)
-        }
-      })
+  const valueMap = {
+    text : {
+      value : v=>({value : v || ''}),
+      onChange : e=>e.target.value,
     },
 
-    wrapCheckbox : el=>{
-      const {value, onChange} = ctx.props
-      const {props:{name}} = el
-      return cloneElement(el, {
-        ref : name,
-        checked : !!_.get(value, [name]),
-        onChange : e=>{
-          onChange({
-            ...value,
-            [name] : e.target.checked,
-          }, ctx)
-        }
-      })
+    checkbox : {
+      value : v=>({checked : !!v}),
+      onChange : e=>e.target.checked,
     },
 
-    wrapNormal : el=>{
-      const {value, onChange} = ctx.props
-      const {props:{name}} = el
-      return cloneElement(el, {
-        ref : name,
-        value : _.get(value, [name]),
-        onChange : v=>{
-          onChange({
-            ...value,
-            [name] : v,
-          }, ctx)
-        }
-      })
+    normal : {
+      value : v=>({value : v}),
+      onChange : v=>v,
     },
+  }
+
+  const wrap = key => el=>{
+    const {value:topValue, onChange:topOnChange} = ctx.props
+    const {props:{name}} = el
+    let value = _.get(topValue, [name])
+    value = valueMap[key].value(value)
+
+    return cloneElement(el, {
+      ref : name,
+      ...value,
+      onChange : e=>{
+        topOnChange({
+          ...topValue,
+          [name] : valueMap[key].onChange(e),
+        }, ctx)
+      }
+    })
   }
 
   const check = {
@@ -75,10 +63,10 @@ export default ctx => child=>{
     },
   }
 
-  for (const key of ['Text','Checkbox']) {
-    if ( check[`is${key}`](child) ) {
-      return wrap[`wrap${key}`](child)
+  for (const key of ['text','checkbox']) {
+    if ( check[`is${_.capitalize(key)}`](child) ) {
+      return wrap(key)(child)
     } 
   }
-  return wrap[`wrapNormal`](child)
+  return wrap('normal')(child)
 }

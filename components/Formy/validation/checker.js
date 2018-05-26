@@ -31,14 +31,17 @@ export default hoc
 export const Input = hoc(input)
 
 /*
- * 跟组件state绑定的一个工具函数
+ * 跟组件state绑定的一个工具函数. 可以指定绑定
+ * validity
+ * valid
+ * value: TODO
  */
 export const bindState = ctx => opt => {
   const {
     validity, // 取整个validity对象
     valid, // 只取validity.valid
     /*
-     * TODO 允许用户传入一个onChange，并对其接管
+     * TODO 允许用户传入一个onChange，并对其接管. 只是hook的形式
      */
   } = opt
   let ret = {}
