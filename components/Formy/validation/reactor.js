@@ -5,8 +5,11 @@
  * TODO: 这里onChange之后，会丢失ctx，但要考虑是否有必要
  */
 
-import { PureComponent, createRef } from 'react'
+import { PureComponent, createRef, Children, cloneElement} from 'react'
+import _ from 'lodash'
 import {Input as input} from './checker.js'
+
+const {toArray} = Children
 
 /*
  * 要求El为ValidityCheckable, 在此基础上赋予checkValidity()方法
@@ -42,9 +45,34 @@ const reactor = render =>
       this.setState({ invalid : on && !valid })
     }
 
+    parseEl = tree => {
+      const {parseEl, ref} = this
+      return toArray(tree).map(child => {
+        // 先检查是不是El类型
+        if ( child.type === El ) {
+          return cloneElement(child, {...this.props, ref})
+        } 
+        const sub = _.get(child, 'props.children')
+        if ( sub ) { // 如果有孩子，进入递归
+          return cloneElement(child, {}, parseEl(sub))
+        } 
+        else {
+          return child
+        }
+      })
+    }
+
     render() {
       const {invalid} = this.state 
-      return render(El, this.props, this.ref, invalid)
+      /*
+       * 这里制定一个使用约束：
+       * render里不能对El进行hoc包装，因为render主要用于控制El外的行为，需要El作为参数仅仅是作为一个占位符
+       * 如果需要包装El，则应当在reactor的外面就包装好
+       */
+      // return render(El, this.props, this.ref, invalid)
+      const el = render(El, invalid) // 得到render回来的react element
+      return this.parseEl(el)
+      // 现对其进行遍历，找到El的位置，并注入props和ref
     }
   }
   return ValidationReactor
