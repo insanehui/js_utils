@@ -27,7 +27,9 @@ export default ctx => child=>{
     const {value:topValue, onChange:topOnChange} = ctx.props
     const {props:{name}} = el
     let value = _.get(topValue, [name])
-    value = valueMap[key].value(value)
+    // 查表取到对应的方法
+    const mapper = valueMap[key]
+    value = mapper.value(value)
 
     return cloneElement(el, {
       ref : name,
@@ -35,7 +37,7 @@ export default ctx => child=>{
       onChange : e=>{
         topOnChange({
           ...topValue,
-          [name] : valueMap[key].onChange(e),
+          [name] : mapper.onChange(e),
         }, ctx)
       }
     })
