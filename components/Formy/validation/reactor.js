@@ -55,7 +55,15 @@ const reactor = render =>
       return toArray(tree).map(child => {
         // 先检查是不是El类型
         if ( child.type === El ) {
-          return cloneElement(child, {...this.props, ref})
+          return cloneElement(child, {...this.props, ref, 
+            /*
+             * 注：这里要接力onChange的ctx
+             */
+            onChange:v=>{
+              const onChange = _.get(this.props, 'onChange')
+              _.isFunction(onChange) && onChange(v, this)
+            }
+          })
         } 
         const sub = _.get(child, 'props.children')
         if ( sub ) { // 如果有孩子，进入递归

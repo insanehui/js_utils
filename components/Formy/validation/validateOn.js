@@ -16,10 +16,13 @@ const maker =
   class ValidateOn extends PureComponent {
     constructor(p) {
       super(p)
-      this[eventName] = e=>{
+      /*
+       * 注：这里要用...p，否则会丢失onChange的第二个参数
+       */
+      this[eventName] = (...p)=>{
         const {[eventName]:handler} = this.props
         this.inner.checkValidity()
-        handler(e)
+        handler(...p)
       }
     }
 
