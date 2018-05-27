@@ -6,9 +6,7 @@ import _ from 'lodash'
 
 import {render} from 'react-dom'
 import {bindState as $} from './utils/components/Formy/validation/checker.js'
-import {free as Form} from './utils/components/Formy/Form.js'
-
-import {Input} from './UI.js'
+import {Input, Form} from './UI.js'
 
 class Test extends PureComponent {
   render() {
@@ -16,7 +14,7 @@ class Test extends PureComponent {
 
     return <Form ref='form' {...$(this)({valid:1})} >
       <Input name='username' required placeholder='Username' tip='Please input your username!' />
-      <Input name='password' required placeholder='Password' tip='Please input your Password!' />
+      <Input name='password' type='password' required placeholder='Password' tip='Please input your Password!' />
       <button disabled={!valid} onClick={()=>window.alert(JSON.stringify(this.refs.form.value, null, '  '))}>提交</button>
     </Form>
   }

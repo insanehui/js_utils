@@ -18,3 +18,4 @@ export const Input = compose(
   change,
 )(R)
 
+export {free as Form} from './utils/components/Formy/Form.js'
