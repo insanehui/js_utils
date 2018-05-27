@@ -14,7 +14,7 @@ const {toArray} = Children
 /*
  * 要求El为ValidityCheckable, 在此基础上赋予checkValidity()方法
  */
-const reactor = render =>  
+const maker = advanced => render =>  
   /*
   * (El, props, ref, invalid)
   * ref参数用来forward用
@@ -51,7 +51,9 @@ const reactor = render =>
       return toArray(tree).map(child => {
         // 先检查是不是El类型
         if ( child.type === El ) {
-          return cloneElement(child, {...this.props, ref, 
+          return cloneElement(child, {
+            ...(!advanced && this.props), 
+            ref, 
             /*
              * 注：这里要接力onChange的ctx
              */
@@ -78,13 +80,16 @@ const reactor = render =>
        * render里不能对El进行hoc包装，因为render主要用于控制El外的行为，需要El作为参数仅仅是作为一个占位符
        * 如果需要包装El，则应当在reactor的外面就包装好
        */
-      // return render(El, this.props, this.ref, invalid)
-      const el = render(El, validity) // 得到render回来的react element
+      const el = render(El, validity, advanced ? this.props : undefined)
       return this.parseEl(el)
       // 现对其进行遍历，找到El的位置，并注入props和ref
     }
   }
   return ValidationReactor
 }
+const reactor = maker()
 export default reactor
+export const advanced = maker(true)
+
 export const Input = x=>reactor(x)(input)
+export const xInput = x=>advanced(x)(input)

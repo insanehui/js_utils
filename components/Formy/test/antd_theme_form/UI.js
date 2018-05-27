@@ -5,12 +5,12 @@ import React, { Fragment as F} from 'react'
 import {compose} from 'ramda'
 
 import {change} from './utils/components/Formy/validation/validateOn.js'
-import {Input as reactor} from './utils/components/Formy/validation/reactor.js'
+import {xInput as reactor} from './utils/components/Formy/validation/reactor.js'
 
-const R = reactor((C, {valid})=>{
+const R = reactor((C, {valid}, {tip, ...props})=>{
   return <F>
-    <C />
-    {!valid && <span style={{color:'red'}} >请输入正确的值</span>}
+    <C {...props} />
+    {!valid && <span style={{color:'red'}} >{tip}</span>}
   </F>
 })
 
