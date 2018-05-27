@@ -32,22 +32,18 @@ const reactor = render =>
       },
     }
 
-    /*
-     * forward一下 validity()方法
-     */
     validity = ()=>{
-      return this.ref.current.validity()
+      return this._validity || this.ref.current.validity()
     }
 
     /*
-     * v不传时，以validity的结果为准
-     * 否则以v的数据为准
+     * 如果被临时缓存了一个validity对象，则以该临时缓存的为主
+     * 否则取控件本身的validity
+     * 这样的设计可以用来服务比如密码校验的场景
      */
-    checkValidity = (v=null) =>{
-      if ( !v ) {
-        v = this.validity()
-      } 
-      this.setState({validity : v})
+    checkValidity = (validity=null) =>{
+      this._validity = validity
+      this.setState({validity : this.validity()})
     }
 
     parseEl = tree => {
