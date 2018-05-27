@@ -1,34 +1,22 @@
 /*
- * 复制antd表单示例里的第一个（最简单场景）
+ * 演示复制antd里的第一个表单示例：逻辑 + 样式
  */
-import React, { PureComponent, Fragment as F} from 'react'
+import React, { PureComponent} from 'react'
 import _ from 'lodash'
-import {compose} from 'ramda'
 
 import {render} from 'react-dom'
-import {free as Form} from './utils/components/Formy/Form.js'
 import {bindState as $} from './utils/components/Formy/validation/checker.js'
-import {change} from './utils/components/Formy/validation/validateOn.js'
-import {Input as reactor} from './utils/components/Formy/validation/reactor.js'
+import {free as Form} from './utils/components/Formy/Form.js'
 
-const R = reactor((C, {valid})=>{
-  return <F>
-    <C />
-    {!valid && <span style={{color:'red'}} >请输入正确的值</span>}
-  </F>
-})
-
-const Input = compose(
-  change,
-)(R)
+import {Input} from './UI.js'
 
 class Test extends PureComponent {
   render() {
     const valid = _.get(this.state, 'valid')
 
     return <Form ref='form' {...$(this)({valid:1})} >
-      <Input name='a' pattern='aaa' required placeholder='输入"aaa"' />
-      <Input name='b' pattern='bbb' required placeholder='输入"bbb"' />
+      <Input name='username' required placeholder='Username' />
+      <Input name='password' required placeholder='Password' />
       <button disabled={!valid} onClick={()=>window.alert(JSON.stringify(this.refs.form.value, null, '  '))}>提交</button>
     </Form>
   }
