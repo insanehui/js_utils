@@ -17,7 +17,7 @@ class Test extends PureComponent {
       <Gap />
       <Input name='password' type='password' required placeholder='Password' icon='newshot' tip='Please input your Password!' />
       <Gap />
-      <Button disabled={!valid} onClick={()=>window.alert(JSON.stringify(this.refs.form.value, null, '  '))}>提交</Button>
+      <Button disabled={!valid} onClick={()=>window.alert(JSON.stringify(this.refs.form.value, null, '  '))}>Log in</Button>
     </Form>
   }
 }

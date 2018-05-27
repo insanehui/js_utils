@@ -108,6 +108,7 @@ const button = css({
     height: "32px",
     userSelect: "none",
     transition: "all .3s cubic-bezier(.645,.045,.355,1)",
+    verticalAlign : 'middle',
     '&:hover:not([disabled])' : {
       backgroundColor: "#40a9ff",
     },
