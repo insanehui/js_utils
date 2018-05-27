@@ -1,6 +1,8 @@
 import React, {forwardRef} from 'react'
 import _ from 'lodash'
 import sheeter from './utils/components/sheeter.js'
+import {css} from './utils/cssobj.js'
+
 import './iconfont.css'
 
 const lightGray = 'rgba(0,0,0,.25)'
@@ -27,16 +29,25 @@ const comm = {
   },
 }
 
-export const input = sheeter($(comm, {
-  borderColor: "#d9d9d9",
-  '&:hover' : {
-    borderColor : '#40a9ff',
+export const input = css({
+  normal : $(comm, {
+    borderColor: "#d9d9d9",
+    '&:hover' : {
+      borderColor : '#40a9ff',
+    },
+    '&:focus' : {
+      borderColor : '#40a9ff',
+      boxShadow : '0 0 0 2px rgba(24,144,255,.2)',
+    },
+  }),
+  error : {
+    borderColor: "#f5222d",
+    '&:focus' : {
+      borderColor : '#ff4d4f',
+      boxShadow : '0 0 0 2px rgba(245,34,45,.2)',
+    },
   },
-  '&:focus' : {
-    borderColor : '#40a9ff',
-    boxShadow : '0 0 0 2px rgba(24,144,255,.2)',
-  },
-}))
+})
 
 export const msg = sheeter({
   '@global' : {

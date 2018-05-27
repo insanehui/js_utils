@@ -15,20 +15,19 @@ const R = reactor((C, {valid}, {tip, ...props})=>{
     display : 'inline-block',
     position : 'relative',
   }} >
-    <C {...props} />
+    <C {...props} className={`${input_style.normal} ${!valid ? input_style.error : ''}`} />
     {!valid && <Msg>{tip}</Msg>}
   </span>
 })
 
 export function Gap() {
-  return <div style={{display : 'inline-block',width:20}} />
+  return <div style={{display : 'inline-block',width:16}} />
 }
 
 export const Input = compose(
   change,
   R,
   iconify, 
-  input_style,
 )(input)
 
 export {free as Form} from './utils/components/Formy/Form.js'
