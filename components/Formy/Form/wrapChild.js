@@ -35,7 +35,6 @@ export default ctx => child=>{
       ref : name,
       ...value,
       onChange : (x, self)=>{
-        console.log('self', self)
         topOnChange({
           ...topValue,
           [name] : mapper.onChange(x),
