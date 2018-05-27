@@ -22,7 +22,7 @@ export function Gap() {
 export const Input = compose(
   change,
   R,
-  // iconify, input_style,
+  iconify, 
   input_style,
 )(input)
 

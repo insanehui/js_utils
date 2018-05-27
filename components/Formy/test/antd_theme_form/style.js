@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {forwardRef} from 'react'
 import _ from 'lodash'
 import sheeter from './utils/components/sheeter.js'
+import './iconfont.css'
 
 const lightGray = 'rgba(0,0,0,.25)'
 
@@ -37,11 +38,12 @@ export const input = sheeter($(comm, {
   },
 }))
 
-export const iconify = C => ({icon, ...props}) => {
+// 注意forward ref
+export const iconify = C => forwardRef(({icon, ...props}, ref) => {
   const padding = 30
 
   return <span style={{display : 'inline-block',position : 'relative'}} >
-    <C {...$({style:{paddingLeft:padding - 3}}, props)} />
+    <C {...$({style:{paddingLeft:padding - 3}}, props)} ref={ref} />
     <div style={{
       position : 'absolute',
       left : 0,
@@ -56,5 +58,5 @@ export const iconify = C => ({icon, ...props}) => {
     <i className={`iconfont icon-${icon}`} />
   </div>
 </span>
-}
+})
 
