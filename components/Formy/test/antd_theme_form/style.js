@@ -1,5 +1,6 @@
 import React, {forwardRef} from 'react'
 import _ from 'lodash'
+import cx from 'classnames'
 import sheeter from './utils/components/sheeter.js'
 import {css} from './utils/cssobj.js'
 
@@ -49,7 +50,7 @@ export const input = css({
   },
 })
 
-export const msg = sheeter({
+export const Msg = sheeter({
   '@global' : {
     '@keyframes validationTipIn' : {
       from : {
@@ -69,7 +70,7 @@ export const msg = sheeter({
   fontWeight : 'normal',
   padding : '2px 0',
   animation : 'validationTipIn 0.3s',
-})
+})()
 
 // 注意forward ref
 export const iconify = C => forwardRef(({icon, ...props}, ref) => {
@@ -93,3 +94,13 @@ export const iconify = C => forwardRef(({icon, ...props}, ref) => {
 </span>
 })
 
+const button = css({
+  main : {
+  },
+  error : {
+  },
+})
+export const Button = (props)=>{
+  const {disabled} = props
+  return <button {...props} className={cx(button.main, {[button.error]:disabled})} />
+}

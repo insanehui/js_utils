@@ -6,10 +6,8 @@ import {compose} from 'ramda'
 import {change} from './utils/components/Formy/validation/validateOn.js'
 import {advanced as reactor} from './utils/components/Formy/validation/reactor.js'
 import {Input as input} from './utils/components/Formy/validation/checker.js'
-import {iconify, input as sinput, msg} from './style.js'
+import {iconify, input as sinput, Msg} from './style.js'
 import cx from 'classnames'
-
-const Msg = msg('div')
 
 const R = reactor((C, {valid}, {tip, ...props})=>{
   return <span style={{
