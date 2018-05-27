@@ -30,3 +30,4 @@ export const Input = compose(
 )(input)
 
 export {free as Form} from './utils/components/Formy/Form.js'
+export {Button} from './style.js'

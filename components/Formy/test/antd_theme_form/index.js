@@ -6,7 +6,7 @@ import _ from 'lodash'
 
 import {render} from 'react-dom'
 import {bindState as $} from './utils/components/Formy/validation/checker.js'
-import {Input, Form, Gap} from './UI.js'
+import {Input, Form, Gap, Button} from './UI.js'
 
 class Test extends PureComponent {
   render() {
@@ -16,7 +16,8 @@ class Test extends PureComponent {
       <Input name='username' required placeholder='Username' icon='people' tip='Please input your username!' />
       <Gap />
       <Input name='password' type='password' required placeholder='Password' icon='newshot' tip='Please input your Password!' />
-      <button disabled={!valid} onClick={()=>window.alert(JSON.stringify(this.refs.form.value, null, '  '))}>提交</button>
+      <Gap />
+      <Button disabled={!valid} onClick={()=>window.alert(JSON.stringify(this.refs.form.value, null, '  '))}>提交</Button>
     </Form>
   }
 }

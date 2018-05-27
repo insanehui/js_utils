@@ -96,8 +96,30 @@ export const iconify = C => forwardRef(({icon, ...props}, ref) => {
 
 const button = css({
   main : {
+    cursor: "pointer",
+    color: "#fff",
+    backgroundColor: "#1890ff",
+    borderColor: "#1890ff",
+    outline: "none",
+    border: "none",
+    padding: "0 15px",
+    fontSize: "14px",
+    borderRadius: "4px",
+    height: "32px",
+    userSelect: "none",
+    transition: "all .3s cubic-bezier(.645,.045,.355,1)",
+    '&:hover:not([disabled])' : {
+      backgroundColor: "#40a9ff",
+    },
+    '&:active' : {
+      backgroundColor: '#096dd9',
+    },
   },
   error : {
+    cursor : 'not-allowed',
+    color: "rgba(0,0,0,.25)",
+    backgroundColor: "#f5f5f5",
+    border: "1px solid #d9d9d9"
   },
 })
 export const Button = (props)=>{
