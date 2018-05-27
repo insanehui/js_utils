@@ -7,7 +7,6 @@ import {compose} from 'ramda'
 
 import {render} from 'react-dom'
 import {free as Form} from './utils/components/Formy/Form.js'
-import {bindState as $} from './utils/components/Formy/validation/checker.js'
 import {change} from './utils/components/Formy/validation/validateOn.js'
 import {Input as reactor} from './utils/components/Formy/validation/reactor.js'
 
@@ -23,22 +22,29 @@ const Input = compose(
 )(R)
 
 class Test extends PureComponent {
-  onChange = ()=>{
-    const {form} = this.refs
-    const {value:{password:v, password2:v2}} = form
-    if ( v && v2 && (v !== v2) ) {
-      form.checkValidity({msg:'两次输入的密码不一致'}, 'password2')
+  onChange = (value, form)=>{
+    const {password:v, password2:v2} = value
+    if ( v && v2  ) {
+      if ( v !== v2 ) {
+        form.fields().password2.checkValidity({msg:'两次输入的密码不一致'})
+      } 
+      else {
+        form.fields().password2.checkValidity()
+      }
     } 
+    this.setState({ valid : form.validity().valid })
   }
 
   render() {
     const valid = _.get(this.state, 'valid')
     const {onChange} = this
 
-    return <Form ref='form' {...$(this)({valid:1})} >
-      <Input type='password' name='password' required placeholder='输入密码' onChange={onChange} />
+    return <Form ref='form' onChange={onChange} >
+      <Input name='name' required pattern='aaa' placeholder='输入"aaa"' />
       <br />
-      <Input type='password' name='password2' required placeholder='确认密码' onChange={onChange} />
+      <Input type='password' name='password' required placeholder='输入密码' />
+      <br />
+      <Input type='password' name='password2' required placeholder='确认密码' />
       <br />
       <button disabled={!valid} onClick={()=>window.alert(JSON.stringify(this.refs.form.value, null, '  '))}>提交</button>
     </Form>
