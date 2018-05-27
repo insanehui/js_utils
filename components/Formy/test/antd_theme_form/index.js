@@ -21,5 +21,3 @@ class Test extends PureComponent {
 }
 
 render(<Test /> , document.getElementById('root'))
-
-
