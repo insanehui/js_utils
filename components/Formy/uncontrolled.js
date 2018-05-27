@@ -76,4 +76,4 @@ export function free(Controlled, refProps = ''){
  * 桥接表单校验的一些方法
  * 桥接fields是方便快速引用子控件
  */
-export const validatable = $(free, _, 'checkValidity,validity,fields')
+export const validatable = $(free, _, 'checkValidity,validity')

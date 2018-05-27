@@ -26,10 +26,10 @@ class Test extends PureComponent {
     const {password:v, password2:v2} = value
     if ( v && v2  ) {
       if ( v !== v2 ) {
-        form.fields().password2.checkValidity({msg:'两次输入的密码不一致'})
+        form.checkValidity({msg:'两次输入的密码不一致'}, 'password2')
       } 
       else {
-        form.fields().password2.checkValidity()
+        form.checkValidity(null, 'password2')
       }
     } 
     this.setState({ valid : form.validity().valid })

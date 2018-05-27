@@ -29,8 +29,11 @@ export default class Formy extends PureComponent {
     return {valid}
   }
 
-  fields = ()=>{
-    return this.refs
+  /*
+   * TODO: 后续扩展成可以缺省name的情况
+   */
+  checkValidity = (validity, name)=>{
+    this.refs[name].checkValidity(validity)
   }
 
   parse = children =>{
