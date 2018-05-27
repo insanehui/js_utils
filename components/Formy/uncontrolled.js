@@ -46,11 +46,12 @@ export function free(Controlled, refProps = ''){
      * 通过对外api来设置value，才是一个地道的uncontrolled组件
      */
     set value(val){
+      this._value = val // 维护一个inner value，是为了令外界能第一时间拿到value的变化值，如果从state取的话，会慢一拍
       this.setState({ value:val })
     }
 
     get value(){
-      return this.state.value
+      return this._value
     }
 
     render(){
@@ -58,7 +59,10 @@ export function free(Controlled, refProps = ''){
       const {value} = this.state 
 
       return <Controlled {...{...rest, value, ref:'inner', 
-        onChange:v=>this.setState({ value:v }, ()=>onChange(v, this))
+        onChange:v=>{
+          this.value = v
+          onChange(v, this)
+        }
       }}
       />
     }
