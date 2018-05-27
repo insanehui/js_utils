@@ -38,6 +38,7 @@ class Password extends PureComponent {
     onChange(value, this)
   }
 
+  // 如果不提供validity方法，则外层表单校验的时候将忽略当前组件
   validity = ()=>{
     return this.refs.form.validity()
   }
