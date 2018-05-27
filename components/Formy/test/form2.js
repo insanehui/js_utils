@@ -25,10 +25,9 @@ const Input = compose(
 class Test extends PureComponent {
   onChange = ()=>{
     const {form} = this.refs
-    const {fields, value:{password:v, password2:v2}} = form
-    const {password2:c2} = fields()
+    const {value:{password:v, password2:v2}} = form
     if ( v && v2 && (v !== v2) ) {
-      c2.checkValidity({msg:'两次输入的密码不一致'})
+      form.checkValidity({msg:'两次输入的密码不一致'}, 'password2')
     } 
   }
 
