@@ -19,7 +19,8 @@ export function free(Controlled, refProps = ''){
       const {value} = this.props
       this.state = { value, }
       /*
-       * 代理内部对象的一些方法
+       * 注：代理内部对象的一些方法. 之所以要写成函数，是因为refs的数据在构造的时候，并没有产生
+       * 如果写成this[prop] = this.refs.inner[prop]，执行的时候就会报undefined错误
        */
       for (const prop of refProps.split(',')) {
         this[prop] = (...p)=>this.refs.inner[prop](...p)
@@ -71,4 +72,8 @@ export function free(Controlled, refProps = ''){
   return Uncontrolled
 }
 
-export const validatable = $(free, _, 'checkValidity,validity')
+/*
+ * 桥接表单校验的一些方法
+ * 桥接fields是方便快速引用子控件
+ */
+export const validatable = $(free, _, 'checkValidity,validity,fields')

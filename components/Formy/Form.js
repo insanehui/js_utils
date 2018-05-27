@@ -29,6 +29,10 @@ export default class Formy extends PureComponent {
     return {valid}
   }
 
+  fields = ()=>{
+    return this.refs
+  }
+
   parse = children =>{
     const {parse} = this
     return toArray(children).map(child => {
