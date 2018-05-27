@@ -1,18 +1,23 @@
 /*
  * 一些ui组件
  */
-import React, { Fragment as F} from 'react'
+import React from 'react'
 import {compose} from 'ramda'
 import {change} from './utils/components/Formy/validation/validateOn.js'
 import {advanced as reactor} from './utils/components/Formy/validation/reactor.js'
 import {Input as input} from './utils/components/Formy/validation/checker.js'
-import {iconify, input as input_style} from './style.js'
+import {iconify, input as input_style, msg} from './style.js'
+
+const Msg = msg('div')
 
 const R = reactor((C, {valid}, {tip, ...props})=>{
-  return <F>
+  return <span style={{
+    display : 'inline-block',
+    position : 'relative',
+  }} >
     <C {...props} />
-    {!valid && <span style={{color:'red'}} >{tip}</span>}
-  </F>
+    {!valid && <Msg>{tip}</Msg>}
+  </span>
 })
 
 export function Gap() {

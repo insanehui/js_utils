@@ -38,6 +38,28 @@ export const input = sheeter($(comm, {
   },
 }))
 
+export const msg = sheeter({
+  '@global' : {
+    '@keyframes validationTipIn' : {
+      from : {
+        opacity : 0,
+        transform : 'translateY(-5px)',
+      },
+      to : {
+        opacity : 1,
+        transform : 'translateY(0)',
+      },
+    },
+  },
+  position : 'absolute',
+  left : 0,
+  color : '#f5222d',
+  fontSize : 13,
+  fontWeight : 'normal',
+  padding : '2px 0',
+  animation : 'validationTipIn 0.3s',
+})
+
 // 注意forward ref
 export const iconify = C => forwardRef(({icon, ...props}, ref) => {
   const padding = 30
