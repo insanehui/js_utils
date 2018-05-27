@@ -23,6 +23,7 @@ export const Input = compose(
   change,
   R,
   // iconify, input_style,
+  input_style,
 )(input)
 
 export {free as Form} from './utils/components/Formy/Form.js'
