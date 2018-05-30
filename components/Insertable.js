@@ -29,11 +29,11 @@ function insertable(direction = 'top') {
       this.height = height
     }
 
-    main = ()=>{
-      const {children, 
+    sensor = ()=>{
+      const {
         onInsert,
         zIndexSensor = 1,
-        ...forward} = this.props
+        } = this.props
       const {hover} = this.state 
       const sensor = {
         onDragEnter : e=>{
@@ -76,7 +76,15 @@ function insertable(direction = 'top') {
         },
       }
 
-      const Sensor = (<div {...sensor}/>)
+      return (<div {...sensor}/>)
+    }
+
+    main = ()=>{
+      const {children, 
+        onInsert, zIndexSensor, // filter
+        ...forward} = this.props
+
+      const Sensor = this.sensor()
 
       // 注：主元素的position只能先写死为relative
       return  (<div {...merge(rel, forward)} key={0} ref={this.refMain}>
