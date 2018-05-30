@@ -29,13 +29,12 @@ function insertable(direction = 'top') {
       this.height = height
     }
 
-    render() {
+    main = ()=>{
       const {children, 
         onInsert,
         zIndexSensor = 1,
         ...forward} = this.props
       const {hover} = this.state 
-
       const sensor = {
         onDragEnter : e=>{
           this.setState({ hover : true })
@@ -80,10 +79,15 @@ function insertable(direction = 'top') {
       const Sensor = (<div {...sensor}/>)
 
       // 注：主元素的position只能先写死为relative
-      const Main =  (<div {...merge(rel, forward)} key={0} ref={this.refMain}>
+      return  (<div {...merge(rel, forward)} key={0} ref={this.refMain}>
         {children}
         {Sensor}
       </div>)
+    }
+
+    render() {
+      const {hover} = this.state 
+      const Main = this.main()
 
       /*
        * 为什么Sensor和Holder共用一个元素呢？
