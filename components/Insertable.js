@@ -2,14 +2,25 @@
  * 用于拖拉拽界面编辑的场景
  */
 import React, { PureComponent, } from 'react'
-import {merge_props_with_def_style as merge} from './utils.js'
+// import {merge_props_with_def_style as merge} from './utils.js'
 import {abs, rel} from '../cssobj.js'
+import {forwardable} from './utils/forward.js'
+import merge from '../modash/merge.js'
 
 function insertable(direction = 'top') {
   /*
    * direction取值有：top, left, right, top
    */
+
+  @forwardable
   class Cmp extends PureComponent {
+
+    static defaultProps = {
+      children : null,
+      onInsert : e=>e,
+      zIndexSensor : 1,
+    }
+
     state = {
       hover : false,
     }
@@ -35,7 +46,7 @@ function insertable(direction = 'top') {
     sensor = ()=>{
       const {
         onInsert,
-        zIndexSensor = 1,
+        zIndexSensor,
         } = this.props
       const {hover} = this.state 
       const sensor = {
@@ -83,14 +94,12 @@ function insertable(direction = 'top') {
     }
 
     main = ()=>{
-      const {children, 
-        onInsert, zIndexSensor, // filter
-        ...forward} = this.props
+      const {children} = this.props
 
       const Sensor = this.sensor()
 
       // 注：主元素的position只能先写死为relative
-      return  (<div {...merge(rel, forward)} key={0} ref={this.refMain}>
+      return  (<div {...merge({style:rel}, this.forwarded())} key={0} ref={this.refMain}>
         {children}
         {Sensor}
       </div>)
