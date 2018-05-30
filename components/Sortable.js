@@ -32,6 +32,10 @@ export default class Sortable extends PureComponent {
     this.Main = SortableContainer(as)
     for (const child of children()) {
       if ( _.isFunction(child) ) {
+        /*
+         * 给函数注入一个displayName，方便调试
+         */
+        child.displayName = 'renderFunc'
         this.Sub = SortableElement(child) // 只能有一个child是function
         break;
       } 
