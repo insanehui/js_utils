@@ -29,6 +29,9 @@ function insertable(direction = 'top') {
       this.height = height
     }
 
+    /*
+     * 用来感应是否拖动到了边缘
+     */
     sensor = ()=>{
       const {
         onInsert,
