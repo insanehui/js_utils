@@ -2,8 +2,6 @@
  * 用于拖拉拽界面编辑的场景
  */
 import React, { PureComponent, } from 'react'
-// import {merge_props_with_def_style as merge} from './utils.js'
-import {abs, rel} from '../cssobj.js'
 import {forwardable} from './utils/forward.js'
 import merge from '../modash/merge.js'
 
@@ -38,6 +36,8 @@ function insertable(direction = 'top') {
       const {width, height} = el.getBoundingClientRect()
       this.width = width
       this.height = height
+      this.marginTop = +(window.getComputedStyle(el).marginTop.slice(0, -2))
+      console.log('marginTop', this.marginTop)
     }
 
     /*
@@ -65,7 +65,7 @@ function insertable(direction = 'top') {
           this.setState({ hover : false })
         }, 
         style : {
-          ...abs,
+          position : 'absolute',
           zIndex : zIndexSensor, // 通过提高zindex来令其能感知事件
           ...({
             top : {
@@ -76,13 +76,13 @@ function insertable(direction = 'top') {
             },
             right : {
               top: 0, 
-              right : -7,
+              right : (hover ? -7 : -7),
               width: 14,
               height: '100%',
             },
             left : {
               top: 0, 
-              left : -7,
+              left : (hover ? -17 : -7),
               width: 14,
               height: '100%',
             },
@@ -99,7 +99,7 @@ function insertable(direction = 'top') {
       const Sensor = this.sensor()
 
       // 注：主元素的position只能先写死为relative
-      return  (<div {...merge({style:rel}, this.forwarded())} key={0} ref={this.refMain}>
+      return  (<div {...merge({style:{position : 'relative'}}, this.forwarded())} key={0} ref={this.refMain}>
         {children}
         {Sensor}
       </div>)

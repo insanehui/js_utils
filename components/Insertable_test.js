@@ -17,6 +17,7 @@ class Design extends PureComponent {
                 height : 30,
                 width : 100,
                 border : '1px solid gray',
+                marginTop : 4,
               }}>
                 aa
               </div>
@@ -26,6 +27,7 @@ class Design extends PureComponent {
                 height : 30,
                 width : 100,
                 border : '1px solid gray',
+                marginTop : 4,
               }}>
                 bb
               </div>
@@ -39,6 +41,7 @@ class Design extends PureComponent {
                 height : 30,
                 width : 100,
                 border : '1px solid gray',
+                marginTop : 4,
               }}>
                 aa
               </div>
@@ -48,6 +51,7 @@ class Design extends PureComponent {
                 height : 30,
                 width : 100,
                 border : '1px solid gray',
+                marginTop : 4,
               }}>
                 bb
               </div>
