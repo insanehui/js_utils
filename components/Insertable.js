@@ -16,6 +16,7 @@ function insertable(direction = 'top') {
 
     static displayName = {
       top : 'TopInsertable' ,
+      left : 'LeftInsertable' ,
       right : 'RightInsertable',
     }[direction]
 
@@ -66,6 +67,12 @@ function insertable(direction = 'top') {
               width: 14,
               height: '100%',
             },
+            left : {
+              top: 0, 
+              left : -7,
+              width: 14,
+              height: '100%',
+            },
           })[direction],
         },
       }
@@ -97,6 +104,10 @@ function insertable(direction = 'top') {
               width : 10,
               height : this.height,
             },
+            left : {
+              width : 10,
+              height : this.height,
+            },
           })[direction],
         }
       }
@@ -115,7 +126,11 @@ function insertable(direction = 'top') {
           right : [
             Main, 
             Holder, 
-          ]
+          ],
+          left : [
+            Holder, 
+            Main, 
+          ],
         }[direction]
       }
     }
