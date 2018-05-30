@@ -85,12 +85,10 @@ function insertable(direction = 'top') {
       </div>)
     }
 
+    /*
+     * drag over上去的时候，用来占位的元素
+     */
     holder = ()=>{
-      /*
-       * 为什么Sensor和Holder不共用一个元素呢？
-       * 因为它们两者不处在相同的dom树位置，哪怕是共用元素，在dom这一层会不断地创建和销毁元素
-       * 导致不能正常接受onDragLeave的事件
-       */
       const holder = {
         key : 1,
         style : {
