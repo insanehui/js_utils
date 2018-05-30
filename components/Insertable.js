@@ -36,8 +36,6 @@ function insertable(direction = 'top') {
       const {width, height} = el.getBoundingClientRect()
       this.width = width
       this.height = height
-      this.marginTop = +(window.getComputedStyle(el).marginTop.slice(0, -2))
-      console.log('marginTop', this.marginTop)
     }
 
     /*
