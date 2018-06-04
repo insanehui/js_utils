@@ -74,7 +74,7 @@ function insertable(direction = 'top') {
             },
             right : {
               top: 0, 
-              right : (hover ? -7 : -7),
+              right : (hover ? -17 : -7),
               width: 14,
               height: '100%',
             },
