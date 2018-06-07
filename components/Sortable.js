@@ -11,6 +11,8 @@ import {
   SortableHandle,
 } from 'react-sortable-hoc';
 
+import {free as _free} from './Formy/uncontrolled.js'
+
 export default class Sortable extends PureComponent {
   static defaultProps = {
     as : 'div', // 父容器的类型
@@ -106,5 +108,7 @@ export default class Sortable extends PureComponent {
     </Main>
   }
 }
+
+export const free = _free(Sortable)
 
 export const Handle = SortableHandle('div')
