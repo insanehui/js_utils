@@ -1,5 +1,4 @@
-
-import {pinyin} from './pinyin.js'
+import pinyin from './index.js'
 
 test('pinyin', () => {
   const tb = [
