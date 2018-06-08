@@ -1,14 +1,14 @@
 /*
  * 这里很多工作未完成
  */
-import Line from './utils/compiler/Line.js'
+import {Line} from './utils/compiler/fromRegExp.js'
 
-// const str = `1 aaaaaa
-// bbbb
+const str = `1 aaaaaa
+bbbb
 
-// cc
-// d`
-const str = 'aaaaaa'
+cc
+d`
+// const str = 'aaaaaa'
 const line = new Line()
 const res = line.read(str)
 console.log('res', res)

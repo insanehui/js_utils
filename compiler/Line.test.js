@@ -1,9 +1,10 @@
-import Line from './Line.js'
+import {Line} from './fromRegExp.js'
+// import Line from './Line.js'
 
 function line(str) {
-  const line = new Line()
-  const res = line.read(str)
-  return [line.data, res,]
+  const l = new Line()
+  const res = l.read(str)
+  return [l.data, res,]
 }
 
 it('普通', () => {
