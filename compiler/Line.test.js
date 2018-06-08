@@ -1,5 +1,4 @@
 import {Line} from './fromRegExp.js'
-// import Line from './Line.js'
 
 function line(str) {
   const l = new Line()
