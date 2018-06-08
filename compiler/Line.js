@@ -1,3 +1,4 @@
+import {testify,} from '../modash.js'
 import Base from './Base.js'
 
 export default class Line extends Base {
