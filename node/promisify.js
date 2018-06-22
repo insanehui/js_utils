@@ -9,7 +9,9 @@ const child_process = require('child_process')
 
 // 支持传入标准输入的exec
 export const exec = (cmd, input)=>new Promise((ok, err)=>{
-  const sub = child_process.exec(cmd, (error, stdout, stderr)=>{
+  const sub = child_process.exec(cmd, {
+    maxBuffer : 999999999, // 1G
+  }, (error, stdout, stderr)=>{
     ok({error, stdout, stderr})
   })
   if ( input !== undefined ) {
