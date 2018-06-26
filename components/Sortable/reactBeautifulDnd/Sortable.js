@@ -1,7 +1,7 @@
 /*
  * 基于react-beautiful-dnd的sortable
  */
-import React, { PureComponent, } from 'react'
+import React, { PureComponent} from 'react'
 import _ from 'lodash'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import {free as _free} from '../../Formy/uncontrolled.js'
@@ -18,6 +18,29 @@ export default class Sortable extends PureComponent {
     itemKey : null, // 获取item key的方法，详见getKey
   }
 
+  children = ()=>{
+    const {children} = this.props
+    if ( !_.isArray(children) ) {
+      return [children]
+    } 
+    return children
+  }
+
+  constructor(p) {
+    super(p)
+    const {children} = this
+    for (const child of this.children()) {
+      if ( _.isFunction(child) ) {
+        /*
+         * 给函数注入一个displayName，方便调试
+         */
+        child.displayName = 'renderFunc'
+        this.Child = child
+        break;
+      } 
+    }
+  }
+
   getKey = (item, i)=>{
     const {itemKey} = this.props
     if ( !itemKey ) {
@@ -30,7 +53,7 @@ export default class Sortable extends PureComponent {
   }
 
   Item = (item, i)=>{
-    const Child = this.props.children
+    const {Child} = this
     const key = this.getKey(item, i)
 
     return <Draggable key={key} draggableId={key} index={i}>
@@ -47,13 +70,17 @@ export default class Sortable extends PureComponent {
   }
 
   render() {
-    const {as:Outer, value} = this.props
-
+    const {as:Outer, value, children} = this.props
     return <DragDropContext onDragEnd={this.onDragEnd}>
       <Droppable droppableId="droppable">
         {(provided, snapshot) => (
           <Outer ref={provided.innerRef} {...this.forwarded()} >
-            {_.map(value, this.Item)}
+            {this.children().map(child=>{
+              if ( _.isFunction(child) ) {
+                return _.map(value, this.Item)
+              } 
+              return child
+            })}
             {provided.placeholder}
           </Outer>
         )}
