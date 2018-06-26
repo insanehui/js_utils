@@ -16,8 +16,6 @@ class Test extends PureComponent {
     return <Sortable value={value}>
       {({value:itemValue, provided})=>{ 
         return <div ref={provided.innerRef} 
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
         >
           {itemValue}
         </div> 

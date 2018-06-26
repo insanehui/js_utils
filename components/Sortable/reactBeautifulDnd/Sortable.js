@@ -28,7 +28,6 @@ export default class Sortable extends PureComponent {
 
   constructor(p) {
     super(p)
-    const {children} = this
     for (const child of this.children()) {
       if ( _.isFunction(child) ) {
         /*
@@ -58,19 +57,21 @@ export default class Sortable extends PureComponent {
 
     return <Draggable key={key} draggableId={key} index={i}>
       {(provided, snapshot) => {
-        return <Child {...{
-          // ...provided.draggableProps,
-          // ...provided.dragHandleProps,
+        const El = Child({
           provided, snapshot,
           value:item,
           sortIndex:i,
-        }}/>
+        })
+        return React.cloneElement(El, {
+          ...provided.draggableProps,
+          ...provided.dragHandleProps,
+        })
       }}
     </Draggable>
   }
 
   render() {
-    const {as:Outer, value, children} = this.props
+    const {as:Outer, value} = this.props
     return <DragDropContext onDragEnd={this.onDragEnd}>
       <Droppable droppableId="droppable">
         {(provided, snapshot) => (
