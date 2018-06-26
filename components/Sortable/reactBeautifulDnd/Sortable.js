@@ -4,7 +4,6 @@
 import React, { PureComponent, } from 'react'
 import _ from 'lodash'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-
 import {free as _free} from '../../Formy/uncontrolled.js'
 
 import {forwardable} from '../../utils/forward.js'
@@ -16,7 +15,7 @@ export default class Sortable extends PureComponent {
     onChange : ()=>{},
     children : null,
     value : null,
-    itemKey : 'id', // 获取item key的方法，详见getKey
+    itemKey : null, // 获取item key的方法，详见getKey
   }
 
   getKey = (item, i)=>{
@@ -34,25 +33,27 @@ export default class Sortable extends PureComponent {
     const Child = this.props.children
     const key = this.getKey(item, i)
 
-    <Draggable key={key} draggableId={key} index={i}>
-      {(provided, snapshot) => (
+    return <Draggable key={key} draggableId={key} index={i}>
+      {(provided, snapshot) => {
         return <Child {...{
+          // ...provided.draggableProps,
+          // ...provided.dragHandleProps,
           provided, snapshot,
           value:item,
           sortIndex:i,
         }}/>
-      )}
+      }}
     </Draggable>
   }
 
   render() {
     const {as:Outer, value} = this.props
 
-    <DragDropContext onDragEnd={this.onDragEnd}>
+    return <DragDropContext onDragEnd={this.onDragEnd}>
       <Droppable droppableId="droppable">
         {(provided, snapshot) => (
-          <Outer ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)} >
-            {_.map(value, (item, index) => this.Item)}
+          <Outer ref={provided.innerRef} {...this.forwarded()} >
+            {_.map(value, this.Item)}
             {provided.placeholder}
           </Outer>
         )}
