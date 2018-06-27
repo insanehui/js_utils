@@ -2,7 +2,7 @@
 import React, { PureComponent} from 'react'
 import {render} from 'react-dom'
 
-import Sortable from './utils/components/Sortable.js'
+import Sortable from './utils/components/Sortable/reactBeautifulDnd/Sortable.js'
 
 class Test extends PureComponent {
   state = {
