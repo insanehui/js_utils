@@ -63,6 +63,7 @@ export default class Sortable extends PureComponent {
           sortIndex:i,
         })
         return React.cloneElement(El, {
+          ref : provided.innerRef,
           ...provided.draggableProps,
           ...provided.dragHandleProps,
         })

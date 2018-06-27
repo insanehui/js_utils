@@ -14,9 +14,8 @@ class Test extends PureComponent {
   render() {
     const {value} = this.state 
     return <Sortable value={value}>
-      {({value:itemValue, provided})=>{ 
-        return <div ref={provided.innerRef} 
-        >
+      {({value:itemValue})=>{ 
+        return <div>
           {itemValue}
         </div> 
       }}
