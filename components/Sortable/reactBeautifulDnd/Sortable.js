@@ -62,6 +62,7 @@ export default class Sortable extends PureComponent {
   Item = (item, i)=>{
     const {Child} = this
     const key = this.getKey(item, i)
+    const {value, onChange} = this.props
 
     return <Draggable key={key} draggableId={key} index={i}>
       {(provided, snapshot) => {
@@ -69,6 +70,11 @@ export default class Sortable extends PureComponent {
           provided, snapshot,
           value:item,
           sortIndex:i,
+          onChange : v=>{
+            let newValue = [...value]
+            newValue[i] = v
+            onChange(newValue)
+          },
         })
         return React.cloneElement(El, {
           ref : provided.innerRef,
