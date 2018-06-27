@@ -13,7 +13,7 @@ class Test extends PureComponent {
 
   render() {
     const {value} = this.state 
-    return <Sortable value={value}>
+    return <Sortable value={value} onChange={v=>this.setState({ value:v })}>
       {({value:itemValue})=>{ 
         return <div>
           {itemValue}

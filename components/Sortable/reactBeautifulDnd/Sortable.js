@@ -8,6 +8,14 @@ import {free as _free} from '../../Formy/uncontrolled.js'
 
 import {forwardable} from '../../utils/forward.js'
 
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
 @forwardable
 export default class Sortable extends PureComponent {
   static defaultProps = {
@@ -69,6 +77,21 @@ export default class Sortable extends PureComponent {
         })
       }}
     </Draggable>
+  }
+
+  onDragEnd = result =>{
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+    const {onChange, value} = this.props
+
+    const new_value = reorder(
+      value,
+      result.source.index,
+      result.destination.index
+    );
+    onChange(new_value)
   }
 
   render() {
