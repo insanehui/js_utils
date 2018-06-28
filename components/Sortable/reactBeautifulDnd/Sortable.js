@@ -75,6 +75,11 @@ export default class Sortable extends PureComponent {
             newValue[i] = v
             onChange(newValue)
           },
+          remove : ()=>{ 
+            let newValue = [...value]
+            newValue.splice(i, 1)
+            onChange(newValue)
+          },
         })
         return React.cloneElement(El, {
           ref : provided.innerRef,
