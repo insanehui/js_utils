@@ -1,6 +1,6 @@
 /*
  * 将一个controlled的组件包装成uncontrolled的形式
- * 其实跟之前的所谓p->s模式有一点类似。但这次不提之前的概念，而是从'控件'的角度来重新诠释其中的设计思想
+ * TODO: 改掉string类型的ref
  */
 
 import React, { PureComponent } from 'react'
@@ -8,9 +8,9 @@ import _ from 'lodash'
 import displayName from '../displayName/get.js'
 import $ from '../../modash/bind.js'
 
-export function free(Controlled, refProps = ''){
+export function free(Controlled, proxyMethods = ''){
   /*
-   * refProps为逗号分隔的字符串
+   * proxyMethods 为逗号分隔的字符串，指要代理原组件的哪些实例方法
    */
 
   class Uncontrolled extends PureComponent{
@@ -22,7 +22,7 @@ export function free(Controlled, refProps = ''){
        * 注：代理内部对象的一些方法. 之所以要写成函数，是因为refs的数据在构造的时候，并没有产生
        * 如果写成this[prop] = this.refs.inner[prop]，执行的时候就会报undefined错误
        */
-      for (const prop of refProps.split(',')) {
+      for (const prop of proxyMethods.split(',')) {
         this[prop] = (...p)=>this.refs.inner[prop](...p)
       }
     }
