@@ -47,6 +47,8 @@ export const BoxHeader = styler({
   backgroundColor : '#b0b0b3',
   fontSize : 12,
   fontWeight : 600,
+  flexShrink : 0,
+  flexGrow : 0,
 }, 'BoxHeader')()
 
 export const BoxBody = styler({
