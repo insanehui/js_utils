@@ -29,9 +29,8 @@ class Test extends PureComponent {
           <input type='checkbox' name='cc'/>
           <input name='ee' />
         </Form>
-        <div> fuck </div>
-        <div> shit </div>
-        <div> cow </div>
+        <div> aaa </div>
+        <div> bbb </div>
       </Form>
     </div>
   }
