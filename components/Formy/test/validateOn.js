@@ -8,9 +8,9 @@ import reactor from './utils/components/Formy/validation/reactor.js'
 import {validatable as free} from './utils/components/Formy/uncontrolled.js'
 import {blur, change} from './utils/components/Formy/validation/validateOn.js'
 
-const V = reactor((El, props, ref, invalid,)=>{
-  return <El {...props} ref={ref} style={{
-    borderColor : invalid ? 'red' : 'gray',
+const V = reactor((C, {valid})=>{
+  return <C style={{
+    borderColor : !valid ? 'red' : 'gray',
   }} />
 })
 
