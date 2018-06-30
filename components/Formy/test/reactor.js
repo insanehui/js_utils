@@ -9,16 +9,16 @@ import {validatable as free} from './utils/components/Formy/uncontrolled.js'
 import {Input as input} from './utils/components/Formy/validation/checker.js'
 import reactor from './utils/components/Formy/validation/reactor.js'
 
-const V = reactor((C, props, ref, invalid,)=>{
-  return <C {...props} ref={ref} style={{
-    borderColor : invalid ? 'red' : 'gray',
+const V = reactor((C, {valid})=>{
+  return <C style={{
+    borderColor : !valid ? 'red' : 'gray',
   }} />
 })
 
-const V2 = reactor((C, props, ref, invalid,)=>{
+const V2 = reactor((C, {valid})=>{
   return <F>
-    <C {...props} ref={ref} />
-    {invalid && <span style={{color:'red'}} >请输入正确的值</span>}
+    <C />
+    {!valid && <span style={{color:'red'}} >请输入正确的值</span>}
   </F>
 })
 
@@ -41,14 +41,14 @@ class Test extends PureComponent {
       <div>
         <Input ref='input' pattern='aaa' required placeholder='输入"aaa"才是正确的值' />
         <br />
-        <button onClick={()=>{ this.refs.input.checkValidity() }}>on</button>
-        <button onClick={()=>{ this.refs.input.checkValidity(false) }}>off</button>
+        <button onClick={()=>{ this.refs.input.checkValidity() }}>校验</button>
+        <button onClick={()=>{ this.refs.input.checkValidity({valid:true}) }}>关闭校验</button>
       </div>
       <div>
         <Input2 ref='input2' pattern='bbb' required placeholder='输入"bbb"才是正确的值' />
         <br />
-        <button onClick={()=>{ this.refs.input2.checkValidity() }}>on</button>
-        <button onClick={()=>{ this.refs.input2.checkValidity(false) }}>off</button>
+        <button onClick={()=>{ this.refs.input2.checkValidity() }}>校验</button>
+        <button onClick={()=>{ this.refs.input2.checkValidity({valid:true}) }}>关闭校验</button>
       </div>
     </div>
   }
