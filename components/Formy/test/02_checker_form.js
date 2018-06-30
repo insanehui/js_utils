@@ -6,13 +6,13 @@ import {render} from 'react-dom'
 import {compose} from 'ramda'
 
 import form from './utils/components/Formy/Form.js'
-import checker from './utils/components/Formy/validation/checker.js'
+import checkable from './utils/components/Formy/validation/checker.js'
 import {Input as input} from './utils/components/Formy/adaptor.js'
 import {free} from './utils/components/Formy/uncontrolled.js'
 const Form = free(form, 'validity')
 
 const Input = compose(
-  checker,
+  checkable,
 )(input)
 
 class Test extends PureComponent {
