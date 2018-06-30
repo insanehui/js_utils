@@ -34,11 +34,13 @@ export default ctx => child=>{
     return cloneElement(el, {
       ref : name,
       ...value,
-      onChange : (x, self)=>{
+      onChange : (x, self)=>{ // hook
         topOnChange({
           ...topValue,
           [name] : mapper.onChange(x),
         }, ctx)
+
+        // 调用原来的onChange
         const onChange = _.get(el, 'props.onChange')
         _.isFunction(onChange) && onChange(x, self)
       }
