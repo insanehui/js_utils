@@ -15,10 +15,6 @@ const {toArray} = Children
  * 要求El为ValidityCheckable, 在此基础上赋予checkValidity()方法
  */
 const maker = advanced => render =>  
-  /*
-  * (El, props, ref, invalid)
-  * ref参数用来forward用
-  */ 
   El => {
   class ValidationReactor extends PureComponent {
     constructor(p) {
