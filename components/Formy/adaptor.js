@@ -10,19 +10,21 @@ import hoc from '../displayName/hoc.js'
  * 支持一些快捷调用，比如
  * adaptor(0, e=>e.target.value)('input')
  */
-const maker = (value, change = x=>x)=>Cmp=>{
-  if ( !_.isFunction(value) ) {
-    value = x=>x
-  } 
-  if ( !_.isArray(value) ) {
-    value = [value, 'value']
-  } 
-  if ( !_.isArray(change) ) {
-    change = [change, 'onChange']
-  } 
+const maker = (valueMapper, changeMapper = x=>x)=>Cmp=>{
+  {
+    if ( !_.isFunction(valueMapper) ) {
+      valueMapper = x=>x
+    } 
+    if ( !_.isArray(valueMapper) ) {
+      valueMapper = [valueMapper, 'value']
+    } 
+    if ( !_.isArray(changeMapper) ) {
+      changeMapper = [changeMapper, 'onChange']
+    } 
+  }
 
-  const [valueFunc, valueProp] = value
-  const [changeFunc, changeProp] = change
+  const [valueFunc, valueProp] = valueMapper
+  const [changeFunc, changeProp] = changeMapper
 
   function Adaptor(props, ref) {
     const {value, onChange, ...rest} = props
