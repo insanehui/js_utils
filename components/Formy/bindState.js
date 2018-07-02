@@ -5,11 +5,10 @@
  *  hoc装饰器
  *  （外壳组件由于使用不方便，暂不提供）
  */
-// import {PureComponent, cloneElement} from 'react'
 import _ from 'lodash'
 
 // hoc装饰器
-export default (methodName='bindState') => base => {
+export const bindValueToState = (methodName='bindState') => base => {
   class binder extends base {
     constructor(p) {
       super(p)
@@ -23,7 +22,7 @@ export default (methodName='bindState') => base => {
 }
 
 // 散函数
-export const bindState = ctx => (stateProp='value') => ({
+export default ctx => (stateProp='value') => ({
   value : _.get(ctx.state, stateProp),
   onChange : v=>ctx.setState({ [stateProp] : v })
 })
