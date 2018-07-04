@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 /*
  * 控件的转换器. 可用于把原生的input元素转成formy标准。甚至把一些非控件转成控件
  * 使用了forwardRef
