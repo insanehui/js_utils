@@ -47,16 +47,6 @@ const maker = (valueMapper, changeMapper = x=>x)=>Cmp=>{
 export default maker
 
 /*
- * 将onChange桥接
- */
-export const bridgeOnChange = ctx => ({
-  onChange : v=>{
-    const onChange = _.get(ctx, 'props.onChange')
-    _.isFunction(onChange) && onChange(v, ctx)
-  },
-})
-
-/*
  * 之所以用x||''，是为了防止出现从controlled到uncontrolled间切换的警告
  */
 export const Input = maker(x=>x||'', e=>e.target.value)('input')

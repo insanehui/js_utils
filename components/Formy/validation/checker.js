@@ -6,7 +6,18 @@
  */
 import React, { PureComponent } from 'react'
 import _ from 'lodash'
-import {Input as input, bridgeOnChange as $onChange} from '../adaptor.js'
+import {Input as input } from '../adaptor.js'
+
+/*
+ * 给onChange注入一个上下文（比如this）
+ * 将其扩展为onChange(value, ctx)
+ */
+const hookOnChange = ctx => ({
+  onChange : v=>{
+    const onChange = _.get(ctx, 'props.onChange')
+    _.isFunction(onChange) && onChange(v, ctx)
+  },
+})
 
 /*
  * 赋予validity()的hoc
@@ -20,7 +31,7 @@ const hoc = El => {
       return this.refs.el.validity
     }
     render(){
-      return <El {...this.props} ref='el' {...$onChange(this)} />
+      return <El {...this.props} ref='el' {...hookOnChange(this)} />
     }
   }
   return ValidityCheckable
