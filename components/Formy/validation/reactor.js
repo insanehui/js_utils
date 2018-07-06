@@ -12,10 +12,10 @@ import {Input as input} from './checker.js'
 const {toArray} = Children
 
 /*
- * 要求El为ValidityCheckable, 在此基础上赋予checkValidity()方法
+ * 要求Cmp为ValidityCheckable, 在此基础上赋予checkValidity()方法
  */
 const maker = advanced => render =>  
-  El => {
+  Cmp => {
   class ValidationReactor extends PureComponent {
     constructor(p) {
       super(p)
@@ -42,11 +42,12 @@ const maker = advanced => render =>
       this.setState({validity : this.validity()})
     }
 
+    // 遍历找到Cmp元素的位置，并注入props和ref
     parseEl = tree => {
       const {parseEl, ref} = this
       return toArray(tree).map(child => {
-        // 先检查是不是El类型
-        if ( child.type === El ) {
+        // 先检查是不是Cmp类型
+        if ( child.type === Cmp ) {
           return cloneElement(child, {
             ...(!advanced && this.props), 
             ref, 
@@ -73,12 +74,11 @@ const maker = advanced => render =>
       const {validity} = this.state 
       /*
        * 这里制定一个使用约束：
-       * render里不能对El进行hoc包装，因为render主要用于控制El外的行为，需要El作为参数仅仅是作为一个占位符
-       * 如果需要包装El，则应当在reactor的外面就包装好
+       * render里不能对Cmp进行hoc包装，因为render主要用于控制Cmp外的行为，需要Cmp作为参数仅仅是作为一个占位符
+       * 如果需要包装Cmp，则应当在reactor的外面就包装好
        */
-      const el = render(El, validity, advanced ? this.props : undefined)
+      const el = render(Cmp, validity, advanced ? this.props : undefined)
       return this.parseEl(el)
-      // 现对其进行遍历，找到El的位置，并注入props和ref
     }
   }
   return ValidationReactor
