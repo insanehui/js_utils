@@ -50,9 +50,9 @@ export default class Title extends RxPureComponent {
     const tipLeave$ = mouseleave(tip).delay(1)
 
     this.on$ = move$.clipr(tipEnter$, tipLeave$)
-    this.off$ = leave$.clipr(tipEnter$, tipLeave$).merge(
-      tipLeave$.clipr(enter$, leave$)
-    )
+
+    this.off$ = leave$.clipr(tipEnter$, tipLeave$) // 离开父元素（排除掉进入tip）
+      .merge( tipLeave$.clipr(enter$, leave$)) // 或离开tip（排除掉进入父元素）
   }
 
   setEvent(){
