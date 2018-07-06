@@ -8,7 +8,7 @@ import './iconfont.css'
 
 const lightGray = 'rgba(0,0,0,.25)'
 
-const $ = (...p)=>_.merge({}, ...p)
+const merge = (...p)=>_.merge({}, ...p)
 
 const comm = {
   padding: "4px 11px",
@@ -31,7 +31,7 @@ const comm = {
 }
 
 export const input = css({
-  normal : $(comm, {
+  normal : merge(comm, {
     borderColor: "#d9d9d9",
     '&:hover' : {
       borderColor : '#40a9ff',
@@ -77,7 +77,7 @@ export const iconify = C => forwardRef(({icon, ...props}, ref) => {
   const padding = 30
 
   return <span style={{display : 'inline-block',position : 'relative'}} >
-    <C {...$({style:{paddingLeft:padding - 3}}, props)} ref={ref} />
+    <C {...merge({style:{paddingLeft:padding - 3}}, props)} ref={ref} />
     <div style={{
       position : 'absolute',
       left : 0,
