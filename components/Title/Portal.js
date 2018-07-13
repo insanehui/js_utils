@@ -14,6 +14,11 @@ export default class Title extends RxPureComponent {
     y : 0,
   }
 
+  static defaultProps = {
+    dx : 0,
+    dy : 0,
+  }
+
   on = (x,y)=>{
     this.setState({ on : true, x, y})
   }
@@ -70,7 +75,7 @@ export default class Title extends RxPureComponent {
   render() {
     const {on} = this.state 
 
-    const {children, title} = this.props
+    const {children, title, dx, dy} = this.props
     const {x, y} = this.state 
 
     const style = {
@@ -78,8 +83,8 @@ export default class Title extends RxPureComponent {
       /*
        * +1为了不阻断鼠标点击事件
        */
-      left : x+1,
-      top : y+1,
+      left : x+1+dx,
+      top : y+1+dy,
       ...(!on && {display:'none'})
     }
 
