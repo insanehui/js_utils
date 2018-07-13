@@ -18,6 +18,8 @@ export function free(Controlled, proxyMethods = ''){
       super(p)
       const {value} = this.props
       this.state = { value, }
+      this._value = value
+
       /*
        * 注：代理内部对象的一些方法. 之所以要写成函数，是因为refs的数据在构造的时候，并没有产生
        * 如果写成this[prop] = this.refs.inner[prop]，执行的时候就会报undefined错误
