@@ -8,8 +8,8 @@ import moment from 'moment'
 import 'colors'
 
 import {cd, exec} from 'shelljs'
-import {need} from '../utils/node/cmd_line.js'
-import {tryExec} from '../utils/node/shell.js'
+import {need} from './cmd_line.js'
+import {tryExec} from './shell.js'
 
 function ensure_git_clean() {
   const {stdout} = exec(`git status -s`)
