@@ -35,3 +35,35 @@ export function build(name){
   git_tag(tag)
   console.log(`================== img done ==================`.green)
 }
+
+// 取一个镜像最新的tag
+export function newest_tag(name) {
+  const res = exec(`docker images`, {silent:true}).toString()
+
+  // 先取到第一行
+  const line = RegExp(`^${name}\\b.*$`, 'm').exec(res)[0]
+
+  // 再取到tag
+  const theTag = /\S+\s+(\S+)/.exec(line)[1]
+
+  return theTag
+}
+
+// 将一个镜像发布到远端镜像库
+export function publish(name, dists, tag = '', dist_tag = ''){
+  if ( !tag ) {
+    tag = newest_tag(name)
+  } 
+  if ( !dist_tag ) {
+    dist_tag = tag
+  } 
+
+  for (const dist of dists.split(',')) {
+    const repo = `${dist}/${name}:${dist_tag}`
+    console.log(repo.cyan)
+    tryExec(`docker tag ${name}:${tag} ${repo}`)
+    tryExec(`docker push ${repo}`)
+    tryExec(`docker rmi ${repo}`)
+  }
+}
+
