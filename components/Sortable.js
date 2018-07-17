@@ -94,7 +94,9 @@ export default class Sortable extends PureComponent {
     const props = {
       ...rest,
       onSortEnd : ({oldIndex, newIndex}) => {
-        onChange(arrayMove(value, oldIndex, newIndex))
+        if ( oldIndex !== newIndex ) {
+          onChange(arrayMove(value, oldIndex, newIndex))
+        } 
       },
     }
 
