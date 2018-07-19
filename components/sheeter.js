@@ -3,22 +3,42 @@
  * 相较于styler，可以解决一些hover等样式问题. 
  * > forward ref
  */
-import React, { PureComponent, forwardRef } from 'react'
-import injectSheet from 'react-jss'
+import React, { forwardRef } from 'react'
+import {css} from '../cssobj.js'
+import name from '../components/displayName/hoc.js'
+
+// import injectSheet from 'react-jss'
+
+// export default style => (Cmp='div') => {
+
+//   @injectSheet({
+//     cmain : style,
+//   })
+//   class Sheeter extends PureComponent {
+//     render() {
+//       const {classes:{cmain}, sheet, className, xRef, ...rest} = this.props
+//       let cls = className ? ' '+className : ''
+//       return <Cmp className={`${cmain}${cls}`} {...rest} ref={xRef} />
+//     }
+//   }
+
+//   return forwardRef((props, ref)=><Sheeter {...props} xRef={ref} />)
+// }
 
 export default style => (Cmp='div') => {
 
-  @injectSheet({
-    cmain : style,
+  const c = css({
+    style,
   })
-  class Sheeter extends PureComponent {
-    render() {
-      const {classes:{cmain}, sheet, className, xRef, ...rest} = this.props
-      let cls = className ? ' '+className : ''
-      return <Cmp className={`${cmain}${cls}`} {...rest} ref={xRef} />
-    }
-  }
 
-  return forwardRef((props, ref)=><Sheeter {...props} xRef={ref} />)
+  function hoc(props, ref) {
+    const {className} = props
+    let cls = className ? ' '+className : ''
+    return <Cmp {...props} className={`${c.style}${cls}`} ref={ref} />
+  }
+  hoc.displayName = name(Cmp, 'sheeter')
+
+  return forwardRef(hoc)
+
 }
 
