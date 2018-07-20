@@ -43,7 +43,7 @@ class Textarea extends PureComponent {
       'borderTopStyle', 'borderLeftStyle', 'borderRightStyle', 'borderBottomStyle',
       'borderTopColor', 'borderLeftColor', 'borderRightColor', 'borderBottomColor',
       'paddingTop', 'paddingLeft', 'paddingRight', 'paddingBottom',
-      'width',
+      'width', 'lineHeight',
       /*
        * 不需要取 'minWidth', 'maxWidth' ，因为这些属性只支持绝对值，如果传calc这样的表达式，将不能正常工作
        */
