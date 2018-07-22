@@ -17,6 +17,7 @@ export default class Sortable extends PureComponent {
   static defaultProps = {
     as : 'div', // 父容器的类型
     onChange : ()=>{},
+    itemKey : null, // 获取key的方式，详见代码
   }
 
   children = ()=>{

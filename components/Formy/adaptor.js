@@ -1,4 +1,3 @@
-/* eslint-disable no-lone-blocks */
 /*
  * 控件的转换器. 可用于把原生的input元素转成formy标准。甚至把一些非控件转成控件
  * 使用了forwardRef
@@ -12,6 +11,7 @@ import hoc from '../displayName/hoc.js'
  * adaptor(0, e=>e.target.value)('input')
  */
 const maker = (valueMapper, changeMapper = x=>x)=>Cmp=>{
+  // eslint-disable-next-line
   {
     if ( !_.isFunction(valueMapper) ) {
       valueMapper = x=>x
@@ -49,4 +49,5 @@ export default maker
 /*
  * 之所以用x||''，是为了防止出现从controlled到uncontrolled间切换的警告
  */
-export const Input = maker(x=>x||'', e=>e.target.value)('input')
+export const normalize = maker(x=>x||'', e=>e.target.value)
+export const Input = normalize('input')

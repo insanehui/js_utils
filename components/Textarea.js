@@ -8,6 +8,7 @@ import _ from 'lodash'
 import css from 'dom-css'
 
 import {merge_props as P} from './utils.js'
+import {normalize} from './Formy/adaptor.js'
 
 class Textarea extends PureComponent {
 
@@ -149,4 +150,6 @@ class Textarea extends PureComponent {
 }
 
 export default Textarea
+
+export const normalized = normalize(Textarea)
 
