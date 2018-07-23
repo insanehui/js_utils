@@ -91,7 +91,7 @@ class Editable extends PureComponent {
 
     return <Tag {...props}>
       {is_editing ? this.Input() : 
-        <span style={{cursor:'text'}} >
+        <span>
           {value}
         </span>
       }
