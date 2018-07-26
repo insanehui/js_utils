@@ -5,6 +5,7 @@
  */
 import React, { PureComponent } from 'react'
 import injectSheet from 'react-jss'
+import domAttrs from '../react-dom-attrs/index.js'
 
 @injectSheet({
   cmain : {
@@ -48,7 +49,7 @@ export default class BImg extends PureComponent {
         ...background,
         ...style,
       },
-      ...rest,
+      ...domAttrs(rest),
     }
     return <div {...props}/>
   }
