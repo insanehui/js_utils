@@ -128,6 +128,7 @@ export const rename = _.curry((Cmp, name)=>{ // 将组件改名
   return New
 })
 
+// [deprecated] 移至 ./utils/injectProps.js
 export const addProps = _.curry((p0, Cmp)=>{ // 2017年4月9日 尝试使用柯里化，看看是否有实用性
 
   class New extends PureComponent {
