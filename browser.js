@@ -27,12 +27,30 @@ function getIEVersion() {
 }
 export const IEVersion = getIEVersion()
 
-const userAgent = window.navigator.userAgent
-
-export function has_chrome(){
-  return userAgent.indexOf('Chrome') !== -1
+// 取chrome的版本，也能判断是否为chrome
+function getChromeVersion () {     
+  var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+  return raw ? parseInt(raw[2], 10) : false;
 }
+export const chromeVersion = getChromeVersion()
 
-export function has_firefox(){
-  return userAgent.indexOf('Firefox') !== -1
+function getFirefoxVersion () {     
+  var raw = navigator.userAgent.match(/Firefox\/([0-9]+)\./);
+  return raw ? parseInt(raw[1], 10) : false;
 }
+export const firefoxVersion = getFirefoxVersion()
+
+function getSafariVersion() {     
+  var raw = navigator.userAgent.match(/Safari\/([0-9]+)\./);
+  return raw ? parseInt(raw[1], 10) : false;
+}
+export const safariVersion = getSafariVersion()
+
+// const userAgent = window.navigator.userAgent
+// export function has_chrome(){
+//   return userAgent.indexOf('Chrome') !== -1
+// }
+
+// export function has_firefox(){
+//   return userAgent.indexOf('Firefox') !== -1
+// }
