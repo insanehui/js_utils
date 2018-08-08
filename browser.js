@@ -27,7 +27,11 @@ function getIEVersion() {
 }
 export const IEVersion = getIEVersion()
 
-// 取chrome的版本，也能判断是否为chrome
+/*
+ * 取chrome的版本，也能判断是否为chrome
+ * chrome的userAgent里会包含Safari，而Safari的userAgent里不包含Chrome
+ * 而Opera里面会包含chrome
+ */
 function getChromeVersion () {     
   var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
   return raw ? parseInt(raw[2], 10) : false;
