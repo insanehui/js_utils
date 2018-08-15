@@ -6,6 +6,8 @@ import React, { PureComponent } from 'react'
 import KeyCode from '../keycode.js'
 import {eclose} from '../modash.js'
 
+import domAttrs from '../react-dom-attrs/index.js'
+
 class Editable extends PureComponent {
 
   state = {
@@ -85,7 +87,7 @@ class Editable extends PureComponent {
     const {is_editing} = this.state 
 
     const props = {
-      ...forward,
+      ...domAttrs(forward),
       [trigger] : this.on,
     }
 
