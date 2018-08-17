@@ -1,7 +1,7 @@
 /*
  * 鼠标移动的增量
  */
-import {pairwise, pairwise} from 'rxjs/operators'
+import {pairwise, map} from 'rxjs/operators'
 
 export default source => {
   return source.pipe(
