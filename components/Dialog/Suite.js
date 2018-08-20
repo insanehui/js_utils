@@ -6,14 +6,6 @@ import S from 'styled-components'
 import chd from '../utils/injectChildren.js'
 import Draggable from '../Draggable/Basic.js'
 
-const Dialog0 = (S.div`
-    background : transparent;
-`)
-
-const Title0 = (S.div`
-    background : transparent;
-`)
-
 const Close = chd('x')(S.div`
     background : transparent;
 `)
@@ -30,6 +22,7 @@ export default ()=>{
     }
 
     static defaultProps = {
+      as : 'div',
       // onClose : x=>x,
     }
 
@@ -41,7 +34,7 @@ export default ()=>{
     }
 
     render() {
-      const {onClose} = this.props
+      const {onClose, as:As} = this.props
       const {dx, dy} = this.state 
       const {move} = this
 
@@ -49,23 +42,27 @@ export default ()=>{
        * 坑：这里不能用_.merge来合并react的组件属性，会丢失数据，比如key。所以只能人肉合并
        */
       return <Provider value={{onClose, move}}>
-        <Dialog0 style={{ transform : `translate(${dx}px, ${dy}px)`, }} {...this.props} />
+        <As style={{ transform : `translate(${dx}px, ${dy}px)`, }} {...this.props} />
       </Provider>
     }
   }
 
   class Title extends PureComponent {
+    static defaultProps = {
+      as : 'div',
+    }
+
     render() {
-      const {children, ...rest} = this.props
+      const {children, as:As, ...rest} = this.props
       return <Consumer>
         {({move, onClose})=>{
           return <Draggable onDragging={move}>
-            <Title0 {...rest}>
+            <As {...rest}>
               <div style={{flex:1}} >
                 {children}
               </div>
               {onClose && <Close onClick={()=>onClose(null)}/>}
-            </Title0>
+            </As>
           </Draggable>
         }}
       </Consumer>
