@@ -4,31 +4,33 @@ import { render } from 'react-dom'
 import popup from './utils/components/Dialog/popup.js'
 import suite from './utils/components/Dialog/Suite.js'
 
-const {Dialog, Title, Close} = suite()
+const {Main, Title, Cancel, Confirm, Content} = suite()
 
-class Alert extends PureComponent {
+class Dialog extends PureComponent {
   render() {
-    const {onChange} = this.props
-    return <Dialog onChange={onChange}>
+    const {onChange, value} = this.props
+    return <Main value={value} onChange={onChange}>
       <Title>
         这是标题
-        <Close as='button'>关闭</Close>
+        <Cancel as='button'>关闭</Cancel>
       </Title>
-      <div>
-        哈哈哈
-      </div>
-    </Dialog>
+      <Content>
+        <input name='aa' />
+      </Content>
+      <Confirm as='button'>确定</Confirm>
+    </Main>
   }
 }
 
 const dialog = () =>{
-  return popup(null, Alert)
+  return popup({aa:'你好'}, Dialog)
 }
 
 class Test extends React.PureComponent {
   render() {
     return <button onClick={async ()=>{
-      await dialog()
+      const value = await dialog()
+      console.log('value', value)
     }}>点我</button>
   }
 }
