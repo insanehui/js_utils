@@ -2,7 +2,7 @@
  * 控件形式的Draggable
  */
 import React, { PureComponent } from 'react'
-import {drag} from '../../rx.js'
+import drag from '../../rxjs/drag.js'
 import {free} from '../Formy/uncontrolled.js'
 
 export default class DraggableControl extends PureComponent {

@@ -3,8 +3,7 @@
  * TODO: 后续可以站在控件的角度，进一步实现controlled或者是uncontrolled的draggable control
  */
 import { PureComponent } from 'react'
-// import _ from 'lodash'
-import {drag} from '../../rx.js'
+import drag from '../../rxjs/drag.js'
 import hocName from '../displayName/hoc.js'
 
 export default class Draggable extends PureComponent {
