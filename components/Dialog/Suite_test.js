@@ -1,6 +1,3 @@
-/*
- * 代替window.alert
- */
 import React, { PureComponent } from 'react'
 import { render } from 'react-dom'
 
