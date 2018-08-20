@@ -39,8 +39,8 @@ export default ()=>{
 
     render() {
       const {value, onChange, as:As, ...rest} = this.props
-      const {dx, dy, value:_value, onChange:_onChange} = this.state 
-      const {move} = this
+      const {dx, dy, value:_value,} = this.state 
+      const {move, onChange:_onChange} = this
 
       return <Provider value={{onChange, value, _value, _onChange, move, }}>
         <As style={{ transform : `translate(${dx}px, ${dy}px)`, }} {...rest} />
