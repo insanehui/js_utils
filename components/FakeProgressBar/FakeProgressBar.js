@@ -5,10 +5,12 @@ export default class FakeProgressBar extends React.PureComponent {
   static defaultProps = {
     show : true,
     time : 60*1000,
+    leaveTime : 200,
+    children : x=>`${~~x}%`,
   }
 
   render() {
-    const {show, time, style,...rest} = this.props
+    const {show, time, leaveTime, style, children, ...rest} = this.props
     return <Animate 
       show={show}
       start={{
@@ -22,7 +24,7 @@ export default class FakeProgressBar extends React.PureComponent {
     leave={{
       x:[100],
       timing : {
-        duration : 200,
+        duration : leaveTime,
       },
     }}
     >
@@ -33,7 +35,7 @@ export default class FakeProgressBar extends React.PureComponent {
         ...style,
       },
       ...rest,
-    }} />}
+      }}>{children(x)}</div>}
     </Animate>
   }
 }
