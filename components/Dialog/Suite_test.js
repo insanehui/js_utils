@@ -16,6 +16,7 @@ class Dialog extends PureComponent {
       </Title>
       <Content>
         <input name='aa' />
+        <input name='bb' />
       </Content>
       <Confirm as='button'>确定</Confirm>
     </Main>
@@ -23,7 +24,7 @@ class Dialog extends PureComponent {
 }
 
 const dialog = () =>{
-  return popup({aa:'你好'}, Dialog)
+  return popup(null, Dialog)
 }
 
 class Test extends React.PureComponent {

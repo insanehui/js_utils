@@ -2,8 +2,6 @@
  * 对话框套件
  */
 import React, { PureComponent } from 'react'
-import S from 'styled-components'
-import chd from '../utils/injectChildren.js'
 import Draggable from '../Draggable/Basic.js'
 import Form from '../Formy/Form.js'
 
@@ -65,6 +63,9 @@ export default ()=>{
     }
   }
 
+  /*
+   * 适用于简单场景，不适用于表单验证的情况
+   */
   class Content extends React.PureComponent {
     static defaultProps = {
       as : Form,
