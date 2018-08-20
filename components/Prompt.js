@@ -49,4 +49,5 @@ function prompt_cb(resolve, reject, value, Edit, modalProps) {
   render(<Prompt />, dialog_div)
 }
 
-export const prompt = promisify(prompt_cb)
+export const prompt = promisify(prompt_cb) // [deprecated]
+export default prompt
