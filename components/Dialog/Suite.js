@@ -6,10 +6,6 @@ import S from 'styled-components'
 import chd from '../utils/injectChildren.js'
 import Draggable from '../Draggable/Basic.js'
 
-const Close = chd('x')(S.div`
-    background : transparent;
-`)
-
 export default ()=>{
   const {Provider, Consumer} = React.createContext()
   /*
@@ -23,6 +19,8 @@ export default ()=>{
 
     static defaultProps = {
       as : 'div',
+      value : undefined,
+      onChange : ()=>{},
       // onClose : x=>x,
     }
 
@@ -34,15 +32,12 @@ export default ()=>{
     }
 
     render() {
-      const {onClose, as:As} = this.props
+      const {value, onChange, as:As, ...rest} = this.props
       const {dx, dy} = this.state 
       const {move} = this
 
-      /*
-       * 坑：这里不能用_.merge来合并react的组件属性，会丢失数据，比如key。所以只能人肉合并
-       */
-      return <Provider value={{onClose, move}}>
-        <As style={{ transform : `translate(${dx}px, ${dy}px)`, }} {...this.props} />
+      return <Provider value={{onChange, value, move}}>
+        <As style={{ transform : `translate(${dx}px, ${dy}px)`, }} {...rest} />
       </Provider>
     }
   }
@@ -53,21 +48,31 @@ export default ()=>{
     }
 
     render() {
-      const {children, as:As, ...rest} = this.props
+      const {as:As, ...rest} = this.props
       return <Consumer>
-        {({move, onClose})=>{
+        {({move})=>{
           return <Draggable onDragging={move}>
-            <As {...rest}>
-              <div style={{flex:1}} >
-                {children}
-              </div>
-              {onClose && <Close onClick={()=>onClose(null)}/>}
-            </As>
+            <As {...rest} />
           </Draggable>
         }}
       </Consumer>
     }
   }
 
-  return {Dialog, Title}
+  class Close extends React.PureComponent {
+    static defaultProps = {
+      as : 'div',
+    }
+    render() {
+      const {as:As, ...rest} = this.props
+      return <Consumer>
+        {({onChange})=>{
+          return <As onClick={()=>onChange(null)} {...rest} />
+        }}
+      </Consumer>
+    }
+  }
+
+
+  return {Dialog, Title, Close}
 }
