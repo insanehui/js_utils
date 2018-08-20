@@ -2,7 +2,7 @@
  * 代替window.alert
  */
 import React, { PureComponent } from 'react'
-import prompt from '../Prompt.js'
+import popup from './popup.js'
 
 import suite from './Suite.js'
 
@@ -27,5 +27,5 @@ class Alert extends PureComponent {
 }
 
 export default msg=>{
-  return prompt(msg, Alert)
+  return popup(msg, Alert)
 }
