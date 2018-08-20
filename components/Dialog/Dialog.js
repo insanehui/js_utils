@@ -80,7 +80,7 @@ export default ()=>{
     }
   }
 
-  class Confirm extends React.PureComponent {
+  class OK extends React.PureComponent {
     static defaultProps = {
       as : 'div',
     }
@@ -108,5 +108,5 @@ export default ()=>{
     }
   }
 
-  return {Main, Title, Cancel, Confirm, Content}
+  return {Main, Title, Cancel, OK, Content}
 }

@@ -4,7 +4,7 @@ import { render } from 'react-dom'
 import popup from './utils/components/Dialog/popup.js'
 import suite from './utils/components/Dialog/Suite.js'
 
-const {Main, Title, Cancel, Confirm, Content} = suite()
+const {Main, Title, Cancel, OK, Content} = suite()
 
 class Dialog extends PureComponent {
   render() {
@@ -18,7 +18,7 @@ class Dialog extends PureComponent {
         <input name='aa' />
         <input name='bb' />
       </Content>
-      <Confirm as='button'>确定</Confirm>
+      <OK as='button'>确定</OK>
     </Main>
   }
 }
