@@ -5,9 +5,13 @@
 import React, { PureComponent } from 'react'
 import S from 'styled-components'
 
-import {addProps} from '../utils.js'
+import '../../web/icon/iconfont.css' // 初始图标
+
+// import {addProps} from '../utils.js'
 import popup from './popup.js'
 import suite from './Dialog.js'
+import chd from '../utils/injectChildren.js'
+import props from '../utils/injectProps.js'
 
 const Main0 = (S.div`
     min-width: 200px;
@@ -17,6 +21,8 @@ const Main0 = (S.div`
 `)
 
 const Title0 = (S.div`
+    display : flex;
+    align-items : center;
     color: white;
     height: 25px;
     padding: 0 3px;
@@ -65,14 +71,33 @@ const Gap = (S.div`
     flex: 1;
 `)
 
-const {Main, Title, OK, Cancel, Close} = suite()
+const Close = props({
+  className : 'icon utils tc-close',
+})(S.i`
+&& {
+    font-size: 8px;
+    display: flex;
+    width: 11px;
+    height: 11px;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    cursor: pointer;
+    &:hover {
+        background: #ff6262;
+        color: white;
+    }
+} 
+`)
+
+const {Main, Title, OK, Cancel} = suite()
 
 export default ({
   main = Main0,
   title = Title0,
   body = 'div',
   ok = Button0,
-  cancel = Button0,
+  cancel = Close,
 } = {})=>{
 
   class Alert extends PureComponent {
@@ -82,6 +107,8 @@ export default ({
       return <Main as={main} onChange={onChange}>
         <Title as={title}>
           提示
+          <Gap />
+          <Cancel as={cancel} />
         </Title>
         <Body>
           {value}
