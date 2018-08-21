@@ -10,7 +10,7 @@ import '../../web/icon/iconfont.css' // 初始图标
 // import {addProps} from '../utils.js'
 import popup from './popup.js'
 import suite from './Dialog.js'
-import chd from '../utils/injectChildren.js'
+// import chd from '../utils/injectChildren.js'
 import props from '../utils/injectProps.js'
 
 const Main0 = (S.div`
@@ -32,9 +32,9 @@ const Title0 = (S.div`
     background-color: #b0b0b3;
 `)
 
-const Button0 = (S.button`
+const Button = (S.button`
     color: #333;
-    margin: 0 12px;
+    margin: 0 7px;
     border: 1px solid #d5d5d5;
     cursor: pointer;
     display: inline-block;
@@ -95,13 +95,15 @@ const {Main, Title, OK, Cancel} = suite()
 export default ({
   main = Main0,
   title = Title0,
-  ok = Button0,
+  ok = Button,
+  cancel = Button,
   close = Close,
+  input:Input = 'input',
 } = {})=>{
 
   class Alert extends PureComponent {
     render() {
-      const {onChange, value} = this.props
+      const {onChange, value:msg} = this.props
 
       return <Main as={main} onChange={onChange}>
         <Title as={title}>
@@ -110,7 +112,7 @@ export default ({
           <Cancel as={close} />
         </Title>
         <Body>
-          {value}
+          {msg}
         </Body>
         <Footer>
           <Gap />
@@ -120,7 +122,68 @@ export default ({
     }
   }
 
+  class Confirm extends PureComponent {
+    render() {
+      const {onChange, value:msg} = this.props
+
+      return <Main as={main} onChange={onChange}>
+        <Title as={title}>
+          确认
+          <Gap />
+          <Cancel as={close} />
+        </Title>
+        <Body>
+          {msg}
+        </Body>
+        <Footer>
+          <Gap />
+          <Cancel as={cancel} onClick={()=>onChange(false)}>取消</Cancel>
+          <OK as={ok} onClick={()=>onChange(true)}>确定</OK>
+        </Footer>
+      </Main>
+    }
+  }
+
+  class Prompt extends PureComponent {
+    render() {
+      const {onChange, value:{title:tip, text}} = this.props
+
+      return <Main as={main} onChange={onChange}>
+        <form onSubmit={e=>{
+          e.preventDefault()
+          onChange(this.input.value)
+        }}>
+          <Title as={title}>
+            {tip}
+            <Gap />
+            <Cancel as={close} />
+          </Title>
+          <Body>
+            <Input defaultValue={text} spellCheck={false} style={{width: 220}} required ref={el=>{if(el){
+              /*
+               * 开启之后好像会没有动画效果？先暂时关掉
+               */
+              // el.focus()
+              // el.select()
+              this.input = el
+            }}} />
+          </Body>
+          <Footer>
+            <Gap />
+            <Cancel as={cancel}>取消</Cancel>
+            <OK onClick={null} as={ok}>确定</OK>
+          </Footer>
+        </form>
+      </Main>
+    }
+  }
+
   return {
-    alert : msg=>popup(msg, Alert)
+    alert : msg=>popup(msg, Alert),
+    confirm : msg=>popup(msg, Confirm),
+    prompt : (title, text)=>{
+      return popup({title, text}, Prompt)
+    },
   }
 }
+

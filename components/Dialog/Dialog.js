@@ -88,6 +88,7 @@ export default ()=>{
       const {as:As, ...rest} = this.props
       return <Consumer>
         {({_value, onChange})=>{
+          // onClick写在前面用意是能被覆盖
           return <As onClick={()=>onChange(_value)} {...rest} />
         }}
       </Consumer>
