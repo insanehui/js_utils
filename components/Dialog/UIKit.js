@@ -18,6 +18,7 @@ const Main0 = (S.div`
     max-width: 500px;
     border: 1px solid #bfbfbf;
     border-radius: 3px;
+    background-color : white;
 `)
 
 const Title0 = (S.div`
@@ -58,7 +59,6 @@ const Button = (S.button`
 const Body = (S.div`
     padding: 10px;
     font-size: 14px;
-    color: #5d5d5d;
 `)
 
 const Footer = (S.div`
@@ -96,10 +96,12 @@ export default ({
   main = Main0,
   title = Title0,
   ok = Button,
-  cancel = Button,
+  cancel, // = ok,
   close = Close,
   input:Input = 'input',
 } = {})=>{
+
+  cancel = cancel || ok
 
   class Alert extends PureComponent {
     render() {

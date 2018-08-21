@@ -21,7 +21,8 @@ export default _.bind(prompt, null,  _, _, {
       display : 'flex',
       justifyContent : 'center', 
       alignItems : 'center', 
-      backgroundColor : 'transparent',
+      zIndex : 10, // 这只是个经验值，如有需要再扩展
+      backgroundColor : 'rgba(208, 208, 208, 0.18)',
     },
     content : {
       position : 'fixed',
