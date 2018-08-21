@@ -95,9 +95,8 @@ const {Main, Title, OK, Cancel} = suite()
 export default ({
   main = Main0,
   title = Title0,
-  body = 'div',
   ok = Button0,
-  cancel = Close,
+  close = Close,
 } = {})=>{
 
   class Alert extends PureComponent {
@@ -108,7 +107,7 @@ export default ({
         <Title as={title}>
           提示
           <Gap />
-          <Cancel as={cancel} />
+          <Cancel as={close} />
         </Title>
         <Body>
           {value}
