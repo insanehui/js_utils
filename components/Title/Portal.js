@@ -5,9 +5,12 @@ import React, { cloneElement} from 'react'
 import {findDOMNode} from 'react-dom'
 import {Portal} from 'react-portal'
 
-import RxPureComponent from '../RxPureComponent.js'
+import {fromEvent} from 'rxjs'
+import {debounceTime, merge, delay} from 'rxjs/operators'
+import clip from '../../rxjs/operators/clip.js'
+import clipr from '../../rxjs/operators/clipr.js'
 
-export default class Title extends RxPureComponent {
+export default class Title extends React.PureComponent {
   state = {
     on : false,
     x : 0,
@@ -41,29 +44,29 @@ export default class Title extends RxPureComponent {
   }
 
   setStream(){
-    const {mousemove, mouseleave, mouseenter, outer, tip} = this
+    const {outer, tip} = this
 
-    const leave$ = mouseleave(outer).delay(1)
-    const enter$ = mouseenter(outer)
+    const leave$ = delay(1)(fromEvent(outer, 'mouseleave'))
+    const enter$ = fromEvent(outer, 'mouseenter')
 
-    let move$ = mousemove(outer)
-    move$ = move$.debounceTime(350) // 限流
+    let move$ = fromEvent(outer, 'mousemove')
+    move$ = debounceTime(350)(move$) // 限流
 
-    move$ = move$.clip(enter$, leave$)
+    move$ = clip(enter$, leave$)(move$)
 
-    const tipEnter$ = mouseenter(tip)
-    const tipLeave$ = mouseleave(tip).delay(1)
+    const tipEnter$ = fromEvent(tip, 'mouseenter')
+    const tipLeave$ = delay(1)(fromEvent(tip, 'mouseleave'))
 
-    this.on$ = move$.clipr(tipEnter$, tipLeave$)
+    this.on$ = clipr(tipEnter$, tipLeave$)(move$)
 
-    this.off$ = leave$.clipr(tipEnter$, tipLeave$) // 离开父元素（排除掉进入tip）
-      .merge( tipLeave$.clipr(enter$, leave$)) // 或离开tip（排除掉进入父元素）
+    // 离开父元素（排除掉进入tip）或离开tip（排除掉进入父元素）
+    this.off$ = merge( clipr(enter$, leave$)(tipLeave$))(clipr(tipEnter$, tipLeave$)(leave$))
   }
 
   setEvent(){
-    const {off, on, on$, off$, subscribe} = this
-    subscribe(on$, e=>{on(e.clientX, e.clientY)})
-    subscribe(off$, off)
+    const {off, on, on$, off$} = this
+    this.subOn = on$.subscribe(e=>{on(e.clientX, e.clientY)})
+    this.subOff = off$.subscribe(off)
   }
 
   componentDidMount(){
@@ -71,6 +74,12 @@ export default class Title extends RxPureComponent {
     this.setStream()
     this.setEvent()
   }
+
+  componentWillUnmount(){
+    this.subOn.unsubscribe()
+    this.subOff.unsubscribe()
+  }
+
 
   render() {
     const {on} = this.state 

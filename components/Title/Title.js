@@ -1,10 +1,15 @@
 // React 
 import React  from 'react'
 import {findDOMNode} from 'react-dom'
+import {fromEvent} from 'rxjs'
+import {debounceTime, merge} from 'rxjs/operators'
+import clip from '../../rxjs/operators/clip.js'
+import clipr from '../../rxjs/operators/clipr.js'
 
-import RxPureComponent from '../RxPureComponent.js'
-
-export default class Title extends RxPureComponent {
+/*
+ * rx v6新版
+ */
+export default class Title extends React.PureComponent {
   state = {
     on : false,
     x : 0,
@@ -25,38 +30,41 @@ export default class Title extends RxPureComponent {
   }
 
   setStream(){
-    const {mousemove, parent, mouseleave, mouseenter, 
-      dragstart, dragend,
-      me} = this
+    const { parent, me} = this
 
-    const parentLeave$ = mouseleave(parent)
-    const parentEnter$ = mouseenter(parent)
+    const parentLeave$ = fromEvent(parent, 'mouseleave')
+    const parentEnter$ = fromEvent(parent, 'mouseenter')
 
-    const dragStart$ = dragstart(parent)
-    const dragEnd$ = dragend(parent)
+    const dragStart$ =fromEvent(parent, 'dragstart')
+    const dragEnd$ = fromEvent(parent, 'dragend')
 
-    let parentMove$ = mousemove(parent)
-    parentMove$ = parentMove$.debounceTime(350) // 限流
+    let parentMove$ = fromEvent(parent, 'mousemove')
+    parentMove$ = debounceTime(350)(parentMove$) // 限流
 
-    parentMove$ = parentMove$.clip(parentEnter$, parentLeave$)
+    parentMove$ = clip(parentEnter$, parentLeave$)(parentMove$)
 
-    const meEnter$ = mouseenter(me)
-    const meLeave$ = mouseleave(me)
+    const meEnter$ = fromEvent(me, 'mouseenter')
+    const meLeave$ = fromEvent(me, 'mouseleave')
 
-    this.on$ = parentMove$.clipr(meEnter$, meLeave$).clipr(dragStart$, dragEnd$) // 拖动的时候不显示Title
-    this.off$ = parentLeave$.clipr(meEnter$, meLeave$).merge(dragStart$)
+    this.on$ = clipr(dragStart$, dragEnd$)(clipr(meEnter$, meLeave$)(parentMove$)) // 拖动的时候不显示Title
+    this.off$ = merge(dragStart$)(clipr(meEnter$, meLeave$)(parentLeave$))
   }
 
   setEvent(){
-    const {off, on, on$, off$, subscribe} = this
-    subscribe(on$, e=>{on(e.clientX, e.clientY)})
-    subscribe(off$, off)
+    const {off, on, on$, off$} = this
+    this.subOn = on$.subscribe(e=>{on(e.clientX, e.clientY)})
+    this.subOff = off$.subscribe(off)
   }
 
   componentDidMount(){
     this.setEl()
     this.setStream()
     this.setEvent()
+  }
+
+  componentWillUnmount(){
+    this.subOn.unsubscribe()
+    this.subOff.unsubscribe()
   }
 
   render() {
