@@ -8,7 +8,7 @@ class Test extends React.PureComponent {
     return <button onClick={async ()=>{
       const res = await readFileDialog()
       console.log('res', res)
-    }}>click</button>
+    }}>打开文件</button>
   }
 }
 
