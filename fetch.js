@@ -85,7 +85,7 @@ export const credentials_include = fetch_fn => async (...para) => {
   return fetch_fn(url, opt, ...rest)
 }
 
-// [deprecated] post, 返回promise
+// [deprecated]，可以由 json(fetch)来组合
 export function post(url, para) {
   const headers = {
     'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
@@ -97,7 +97,7 @@ export function post(url, para) {
   }).then(res => res.json())
 }
 
-// [deprecated]
+// [deprecated]，可以由query(fetch)来组合出来
 export function get(url, para) {
   // const headers = {
   //   'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
