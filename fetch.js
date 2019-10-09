@@ -36,10 +36,27 @@ export const query = fetch_fn => async(...para) => {
   return fetch_fn(url, _.omit(opt, 'query'), ...rest)
 }
 
+export const postJson = fetch_fn => async(url, json, opt = {}, ...para) => {
+  /* 
+   * 采用application/json的方式来post
+   */
+  opt = {
+    ...opt,
+    method : 'POST',
+    headers:{
+      'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+      'Content-Type': 'application/json; charset=utf-8'
+    }
+  }
 
-// 采用application/json的方式来post
+  opt.body = JSON.stringify(json)
+  return fetch_fn(url, opt, ...para)
+}
+
+// [deprecated] 用postJson代替，参数顺序更直观
 export const post_json = fetch_fn => async(url, opt = {}, ...para) => {
-  /*
+  /* 
+   * 采用application/json的方式来post
    * 通过 opt:{json_body} 来指定一个post的参数
    */
   opt = wash(opt) // 深拷贝一份
