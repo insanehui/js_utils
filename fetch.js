@@ -12,6 +12,15 @@ export const json = fetch_fn => async (...para) => {
   return res.json()
 }
 
+// 取res.text()
+export const text = fetch_fn => async (...para) => {
+  // // eslint-disable-next-line
+  // para; // 这是babel的bug，经试验，若省略这一行的话，会出现诡异的错误
+
+  const res = await fetch_fn(...para)
+  return res.text()
+}
+
 // 支持一个对象来指定query string
 export const query = fetch_fn => async(...para) => {
   /*
