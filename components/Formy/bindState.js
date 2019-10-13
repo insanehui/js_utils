@@ -22,8 +22,9 @@ export const bindValueToState = (methodName='bindState') => base => {
 }
 
 // 散函数
-export default ctx => (stateProp='value') => ({
+export default ctx => (stateProp='value', cb) => ({
   value : _.get(ctx.state, stateProp),
-  onChange : v=>ctx.setState({ [stateProp] : v })
+  // 把它加到setState的回调里
+  onChange : v=>ctx.setState({ [stateProp] : v }, ()=>cb && cb(v))
 })
 
