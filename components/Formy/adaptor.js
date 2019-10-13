@@ -9,6 +9,7 @@ import hoc from '../displayName/hoc.js'
 /*
  * 支持一些快捷调用，比如
  * adaptor(0, e=>e.target.value)('input')
+ * 注意仅适用于原生的html 表单输入元素
  */
 const maker = (valueMapper, changeMapper = x=>x)=>Cmp=>{
   // eslint-disable-next-line
@@ -50,4 +51,6 @@ export default maker
  * 之所以用x||''，是为了防止出现从controlled到uncontrolled间切换的警告
  */
 export const normalize = maker(x=>x||'', e=>e.target.value)
+
 export const Input = normalize('input')
+export const Select = normalize('select')
