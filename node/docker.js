@@ -26,12 +26,15 @@ function git_tag(tag) {
   tryExec(`git tag ${tag}`)
 }
 
-export function build(name){
+export function build(name, tagLatest = false){
   const tag = moment().format('YYYYMMDD_HH.mm')
   const repo = `${name}:${tag}`
   console.log(repo.cyan)
   ensure_git_clean()
   build_img(repo)
+  if ( tagLatest ) {
+    tryExec(`docker tag ${repo} ${name}:latest`)
+  } 
   git_tag(tag)
   console.log(`================== img done ==================`.green)
 }
