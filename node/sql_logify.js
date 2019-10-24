@@ -3,11 +3,15 @@
  */
 
 const log = require('debug')('utils:sql')
+const mysql = require('mysql')
 
-export function logify(db){ // db是一个promise-mysql的连接对象
+/*
+ * db可能是promise-mysql的一个connection或者是pool
+ */
+export function logify(db){ 
   return {
     query : (sql, para)=>{
-      sql = db.format(sql, para)
+      sql = mysql.format(sql, para)
       log(sql)
       return db.query(sql) // 其实这是一个async函数，但由于这里没有出现await，故也不用加上async
     }, 
