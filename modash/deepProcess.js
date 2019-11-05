@@ -16,6 +16,6 @@ export default function process(obj, fn, ...preds) {
   if ( !preds.length ) {
     return deepMap(obj, func, pred)
   } 
-  const high = v=>deepMap(v, lift(fn), pred)
+  const high = v=>deepMap(v, func, pred)
   return process(obj, high, ...preds)
 }
