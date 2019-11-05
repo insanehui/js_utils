@@ -5,7 +5,13 @@ import deepMap from './deepMap.js'
 import lift from './funcOrderLift.js'
 
 export default function process(obj, fn, ...preds) {
-  const pred = preds.pop()
+  let pred = preds.pop()
+  let tFlag = false
+  if ( pred === true ) {
+    tFlag = true
+    pred = preds.pop()
+  } 
+
   if ( !preds.length ) {
     return deepMap(obj, lift(fn), pred)
   } 
