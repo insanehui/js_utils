@@ -16,11 +16,10 @@ export default function process(obj, fn, ...preds) {
     pred = preds.pop()
   } 
 
-  const func = through ? fn : lift(fn)
+  const proc = v=>deepMap(v, through ? fn : lift(fn), pred)
 
   if ( !preds.length ) {
-    return deepMap(obj, func, pred)
+    return proc(obj)
   } 
-  const high = v=>deepMap(v, func, pred)
-  return process(obj, high, ...preds, through)
+  return process(obj, proc, ...preds, through)
 }
