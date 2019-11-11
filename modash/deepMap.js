@@ -6,6 +6,7 @@ import _ from 'lodash'
 export default function deepMap(x, fn, predicate = a=>true, keys = [], global = x) {
   /*
    * fn(v, [...keys])
+   * TODO: 有需要可以考虑fn加一个global参数
    * 先根遍历
    */
   let newX = x
