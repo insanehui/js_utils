@@ -1,5 +1,6 @@
 /*
  * 对对象和数组的深度map
+ * 支持通过predicate来控制路线
  */
 import _ from 'lodash'
 
@@ -10,7 +11,13 @@ export default function deepMap(x, fn, predicate = a=>true, keys = [], global = 
    * 先根遍历
    */
   let newX = x
-  if ( predicate(x, keys, global) ) {
+
+  const pred = predicate(x, keys, global) 
+  if ( pred === 'deny' ) {
+    return newX
+  } 
+
+  if (pred) {
     newX = fn(x, keys)
   } 
 
@@ -18,7 +25,7 @@ export default function deepMap(x, fn, predicate = a=>true, keys = [], global = 
     return newX()
   } 
 
-  if ( !_.isObject(newX) ) { // 如果不能map，直接返回
+  if ( !_.isObject(newX) || pred === 'shallow'  ) { 
     return newX
   }
 
