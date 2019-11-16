@@ -4,6 +4,10 @@
 import _ from 'lodash'
 
 export default function back(g, keys, lvl = 1) {
-  return _.get(g, keys.slice(0, -lvl))
+  keys = keys.slice(0, lvl ? -lvl : undefined)
+  if (_.isEmpty(keys)) {
+    return g
+  } 
+  return _.get(g, keys)
 }
 
