@@ -6,7 +6,7 @@ import _ from 'lodash'
 
 export default function deepMap(x, fn, predicate = a=>true, keys = [], global = x) {
   /*
-   * fn(v, [...keys])
+   * fn(v, pred)
    * TODO: 有需要可以考虑fn加一个global参数
    * 先根遍历
    */
@@ -18,7 +18,7 @@ export default function deepMap(x, fn, predicate = a=>true, keys = [], global = 
   } 
 
   if (pred) {
-    newX = fn(x, keys)
+    newX = fn(x, pred)
   } 
 
   if ( _.isFunction(newX) ) { // 如果是函数，调用后返回
