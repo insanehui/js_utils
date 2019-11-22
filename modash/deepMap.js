@@ -18,7 +18,7 @@ export default function deepMap(x, fn, predicate = a=>true, keys = [], global = 
   } 
 
   if (pred) {
-    newX = fn(x, pred)
+    newX = fn(x, pred, keys)
   } 
 
   if ( _.isFunction(newX) ) { // 如果是函数，调用后返回
