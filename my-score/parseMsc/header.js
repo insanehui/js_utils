@@ -21,7 +21,7 @@ export default function parseHeader(file) {
   } 
   else {
     let [a1, a2] = a.split('\n\n')
-    if ( !a2 ) {
+    if ( !a2 && _.isObject(yaml.load(a1)) ) {
       a2 = a1
       a1 = ''
     } 
