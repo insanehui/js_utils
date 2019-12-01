@@ -6,14 +6,16 @@ import headerInfo from './headerInfo.js'
 export default function parseHeader(file) {
   // 先分成两部分，按 ==========（三个以上） 区分
   let [a, b] = file.split(/===+\n/).map(_.trim)
+  const defaultTracks = [
+    {
+      name : 'A',
+      jcx : 'jianpu',
+    },
+  ]
+
   let header = {
     title : '乐谱1',
-    tracks : [
-      {
-        name : 'A',
-        jcx : 'jianpu',
-      },
-    ],
+    tracks : defaultTracks ,
   }
 
   if ( !b ) {
@@ -28,6 +30,10 @@ export default function parseHeader(file) {
     _.merge(header, headerInfo(a1), yaml.load(a2))
   }
   const {tracks} = header
+  if ( tracks === defaultTracks && header.format) {
+    tracks[0].jcx = header.format
+    header = _.omit(header, 'format')
+  } 
 
   for (const track of tracks) { // 令jcx里面也有名字
     if ( _.isString(track.jcx) ) {
@@ -50,7 +56,6 @@ export default function parseHeader(file) {
 
   // 这个暂时先注释掉，后面用到的时候再开启
   header.tracksObj = _.mapKeys(tracks, v=>v.name)
-
 
   return [header, b]
 }
