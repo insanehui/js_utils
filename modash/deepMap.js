@@ -4,9 +4,10 @@
  */
 import _ from 'lodash'
 
+import goBack from './objPathBack.js'
+
 export default function deepMap(x, fn, predicate = a=>true, keys = [], global = x) {
   /*
-   * fn(v, pred)
    * TODO: 有需要可以考虑fn加一个global参数
    * 先根遍历
    */
@@ -17,8 +18,21 @@ export default function deepMap(x, fn, predicate = a=>true, keys = [], global = 
     return newX
   } 
 
+  const back = (by=1)=>goBack(global, keys, by) 
+
   if (pred) {
-    newX = fn(x, pred, keys)
+    newX = fn(x, pred, keys, {
+      back,
+      checkBack : pred=>{
+        let p
+        for(let i = 1;p=back(i), p!==null;i++) {
+          if ( pred(p) ) {
+            return true
+          } 
+        }
+        return false
+      },
+    })
   } 
 
   if ( _.isFunction(newX) ) { // 如果是函数，调用后返回
