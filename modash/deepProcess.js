@@ -1,5 +1,6 @@
 /*
  * deepMap的进一步封装。为deepMap的使用场景提供便利
+ * 可以实现多重条件筛选. 并且默认为不through，而deepMap默认为through
  */
 import deepMap from './deepMap.js'
 import lift from './funcOrderLift.js'
