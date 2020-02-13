@@ -25,9 +25,10 @@ export default function deepMap(x, fn, predicate = a=>true, keys = [], global = 
       back,
       checkBack : pred=>{
         let p
+        // eslint-disable-next-line
         for(let i = 1;p=back(i), p!==null;i++) {
           if ( pred(p) ) {
-            return true
+            return p
           } 
         }
         return false
