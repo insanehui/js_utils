@@ -29,8 +29,8 @@ export default class Select extends React.PureComponent {
       /*
        * 注：这里一定要有这个判断，否则会陷入无限循环！
        */
-      if ( val !== value ) {
-        onChange(val+'') // 为了跟原生select保持一致，value统一为字符串格式
+      if ( val !== value && options ) { // 如果options都没有，就不必作后面的操作了
+        onChange(val === undefined ? undefined : val+'') // 为了跟原生select保持一致，value统一为字符串格式
       } 
     } 
   }

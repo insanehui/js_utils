@@ -3,6 +3,8 @@
  * 使用了forwardRef
  */
 import React, {forwardRef} from 'react'
+import {defaultProps} from 'recompose'
+
 import _ from 'lodash'
 import hoc from '../displayName/hoc.js'
 
@@ -14,7 +16,7 @@ import hoc from '../displayName/hoc.js'
 const maker = (valueMapper, changeMapper = x=>x)=>Cmp=>{
   // eslint-disable-next-line
   {
-    if ( !_.isFunction(valueMapper) ) {
+    if ( !_.isFunction(valueMapper) && !_.isArray(valueMapper) ) {
       valueMapper = x=>x
     } 
     if ( !_.isArray(valueMapper) ) {
@@ -53,4 +55,8 @@ export default maker
 export const normalize = maker(x=>x||'', e=>e.target.value)
 
 export const Input = normalize('input')
+/*
+ * 待测试
+ */
+export const Checkbox = maker([v=>!!v, 'checked'], e=>e.target.checked)(defaultProps({type:'checkbox'})('input'))
 export const Select = normalize('select')
