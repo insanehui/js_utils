@@ -7,9 +7,22 @@ import React from 'react'
 import _ from 'lodash'
 
 // import {ptimeout} from '../../modash.js'
+let i = 0
+function number() {
+  i++
+  return i
+}
 
 export default class Async extends React.PureComponent {
   state = { }
+
+  constructor(p) {
+    super(p)
+    /*
+     * 作为刷新的序号，用来避免前面的请求把后面的覆盖
+     */
+    this.seq = 0 
+  }
 
   // 选出所有作为函数的属性
   get funcs(){
@@ -24,9 +37,13 @@ export default class Async extends React.PureComponent {
       const res = await func()
       return [key, res]
     })
+    const seq = number()
     const pairs = await Promise.all(ps)
-    const state = _.fromPairs(pairs)
-    this.setState(state)
+    if ( this.seq < seq ) {
+      const state = _.fromPairs(pairs)
+      this.setState(state)
+      this.seq = seq
+    } 
   }
 
   componentDidMount(){
