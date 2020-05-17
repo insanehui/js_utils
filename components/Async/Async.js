@@ -32,7 +32,8 @@ export default class Async extends React.PureComponent {
   }
 
   // 把所有的函数都调用一遍
-  refresh = async ()=>{
+  // 加一个限流，目前先暂时把时间写死
+  refresh = _.debounce(async ()=>{
     const ps = _.map(this.funcs, async (func, key)=>{
       const res = await func()
       return [key, res]
@@ -44,7 +45,7 @@ export default class Async extends React.PureComponent {
       this.setState(state)
       this.seq = seq
     } 
-  }
+  }, 250)
 
   componentDidMount(){
     this.refresh()
