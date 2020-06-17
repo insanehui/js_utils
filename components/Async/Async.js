@@ -33,6 +33,10 @@ export default class Async extends React.PureComponent {
     return funcs
   }
 
+  get rest(){
+    return _.omit(this.props, _.keys(this.funcs))
+  }
+
   // 把所有的函数都调用一遍
   // 加一个限流，目前先暂时把时间写死
   refresh = _.debounce(async ()=>{
@@ -65,7 +69,7 @@ export default class Async extends React.PureComponent {
      * 提供一个refresh方法给子元素方便其自主刷新
      */
     const {refresh} = this
-    const p = {...this.props, ...this.state, refresh}
+    const p = {...this.rest, ...this.state, refresh}
 
     if ( _.isFunction(children) ) { // 如果是函数
       return children(p)
