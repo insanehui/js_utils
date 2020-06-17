@@ -2,6 +2,8 @@
  * 用来实现异步请求数据的组件
  * 用法：
  * <Async data={函数}><xxx /></Async>
+ * 
+ * > 所有属性都会透传
  */
 import React from 'react'
 import _ from 'lodash'
@@ -63,7 +65,14 @@ export default class Async extends React.PureComponent {
      * 提供一个refresh方法给子元素方便其自主刷新
      */
     const {refresh} = this
-    return React.cloneElement(children, {...this.props, ...this.state, refresh})
+    const p = {...this.props, ...this.state, refresh}
+
+    if ( _.isFunction(children) ) { // 如果是函数
+      return children(p)
+    } 
+    else {
+      return React.cloneElement(children, p)
+    }
   }
 }
 
