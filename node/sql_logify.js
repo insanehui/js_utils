@@ -17,12 +17,12 @@ export function logify(db){
   }
 
   const exist = async (table, obj) => {
-    const res = await query(`select 1 from ${table} where ?`, obj)
-    return !!res.length
+    const res = await query(`select * from ${table} where ?`, obj)
+    return res[0]
   }
 
   const update = async (table, obj, ...keys) => {
-    const res = await query(`update ${table} set ? where ?`, obj, _.pick(obj, keys))
+    const res = await query(`update ${table} set ? where ?`, [obj, _.pick(obj, keys)])
     return res
   }
 
