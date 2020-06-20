@@ -16,13 +16,19 @@ export function logify(db){
     return db.query(sql) // 其实这是一个async函数，但由于这里没有出现await，故也不用加上async
   }
 
+  const where = obj => {
+    let str = mysql.format('?', obj)
+    str = str.split(',').join(' and ')
+    return str
+  }
+
   const exist = async (table, obj) => {
-    const res = await query(`select * from ${table} where ?`, obj)
+    const res = await query(`select * from ${table} where ${where(obj)}` )
     return res[0]
   }
 
   const update = async (table, obj, ...keys) => {
-    const res = await query(`update ${table} set ? where ?`, [obj, _.pick(obj, keys)])
+    const res = await query(`update ${table} set ? where ${where(_.pick(obj, keys))}`, obj)
     return res
   }
 
