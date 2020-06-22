@@ -18,8 +18,13 @@ export default class Select extends React.PureComponent {
     this.refreshDefaultOn()
   }
 
+  /*
+   * 把简写的options转为完整的形态
+   */
   get opts(){
-    return _.map(this.props.options, (item, i ) => _.isObject(item) ? item : {value: item, label : item})
+    return _.map(this.props.options, item => {
+      return _.isObject(item) ? (_.isArray(item) ? { value: item[0], label: item[1]} : item ) : {value: item, label : item}
+    })
   }
 
   refreshDefaultOn = ()=>{
