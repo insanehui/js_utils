@@ -21,6 +21,7 @@ export const text = fetch_fn => async (...para) => {
   return res.text()
 }
 
+// [deprecated] 见queryJson
 // 支持一个对象来指定query string
 export const query = fetch_fn => async(...para) => {
   /*
@@ -34,6 +35,28 @@ export const query = fetch_fn => async(...para) => {
   } 
 
   return fetch_fn(url, _.omit(opt, 'query'), ...rest)
+}
+
+// 包装为get请求
+export const get = fetch_fn => async(url, opt, ...rest) => {
+  return fetch_fn(url, {...opt, 
+    method:'GET',
+    headers:{
+      'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+      'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
+      'Accept-Encoding': 'gzip, deflate',
+      'Accept-Language' : 'zh-CN,zh;q=0.9,en;q=0.8',
+    }
+  }, ...rest)
+}
+
+// 用一个对象作为querystring
+export const queryJson = fetch_fn => async(url, obj, ...rest) => {
+  if ( _.isObject(obj) ) { 
+    const qs = form_encode(obj)
+    url = url.indexOf('?') === -1 ? url + '?' + qs : url + '&' + qs
+  } 
+  return fetch_fn(url, ...rest)
 }
 
 export const postJson = fetch_fn => async(url, json, opt = {}, ...para) => {
@@ -124,17 +147,17 @@ export function post(url, para) {
 }
 
 // [deprecated]，可以由query(fetch)来组合出来
-export function get(url, para) {
-  // const headers = {
-  //   'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
-  //   'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
-  // }
-  const full_url = url + '?' + form_encode(para)
-  console.log(`fetch GET: ${full_url}`)
+// export function get(url, para) {
+//   // const headers = {
+//   //   'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+//   //   'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+//   // }
+//   const full_url = url + '?' + form_encode(para)
+//   console.log(`fetch GET: ${full_url}`)
 
-  return fetch(full_url, {
-    method : 'GET', 
-    // headers, body : form_encode(para),
-  }).then(res => res.json())
-}
+//   return fetch(full_url, {
+//     method : 'GET', 
+//     // headers, body : form_encode(para),
+//   }).then(res => res.json())
+// }
 
