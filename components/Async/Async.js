@@ -33,8 +33,11 @@ export default class Async extends React.PureComponent {
     return funcs
   }
 
-  get rest(){
-    return _.omit(this.props, _.keys(this.funcs))
+  rest(p){
+    if ( !p ) {
+      p = this.props
+    } 
+    return _.omit(p, [..._.keys(this.funcs), 'children'])
   }
 
   // 把所有的函数都调用一遍
@@ -57,8 +60,11 @@ export default class Async extends React.PureComponent {
     this.refresh()
   }
 
+  /*
+   * 目前只响应除了函数，children之外的参数变化
+   */
   componentDidUpdate(pp, ps, snapshot){
-    if ( !_.isEqual(pp, this.props) ) {
+    if ( !_.isEqual(this.rest(pp), this.rest()) ) {
       this.refresh()
     } 
   }
@@ -69,7 +75,7 @@ export default class Async extends React.PureComponent {
      * 提供一个refresh方法给子元素方便其自主刷新
      */
     const {refresh} = this
-    const p = {...this.rest, ...this.state, refresh}
+    const p = {...this.rest(), ...this.state, refresh}
 
     if ( _.isFunction(children) ) { // 如果是函数
       return children(p)
