@@ -6,17 +6,22 @@
 export default function chunkReduce(arr, fn, con = fn) {
   const res = []
   let sum
-  for (const item of arr) {
+  for(const i in arr) {
+    const item = arr[i]
     if ( sum === undefined ) {
       sum = item
       continue
     } 
-    if ( !con(sum, item) ) {
+
+    /*
+     * 后面两个i, arr参数是用于需要查看更多的上下文来判断的场景
+     */
+    if ( !con(sum, item, i, arr) ) {
       res.push(sum)
       sum = item
       continue
     } 
-    sum = fn(sum, item)
+    sum = fn(sum, item, i, arr)
   }
   if ( sum !== undefined ) {
     res.push(sum)
