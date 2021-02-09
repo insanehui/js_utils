@@ -9,7 +9,7 @@ export default function DataListInput({list, as = Input, ...rest}) {
   return <>
     <As list={id} {...rest}/>
     <datalist id={id}>
-      {_.map(list, (item, i ) => <option key={i}>{item}</option>)}
+      {_.map(list, (item, i ) => <option key={i} value={item} />)}
     </datalist>
   </>
 }
