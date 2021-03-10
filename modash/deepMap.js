@@ -23,6 +23,8 @@ export default function deepMap(x, fn, predicate = a=>true, keys = [], global = 
   if (pred) {
     newX = fn(x, pred, keys, {
       back,
+
+      // 一直追溯到符合条件的为止
       checkBack : pred=>{
         let p
         // eslint-disable-next-line
