@@ -187,30 +187,47 @@ export const parse = buf => { // 解析主函数
   };
   for (let i = 0; i < measures; i++) {
     if (i > 0) skip(1);
-    let flags = readUnsignedByte();
+
+		// 第1个字节是flags
+    let flags = readUnsignedByte(); 
+
     let header = {};
     header.number = i+1;
     header.start = 0;
     header.tempo = 120;
     header.repeatOpen = (flags & 0x04) !== 0;
+
+		// 几拍
     if ((flags & 0x01) !== 0) timeSignature.numerator = readByte();
+
+		// 几分音符为一拍
     if ((flags & 0x02) !== 0) timeSignature.denominator.value = readByte();
+
     header.timeSignature = JSON.parse(JSON.stringify(timeSignature));
+
     if ((flags & 0x08) !== 0) header.repeatClose = (readByte() & 0xff) - 1;
+
     if ((flags & 0x20) !== 0) {
       let marker = header.marker = {};
       marker.measure = header.number;
       marker.title = readStringByteSizeOfInteger();
       marker.color = readColor();
     }
+
     if ((flags & 0x10) !== 0) header.repeatAlternative = readUnsignedByte();
+
     if ((flags & 0x40) !== 0) {
       keySignature = readKeySignature();
       skip(1);
     }
+
+		// 这四个字节直接被跳过了
     if ((flags & 0x01) !== 0 || (flags & 0x02) !== 0) skip(4);
+
     if ((flags & 0x10) === 0) skip(1);
+
     let tripletFeel = readByte();
+
     if (tripletFeel === 1) header.tripletFeel = 'eigth';
     else if (tripletFeel === 2) header.tripletFeel = 'sixteents';
     else header.tripletFeel = 'none';
@@ -232,7 +249,7 @@ export const parse = buf => { // 解析主函数
       const channel = JSON.parse(JSON.stringify(channels[gmChannel1]));
 
       for (let i = 0; i < channels.length; i++) {
-        let channelAux = channels[i];
+        // let channelAux = channels[i];
         // TODO
         /*for (let n = 0; n < channelAux.; i++) {
         
@@ -629,6 +646,7 @@ export const parse = buf => { // 解析主函数
           duration.division.enters = 13;
           duration.division.times = 8;
           break;
+        default:
       }
     }
     if (!('enters' in duration.division)) {

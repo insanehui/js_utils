@@ -38,7 +38,11 @@ export default function deepMap(x, fn, predicate = a=>true, keys = [], global = 
     })
   } 
 
-  if ( _.isFunction(newX) ) { // 如果是函数，调用后返回
+  /*
+   * 如果是函数，调用后返回。这样设计的用意是一旦出现满足条件的，
+   * 当前路径就终止，不再深入处理了。默认情况下，会继续深入
+   */
+  if ( _.isFunction(newX) ) { 
     return newX()
   } 
 
@@ -48,7 +52,11 @@ export default function deepMap(x, fn, predicate = a=>true, keys = [], global = 
 
   let map = _.isArray(newX) ? _.map : _.mapValues
 
-  // 递归
+  /*
+   * 递归。
+   * 这里使用newX而不直接用x的用意是可以实现根节点经过转化处理之后
+   * 在转化后的基础上，又进一步递归处理
+   */
   return map(newX, (v,k)=>{
     return deepMap(v, fn, predicate, [...keys, k], global)
   })
