@@ -22,13 +22,20 @@ export function logify(db){
     return str
   }
 
+  // exists返回多个结果, ext是扩展的sql语句
+  const exists = async (table, obj, ext = '') => {
+    const res = await query(`select * from ${table} ${_.size(obj) ? ` where ${where(obj)}` : ''} ${ext}` )
+    return res
+  }
+
+  // exist 返回一个结果
   const exist = async (table, obj) => {
-    const res = await query(`select * from ${table} where ${where(obj)}` )
+    const res = await exists(table, obj)
     return res[0]
   }
 
   const update = async (table, obj, ...keys) => {
-    const res = await query(`update ${table} set ? where ${where(_.pick(obj, keys))}`, obj)
+    const res = await query(`update ${table} set ? where ${where(_.pick(obj, keys))}`, _.omit(obj, keys))
     return res
   }
 
@@ -58,6 +65,7 @@ export function logify(db){
 
   return {
     exist,
+    exists,
     query, 
     update, 
     insert,
