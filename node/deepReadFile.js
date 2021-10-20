@@ -9,12 +9,31 @@ import yaml from 'js-yaml'
 
 import {arrayExpand} from '../modash/arrayExpand.js'
 
-export default function deepReadFile(fp, pattern = '#include', wd = path.dirname(fp)) {
+/*
+ * from是开始标记，比如'#副歌'
+ */
+export default function deepReadFile(fp, pattern = '#include', wd = path.dirname(fp), from, to) {
   // 先把文件全部内容读进来
   let s = fs.readFileSync(fp, 'utf8')
 
   // 按行分割
   s = s.split('\n')
+
+  if ( !from ) {
+    from = 0
+  } 
+  else { // 这时from是一个要搜索的字符串
+    from = _.findIndex(s, x=>x.startsWith(from))
+  }
+
+  if ( !to ) {
+    to = undefined
+  } 
+  else {
+    to = _.findIndex(s, x=>x.startsWith(to))
+  }
+
+  s = s.slice(from, to)
 
   s = _.map(s, line => {
     if ( line.startsWith(pattern) ) {
