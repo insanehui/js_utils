@@ -12,7 +12,16 @@ import {arrayExpand} from '../modash/arrayExpand.js'
 /*
  * from是开始标记，比如'#副歌'
  */
-export default function deepReadFile(fp, pattern = '#include', wd = path.dirname(fp), from, to) {
+export default function deepReadFile(fp, pattern, wd, from, to) {
+  // 处理缺省参数
+  if ( !pattern ) {
+    pattern = '#include'
+  } 
+
+  if ( !wd ) {
+    wd = path.dirname(fp)
+  } 
+
   // 先把文件全部内容读进来
   let s = fs.readFileSync(fp, 'utf8')
 
@@ -39,13 +48,16 @@ export default function deepReadFile(fp, pattern = '#include', wd = path.dirname
     if ( line.startsWith(pattern) ) {
       // 分割一下
       line = line.replace(pattern, '')
+
       // 找到包含的文件路径
-      const subPath = yaml.load(line)
+      // line = yaml.load(line)
+      const arr = line.split(',').map(_.trim)
+      const [subPath, subFrom, subTo] = arr
       const subDir = path.dirname(subPath)
       const subWd = path.join(wd, subDir)
 
       // 递归
-      return deepReadFile(path.join(wd, subPath), pattern, subWd)
+      return deepReadFile(path.join(wd, subPath), pattern, subWd, subFrom, subTo)
     } 
     return line
   })
