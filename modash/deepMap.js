@@ -1,4 +1,6 @@
 /*
+ * 后续准备重构一下，用来简化回溯的流程: 比如，给每个节点都分发一个 __back 属性，这样可以实现任意回溯 
+ *
  * 对对象和数组的深度map
  * 支持通过predicate来控制路线
  */
@@ -14,6 +16,12 @@ export default function deepMap(x, fn, predicate = a=>true, keys = [], global = 
   let newX = x
 
   const pred = predicate(x, keys, global) 
+
+  /*
+   * pred返回deny跟返回false是有区别的：
+   * deny比false更强，直接整个支线切断，不用继续深入递归
+   * 而false只是不调用fn处理，目的上还是在深入进去寻找符合pred条件的子孙节点
+   */
   if ( pred === 'deny' ) {
     return newX
   } 
@@ -41,6 +49,8 @@ export default function deepMap(x, fn, predicate = a=>true, keys = [], global = 
   /*
    * 如果是函数，调用后返回。这样设计的用意是一旦出现满足条件的，
    * 当前路径就终止，不再深入处理了。默认情况下，会继续深入
+   *
+   * 或者通过pred来显式指定shallow，也能达到类似的效果
    */
   if ( _.isFunction(newX) ) { 
     return newX()
