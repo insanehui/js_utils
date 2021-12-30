@@ -14,22 +14,19 @@ export default function dMap(x, fn, predicate = a=>true, keys = []) {
    */
   let newX = x
 
-  const pred = predicate(x) 
+  let pred = predicate(x) 
+  let lift = false
+  if ( _.isFunction(pred) ) { // 如果pred被lift，则做一些特殊的逻辑
+    lift = true
+    pred = pred()
+  } 
 
   if (pred) {
     newX = fn(x, keys, pred)
-    /*
-     * ! 这里和deepMap的逻辑相反 !!
-     * 默认不继续深入，遇到函数才深入
-     */
-    if ( _.isFunction(newX) ) { 
-      newX = newX()
-    } 
-    else {
+    if ( !lift ) { 
       return newX // 直接返回
     }
   } 
-
 
   if ( !_.isObject(newX) ) { 
     return newX
