@@ -21,18 +21,15 @@ export function not(fn) {
 }
 
 export function dPrepare(t){
-  return dMap(t, n=>{
-    return _.mapValues(n, v => {
-      if ( _.isObject(v) ) {
-        v = {
-          ...v,
-          __p : n,
-        }
-      } 
-      return v 
-    })  
-  }, 
-  lift(_.isObject))
+  if ( !_.isObject(t) ) {
+    return
+  } 
+  _.mapValues(t, v => {
+    if ( _.isObject(v) ) {
+      Object.defineProperty(v, '__p', {value:t})
+      dPrepare(v)
+    } 
+  })  
 }
 
 /*

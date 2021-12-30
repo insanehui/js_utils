@@ -36,9 +36,6 @@ export default function dMap(x, fn, predicate = a=>true, keys = []) {
   let map = _.isArray(newX) ? _.map : _.mapValues
 
   return map(newX, (v,k)=>{
-    if ( k === '__p' ) { // 预留的指向上一级的字段
-      return v
-    } 
     return dMap(v, fn, predicate, [...keys, k])
   })
 }
