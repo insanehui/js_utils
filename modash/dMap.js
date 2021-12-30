@@ -1,33 +1,20 @@
 /*
  * deepMap的重构版，旨在简化代码以及业务逻辑
+ * 主要改动：
+ * > 通过pred的lift来判断是否，而不是通过fn
+ * > deny 和 shallow 感觉用得少，先不写进去
  * 便于实现回溯的流程: 比如，给每个节点都分发一个 __back 属性，这样可以实现任意回溯 
- *
- *
- * deny 和 shallow 感觉用得少，先不写进去
+ * 
  */
 import _ from 'lodash'
 
-export function or(...paras) { // or的fp工具
-  return (...x)=>_.some(_.map(paras, para=>para(...x)))
-}
-
-export function and(...paras) { // or的fp工具
-  return (...x)=>_.every(_.map(paras, para=>para(...x)))
-}
-
-export function not(fn) {
-  return (...x)=>(!fn(...x))
-}
-
-export default function deepMap(x, fn, predicate = a=>true, keys = []) {
+export default function dMap(x, fn, predicate = a=>true, keys = []) {
   /*
    * 先根遍历
    */
   let newX = x
 
   const pred = predicate(x) 
-
-  // if ( pred === 'deny' ) { return newX } // 暂时不考虑deny的情景
 
   if (pred) {
     newX = fn(x, keys, pred)
@@ -44,7 +31,7 @@ export default function deepMap(x, fn, predicate = a=>true, keys = []) {
   } 
 
 
-  if ( !_.isObject(newX) /*|| pred === 'shallow'*/  ) { 
+  if ( !_.isObject(newX) ) { 
     return newX
   }
 
@@ -52,7 +39,10 @@ export default function deepMap(x, fn, predicate = a=>true, keys = []) {
   let map = _.isArray(newX) ? _.map : _.mapValues
 
   return map(newX, (v,k)=>{
-    return deepMap(v, fn, predicate, [...keys, k])
+    if ( k === '__p' ) { // 预留的指向上一级的字段
+      return v
+    } 
+    return dMap(v, fn, predicate, [...keys, k])
   })
 }
 

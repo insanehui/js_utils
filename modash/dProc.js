@@ -4,8 +4,36 @@
  *
  * 使用到了dMap，但dMap的key参数被退化掉
  */
-// import _ from 'lodash'
+import _ from 'lodash'
 import dMap from './dMap.js'
+import lift from './funcOrderLift.js'
+
+export function or(...paras) { // or的fp工具
+  return (...x)=>_.some(_.map(paras, para=>para(...x)))
+}
+
+export function and(...paras) { // or的fp工具
+  return (...x)=>_.every(_.map(paras, para=>para(...x)))
+}
+
+export function not(fn) {
+  return (...x)=>(!fn(...x))
+}
+
+export function dPrepare(t){
+  return dMap(t, n=>{
+    return _.mapValues(n, v => {
+      if ( _.isObject(v) ) {
+        v = {
+          ...v,
+          __p : n,
+        }
+      } 
+      return v 
+    })  
+  }, 
+  lift(_.isObject))
+}
 
 /*
  * fn(v, keys, [...trace]) trace是每次pred的结果
