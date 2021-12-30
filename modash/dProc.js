@@ -16,7 +16,10 @@ export default function process(obj, fn, [...preds], keys = [], trace = []) {
 
   if ( !preds.length ) {
     return dMap(obj, fn, x=>{
-      let p = pred(x)
+      /*
+       * 注意：这里的pred支持3个参数，而dMap的pred函数暂时只支持一个参数（先不开放）
+       */
+      let p = pred(x, keys, trace) 
       p = (p && [...trace, p])
       return p
     }, keys)

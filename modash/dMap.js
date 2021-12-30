@@ -7,6 +7,18 @@
  */
 import _ from 'lodash'
 
+export function or(...paras) { // or的fp工具
+  return (...x)=>_.some(_.map(paras, para=>para(...x)))
+}
+
+export function and(...paras) { // or的fp工具
+  return (...x)=>_.every(_.map(paras, para=>para(...x)))
+}
+
+export function not(fn) {
+  return (...x)=>(!fn(...x))
+}
+
 export default function deepMap(x, fn, predicate = a=>true, keys = []) {
   /*
    * 先根遍历
@@ -43,3 +55,4 @@ export default function deepMap(x, fn, predicate = a=>true, keys = []) {
     return deepMap(v, fn, predicate, [...keys, k])
   })
 }
+
