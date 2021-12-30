@@ -7,7 +7,7 @@
  */
 import _ from 'lodash'
 
-export default function deepMap(x, fn, predicate = a=>true, key = null) {
+export default function deepMap(x, fn, predicate = a=>true, keys = []) {
   /*
    * 先根遍历
    */
@@ -18,7 +18,7 @@ export default function deepMap(x, fn, predicate = a=>true, key = null) {
   // if ( pred === 'deny' ) { return newX } // 暂时不考虑deny的情景
 
   if (pred) {
-    newX = fn(x, pred, key)
+    newX = fn(x, keys, pred)
     /*
      * ! 这里和deepMap的逻辑相反 !!
      * 默认不继续深入，遇到函数才深入
@@ -40,6 +40,6 @@ export default function deepMap(x, fn, predicate = a=>true, key = null) {
   let map = _.isArray(newX) ? _.map : _.mapValues
 
   return map(newX, (v,k)=>{
-    return deepMap(v, fn, predicate, k)
+    return deepMap(v, fn, predicate, [...keys, k])
   })
 }
