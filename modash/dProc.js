@@ -6,7 +6,6 @@
  */
 import _ from 'lodash'
 import dMap from './dMap.js'
-import lift from './funcOrderLift.js'
 
 export function or(...paras) { // or的fp工具
   return (...x)=>_.some(_.map(paras, para=>para(...x)))
@@ -33,21 +32,39 @@ export function dPrepare(t){
 }
 
 /*
+ * 要求数据已经被prepare过
+ */
+export const isValueOf = (...names)=>(v,keys)=>{
+  console.log('keys', keys)
+  if ( !(_.last(keys) === 'value' ) ) {
+    return false
+  } 
+  let res
+  const type = _.get(v, '__p.type')
+  if ( names.includes(type) ) {
+    res = 'isValueOf_' + type
+    console.log('res', res)
+    return res
+  } 
+}
+
+/*
  * fn(v, keys, [...trace]) trace是每次pred的结果
  */
 export default function process(obj, fn, [...preds], keys = [], trace = []) {
 
-  const pred = preds.shift()
+  const pred0 = preds.shift()
+  const pred = (x,k)=>{
+    /*
+     * 注意：这里的pred支持3个参数，而dMap的pred函数暂时只支持一个参数（先不开放）
+     */
+    let p = pred0(x, k, trace) 
+    p = (p && [...trace, p])
+    return p
+  }
 
   if ( !preds.length ) {
-    return dMap(obj, fn, x=>{
-      /*
-       * 注意：这里的pred支持3个参数，而dMap的pred函数暂时只支持一个参数（先不开放）
-       */
-      let p = pred(x, keys, trace) 
-      p = (p && [...trace, p])
-      return p
-    }, keys)
+    return dMap(obj, fn, pred, keys)
   } 
 
   // 进入递归

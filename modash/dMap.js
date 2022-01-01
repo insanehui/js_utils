@@ -14,7 +14,7 @@ export default function dMap(x, fn, predicate = a=>true, keys = []) {
    */
   let newX = x
 
-  let pred = predicate(x) 
+  let pred = predicate(x,keys) 
   let lift = false
   if ( _.isFunction(pred) ) { // 如果pred被lift，则做一些特殊的逻辑
     lift = true
