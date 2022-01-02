@@ -35,7 +35,6 @@ export function dPrepare(t){
  * 要求数据已经被prepare过
  */
 export const isValueOf = (...names)=>(v,keys)=>{
-  console.log('keys', keys)
   if ( !(_.last(keys) === 'value' ) ) {
     return false
   } 
@@ -43,7 +42,6 @@ export const isValueOf = (...names)=>(v,keys)=>{
   const type = _.get(v, '__p.type')
   if ( names.includes(type) ) {
     res = 'isValueOf_' + type
-    console.log('res', res)
     return res
   } 
 }
@@ -51,7 +49,13 @@ export const isValueOf = (...names)=>(v,keys)=>{
 /*
  * fn(v, keys, [...trace]) trace是每次pred的结果
  */
-export default function process(obj, fn, [...preds], keys = [], trace = []) {
+export default function process(obj, fn, ...preds) {
+
+  let trace = [], keys = []
+  if ( _.isArray(_.last(preds)) ) {
+    trace = preds.pop()
+    keys = preds.pop()
+  } 
 
   const pred0 = preds.shift()
   const pred = (x,k)=>{
@@ -69,7 +73,7 @@ export default function process(obj, fn, [...preds], keys = [], trace = []) {
 
   // 进入递归
   return dMap(obj, (v,k,p)=>{
-    return process(v, fn, preds, k, [p]) // 这里p要加[]，因为dMap的pred不会堆叠
+    return process(v, fn, ...preds, k, [p]) // 这里p要加[]，因为dMap的pred不会堆叠
   }, 
     pred, 
     keys
