@@ -33,10 +33,19 @@ export default function dMap(x, fn, predicate = a=>true, keys = []) {
   }
 
   // 深入下面的节点，进入递归
-  let map = _.isArray(newX) ? _.map : _.mapValues
 
-  return map(newX, (v,k)=>{
-    return dMap(v, fn, predicate, [...keys, k])
-  })
+  /*
+   * 使用原来的immutable的方式不利于处理回溯的逻辑
+   */
+  // let map = _.isArray(newX) ? _.map : _.mapValues
+
+  // return map(newX, (v,k)=>{
+  //   return dMap(v, fn, predicate, [...keys, k])
+  // })
+  for(const k in newX) {
+    const item = newX[k]
+    newX[k] = dMap(item, fn, predicate, [...keys, k])
+  }
+  return newX
 }
 
