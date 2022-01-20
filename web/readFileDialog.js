@@ -16,13 +16,16 @@ export function fileDialog() {
   })
 }
 
-export function readFile(file, readAs = 'text') {
+/*
+ * readAsText, readAsDataURL, readAsArrayBuffer
+ */
+export function readFile(file, readAs = 'Text') {
   return new Promise((ok, err)=>{
     const reader = new FileReader()
     reader.onload = ev=>{
       ok(ev.target.result)
     }
-    reader[`readAs${_.capitalize(readAs)}`](file)
+    reader[`readAs${readAs}`](file)
   })
 }
 

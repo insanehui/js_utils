@@ -1,5 +1,9 @@
 // fetch api的一些小封装
-import form_encode from 'form-urlencoded'
+/*
+ * 如果不是多级对象的话，是否querystring库会更好，因为node官方已经发布该库。
+ * 但目前还是先使用着form-urlencoded库吧
+ */ 
+import form_encode from 'form-urlencoded' 
 import _ from 'lodash'
 import {wash} from './modash.js'
 

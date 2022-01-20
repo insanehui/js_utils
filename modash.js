@@ -14,6 +14,7 @@ function str_for_testify(v){ // 如果是对象，则用json，否则用其原�
 function _ungroup(o, keys, p){ // ungroup的递归主体
   // 这是一个递归函数，之前在cdb团队写过c++版的json_ungroup，后来代码遗失，今天重新梳理 2016年12月21日
   // 这里o是一个对象，keys为还剩下需要ungroup的序列，为数组，p为已经积累的需要合并的数据
+  // 注：好像如果group使用了array模式的话，ungroup时会直接对array进行操作
 
   if ( !_.isObject(o) ) {
     return [] // 始终返回为一个数组，行为统一，便于递归
